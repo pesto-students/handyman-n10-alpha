@@ -1,0 +1,52 @@
+{
+  "root": "apps/the-crew-api",
+  "sourceRoot": "apps/the-crew-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/the-crew-api",
+        "main": "apps/the-crew-api/src/main.ts",
+        "tsConfig": "apps/the-crew-api/tsconfig.app.json",
+        "assets": ["apps/the-crew-api/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/the-crew-api/src/environments/environment.ts",
+              "with": "apps/the-crew-api/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "the-crew-api:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/the-crew-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/the-crew-api"],
+      "options": {
+        "jestConfig": "apps/the-crew-api/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

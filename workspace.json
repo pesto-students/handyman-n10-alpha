@@ -1,4 +1,8 @@
 {
   "version": 2,
-  "projects": {}
+  "projects": {
+    "the-crew-api": "apps/the-crew-api",
+    "the-crew-ui": "apps/the-crew-ui",
+    "the-crew-ui-e2e": "apps/the-crew-ui-e2e"
+  }
 }
