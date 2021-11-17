@@ -54,7 +54,11 @@ export class AuthController {
   @Get('me')
   whoAmI(@CurrentUser() user: User, @Res() res: Response, @Req() req: Request) {
     const qb = RequestQueryBuilder.create(req.query).query();
-    return res.redirect(`/users/${user.id}?${qb}`);
+    if (qb) {
+      return res.redirect(`/users/${user.id}?${qb}`);
+    } else {
+      return res.redirect(`/users/${user.id}`);
+    }
   }
 
   @Get('token/refresh')

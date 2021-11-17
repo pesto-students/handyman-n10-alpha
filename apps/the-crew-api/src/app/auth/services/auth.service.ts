@@ -107,7 +107,7 @@ export class AuthService {
       httpOnly: true,
       signed: true,
       expires: new Date(Date.now() + ms(cookieExp)),
-      path: '/auth/token/refresh',
+      path: '/api/auth/token/refresh',
     };
   }
 

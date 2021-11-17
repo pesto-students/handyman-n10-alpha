@@ -5,6 +5,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsOptional,
+  IsPhoneNumber,
   IsString,
   IsUUID,
   Length,
@@ -39,6 +40,9 @@ export class UserBase {
   @IsArray()
   @IsEnum(Role, { each: true })
   role: Role[];
+
+  @IsPhoneNumber()
+  phone: string;
 
   @IsDate()
   createdOn: Date;

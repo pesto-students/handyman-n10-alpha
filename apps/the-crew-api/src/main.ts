@@ -23,7 +23,7 @@ async function bootstrap() {
   });
   app.use(cookieParser(authConfig.cookieSecrets));
 
-  const config = new DocumentBuilder().setTitle('The Crew').setVersion('1.0').build();
+  const config = new DocumentBuilder().setTitle('The Crew').setVersion('1.0.0').build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('explorer', app, document);
 

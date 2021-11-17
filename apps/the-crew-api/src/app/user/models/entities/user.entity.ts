@@ -2,7 +2,7 @@ import { hashSync } from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Ownership, OwnerTimestampEntity } from '../../../core/models/entities';
+import { OwnerTimestampEntity } from '../../../core/models/entities';
 import { uuid } from '../../../core/types';
 import { Role } from '../../enums';
 import { IUser } from '../../types';
@@ -10,7 +10,7 @@ import { IUser } from '../../types';
 @Entity({
   name: 'users',
 })
-export class UserEntity extends Ownership(OwnerTimestampEntity) implements IUser {
+export class UserEntity extends OwnerTimestampEntity implements IUser {
   @PrimaryGeneratedColumn('uuid')
   id: uuid;
 

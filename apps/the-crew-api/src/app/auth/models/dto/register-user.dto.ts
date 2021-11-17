@@ -6,4 +6,6 @@ export class RegisterDTO extends PickType(UserBase, [
   'password',
   'firstName',
   'lastName',
+  'phone',
+  'role',
 ]) {}
