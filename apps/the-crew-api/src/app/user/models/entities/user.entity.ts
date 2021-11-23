@@ -1,9 +1,17 @@
-import { IUser, Role, uuid } from '@the-crew/common';
+import { IUser, Role, User, UserAddress, uuid } from '@the-crew/common';
 import { hashSync } from 'bcrypt';
 import { Exclude } from 'class-transformer';
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 
 import { OwnerTimestampEntity } from '../../../core/models/entities';
+import { UserAddressEntity } from './user-address.entity';
 
 @Entity({
   name: 'users',
@@ -41,6 +49,12 @@ export class UserEntity extends OwnerTimestampEntity implements IUser {
     array: true,
   })
   role: Role[];
+
+  @OneToMany(() => UserAddressEntity, address => address.user)
+  addresses: UserAddress[];
+
+  @RelationId((user: User) => user.addresses)
+  addressIds: uuid[];
 
   @BeforeInsert()
   performPrerequisite() {

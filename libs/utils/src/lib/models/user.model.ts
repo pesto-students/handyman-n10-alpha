@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsArray,
   IsDate,
@@ -9,8 +10,10 @@ import {
   IsString,
   IsUUID,
   Length,
+  ValidateNested,
 } from 'class-validator';
 
+import { UserAddress } from '.';
 import { Role } from '../enums';
 import { IUser, uuid } from '../types';
 
@@ -53,4 +56,9 @@ export class User implements IUser {
 
   @IsDate()
   modifiedOn: Date;
+
+  @IsArray()
+  @ValidateNested()
+  @Type(() => UserAddress)
+  addresses: UserAddress[];
 }
