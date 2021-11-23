@@ -1,6 +1,5 @@
+import { Role } from '@the-crew/common';
 import { Expose } from 'class-transformer';
-
-import { Role } from '../../../user/enums';
 
 @Expose()
 export class UserToken {

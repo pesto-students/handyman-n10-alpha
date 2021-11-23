@@ -1,6 +1,5 @@
+import { IOwnership, uuid } from '@the-crew/common';
 import { Column } from 'typeorm';
-
-import { IOwnership, uuid } from '../../types';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Constructor = new (...args: any[]) => {};

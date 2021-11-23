@@ -1,5 +1,6 @@
-import { IOwnerTimestamp, uuid } from '../../core/types';
 import { Role } from '../enums';
+import { IOwnerTimestamp } from './ownership-timestamp.type';
+import { uuid } from './util.types';
 
 export interface IUser extends IOwnerTimestamp {
   id: uuid;

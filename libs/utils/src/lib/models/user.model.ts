@@ -11,12 +11,13 @@ import {
   Length,
 } from 'class-validator';
 
-import { Role } from '../../enums';
+import { Role } from '../enums';
+import { IUser, uuid } from '../types';
 
-export class UserBase {
+export class User implements IUser {
   @IsUUID()
   @IsOptional()
-  id: string;
+  id: uuid;
 
   @IsString()
   @IsNotEmpty()
@@ -26,26 +27,29 @@ export class UserBase {
   @IsNotEmpty()
   lastName: string;
 
-  @IsEmail()
-  email: string;
-
   @IsString()
-  @IsOptional()
   fullName: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
 
   @IsString()
   @Length(8, 16)
   password: string;
 
+  @IsPhoneNumber()
+  phone: string;
+
   @IsArray()
   @IsEnum(Role, { each: true })
   role: Role[];
 
-  @IsPhoneNumber()
-  phone: string;
-
   @IsDate()
   createdOn: Date;
+
+  @IsDate()
+  deletedOn: Date;
 
   @IsDate()
   modifiedOn: Date;

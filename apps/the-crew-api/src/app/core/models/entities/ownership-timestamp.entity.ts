@@ -1,6 +1,5 @@
+import { IOwnerTimestamp } from '@the-crew/common';
 import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
-
-import { IOwnerTimestamp } from '../../types';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Constructor = new (...args: any[]) => {};

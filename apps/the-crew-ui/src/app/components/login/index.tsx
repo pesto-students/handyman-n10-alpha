@@ -1,29 +1,46 @@
-import { SetStateAction, useState } from 'react';
 import '../login/loginStyles.scss';
+
 import {
-  Paper,
-  Grid,
-  Typography,
-  FormControl,
   Button,
-  OutlinedInput,
+  FormControl,
+  Grid,
   IconButton,
   InputAdornment,
-  TextField,
+  OutlinedInput,
+  Paper,
+  Typography,
 } from '@material-ui/core';
-import { Visibility, VisibilityOff, Email } from '@material-ui/icons';
+import { Email, Visibility, VisibilityOff } from '@material-ui/icons';
+import { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { useLoginMutation } from '../../store/queries';
+import { fetchTokens } from '../../store/thunks';
 
 export default function Login() {
-  const [password, setpassword] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
+  const [login] = useLoginMutation();
+  const dispatch = useDispatch();
+
+  // const onLogin = useCallback(
+  //   () => login({ email: 'akki@gmail.com', password: 'akki@gmail.com' }),
+  //   [login],
+  // );
+
+  const onLogin = () => {
+    dispatch(fetchTokens({ email, password }));
+  };
 
   const handleChange = (_password: string) => {
-    setpassword(_password);
+    setPassword(_password);
   };
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
   return (
     <div className="root" style={{ display: 'grid', placeItems: 'center' }}>
       <Paper
@@ -43,8 +60,8 @@ export default function Login() {
             <Typography variant="h6">Login</Typography>
           </Grid>
           <Grid item>
-            <FormControl focused={false}>
-              <Grid item style={{ padding: '0 10px 10px 0' }}>
+            <FormControl focused={false} fullWidth={true}>
+              <Grid item style={{ paddingBottom: '16px' }}>
                 <OutlinedInput
                   placeholder="Email"
                   autoFocus={true}
@@ -63,7 +80,7 @@ export default function Login() {
                   }
                 />
               </Grid>
-              <Grid item style={{ padding: '0 10px 10px 0' }}>
+              <Grid item style={{ paddingBottom: '16px' }}>
                 <OutlinedInput
                   placeholder="Password"
                   id="outlined-adornment-password"
@@ -75,7 +92,11 @@ export default function Login() {
                   }}
                   endAdornment={
                     <InputAdornment position="end">
-                      <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
                         {showPassword ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
                     </InputAdornment>
@@ -83,7 +104,7 @@ export default function Login() {
                 />
               </Grid>
               <Grid item>
-                <Button variant="contained" color="secondary" fullWidth={true}>
+                <Button variant="contained" color="secondary" fullWidth={true} onClick={onLogin}>
                   Submit
                 </Button>
               </Grid>

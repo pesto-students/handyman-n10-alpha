@@ -2,15 +2,13 @@ import { ConflictException, Inject, Injectable, UnauthorizedException } from '@n
 import { ConfigType } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AnyObject, User } from '@the-crew/common';
 import { compare } from 'bcrypt';
 import { plainToClass } from 'class-transformer';
-import { CookieOptions } from 'express';
 import ms from 'ms';
 import { Repository } from 'typeorm';
 
 import AuthConfig from '../../../configs/auth.config';
-import { AnyObject } from '../../core/types';
-import { User } from '../../user/models/dao';
 import { UserService } from '../../user/services';
 import { UserToken } from '../models/dto';
 import { RefreshTokenEntity } from '../models/entities';
@@ -54,7 +52,7 @@ export class AuthService {
     return {
       accessToken: this.generateAccessToken(user as UserToken),
       refreshToken: await this.generateRefreshToken(user as UserToken),
-      expiresIn: new Date(new Date().getTime() + ms(accessTokenExp)).getTime(),
+      expiresAt: new Date(new Date().getTime() + ms(accessTokenExp)).getTime(),
     };
   }
 
@@ -96,18 +94,6 @@ export class AuthService {
       accessToken,
       refreshToken,
       expiresIn: new Date(new Date().getTime() + ms(accessTokenExp)).getTime(),
-    };
-  }
-
-  public generateCookieOptions(): CookieOptions {
-    // 7 days from now
-    const { cookieExp } = this.authConfig;
-    return {
-      sameSite: 'strict',
-      httpOnly: true,
-      signed: true,
-      expires: new Date(Date.now() + ms(cookieExp)),
-      path: '/api/auth/token/refresh',
     };
   }
 

@@ -1,11 +1,9 @@
+import { IUser, Role, uuid } from '@the-crew/common';
 import { hashSync } from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 import { OwnerTimestampEntity } from '../../../core/models/entities';
-import { uuid } from '../../../core/types';
-import { Role } from '../../enums';
-import { IUser } from '../../types';
 
 @Entity({
   name: 'users',

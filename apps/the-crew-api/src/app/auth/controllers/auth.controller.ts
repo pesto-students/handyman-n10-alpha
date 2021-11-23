@@ -12,12 +12,12 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestQueryBuilder } from '@nestjsx/crud-request';
+import { RegisterUserDTO, User } from '@the-crew/common';
 import { Request, Response } from 'express';
 
-import { Cookies, CurrentUser } from '../../core/decorators';
-import { User } from '../../user/models/dao';
+import { CurrentUser } from '../../core/decorators';
 import { JwtAuthGuard, LocalAuthGuard } from '../guards';
-import { RegisterDTO } from '../models/dto';
+import { RefreshTokenDTO } from '../models/dto';
 import { AuthService } from '../services';
 
 @ApiTags('auth')
@@ -27,27 +27,20 @@ export class AuthController {
 
   @UsePipes(new ValidationPipe({ whitelist: true }))
   @Post('register')
-  async register(@Body() dto: RegisterDTO) {
+  async register(@Body() dto: RegisterUserDTO) {
     return this.authService.register({ ...dto });
   }
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Req() req: Request, @Res() res: Response) {
-    const { refreshToken, ...accessPayload } = await this.authService.login(req.user);
-    const cookieOptions = this.authService.generateCookieOptions();
-    res.cookie('refreshToken', refreshToken, cookieOptions);
-    res.send(accessPayload);
+  async login(@Req() req: Request) {
+    return this.authService.login(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('logout')
-  async logout(@Req() req: Request, @Res() res: Response, @CurrentUser() user: User) {
+  async logout(@CurrentUser() user: User) {
     this.authService.logout(user);
-    const cookieOptions = this.authService.generateCookieOptions();
-    // Cookie can be cleared with the same option which was used in generating it.
-    res.clearCookie('refreshToken', cookieOptions);
-    res.end(); // required to close the stream
   }
 
   @UseGuards(JwtAuthGuard)
@@ -61,20 +54,13 @@ export class AuthController {
     }
   }
 
-  @Get('token/refresh')
-  async refreshToken(
-    @Res() res: Response,
-    @Cookies({ key: 'refreshToken', signed: true }) oldRefreshToken?: string,
-  ) {
+  @Post('token/refresh')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  async refreshToken(@Body() payload: RefreshTokenDTO) {
     // generate accessToken & refreshToken
-    if (!oldRefreshToken) {
+    if (!payload.refreshToken) {
       throw new UnauthorizedException('Refresh Token Malformed');
     }
-    const { refreshToken, ...accessPayload } = await this.authService.createAccessAndRefreshToken(
-      oldRefreshToken,
-    );
-    const cookieOptions = this.authService.generateCookieOptions();
-    res.cookie('refreshToken', refreshToken, cookieOptions);
-    res.send(accessPayload);
+    return this.authService.createAccessAndRefreshToken(payload.refreshToken);
   }
 }

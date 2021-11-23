@@ -1,9 +1,9 @@
 import { ClassSerializerInterceptor, Controller, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
+import { User } from '@the-crew/common';
 
 import { JwtAuthGuard } from '../../auth/guards';
-import { User } from '../models/dao';
 import { UserEntity } from '../models/entities';
 import { UserService } from '../services';
 

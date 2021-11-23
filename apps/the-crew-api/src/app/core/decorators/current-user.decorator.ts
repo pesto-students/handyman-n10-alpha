@@ -1,7 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { User } from '@the-crew/common';
 import { plainToClass } from 'class-transformer';
-
-import { User } from '../../user/models/dao';
 
 export const CurrentUser = createParamDecorator(
   (data: (keyof User)[] = [], ctx: ExecutionContext) => {
