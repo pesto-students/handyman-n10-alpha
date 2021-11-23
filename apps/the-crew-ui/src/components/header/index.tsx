@@ -8,10 +8,12 @@ import {
   ListItemIcon,
   ListItemText,
   ListItem,
+  Button,
 } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { Menu, PersonAdd, ExitToApp } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
+import './headerStyles.scss';
 
 export default function Header() {
   const history = useHistory();
@@ -22,8 +24,12 @@ export default function Header() {
     setSideMenuStatus(!openSideMenu);
   };
 
+  const handleLogoClick = () => {
+    history.push('/');
+  };
+
   return (
-    <div>
+    <div style={{ position: 'sticky', width: '100%', top: 0, zIndex: 100 }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu">
@@ -33,7 +39,38 @@ export default function Header() {
               }}
             />
           </IconButton>
-          <Typography variant="h5">The Crew</Typography>
+          <Typography
+            className="headerTitle"
+            variant="h5"
+            onClick={() => {
+              handleLogoClick();
+            }}
+          >
+            The Crew
+          </Typography>
+          <Button
+            className="registerAsProfessionalBtn"
+            color="inherit"
+            style={{ textDecoration: 'underline' }}
+          >
+            Register As A Professional
+          </Button>
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push('/login');
+            }}
+          >
+            Login
+          </Button>
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push('/register');
+            }}
+          >
+            Sign Up
+          </Button>
         </Toolbar>
       </AppBar>
       <SwipeableDrawer
@@ -52,8 +89,8 @@ export default function Header() {
             button
             key={'login'}
             onClick={() => {
+              history.push('/login');
               handleMenuClick();
-              history.push('/');
             }}
           >
             <ListItemIcon>

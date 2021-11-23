@@ -1,17 +1,17 @@
-import { SetStateAction, useState } from 'react';
 import '../login/loginStyles.scss';
+
 import {
-  Paper,
-  Grid,
-  Typography,
-  FormControl,
   Button,
-  OutlinedInput,
+  FormControl,
+  Grid,
   IconButton,
   InputAdornment,
-  TextField,
+  OutlinedInput,
+  Paper,
+  Typography,
 } from '@material-ui/core';
-import { Visibility, VisibilityOff, Email } from '@material-ui/icons';
+import { Email, Visibility, VisibilityOff } from '@material-ui/icons';
+import { SetStateAction, useState } from 'react';
 
 export default function Register() {
   const [password, setpassword] = useState('');
@@ -25,7 +25,7 @@ export default function Register() {
     setShowPassword(!showPassword);
   };
   return (
-    <div className="root" style={{ display: 'grid', placeItems: 'center' }}>
+    <div style={{ display: 'grid', placeItems: 'center' }}>
       <Paper
         elevation={16}
         style={{
@@ -99,7 +99,11 @@ export default function Register() {
                   }}
                   endAdornment={
                     <InputAdornment position="end">
-                      <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
                         {showPassword ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
                     </InputAdornment>
@@ -118,7 +122,11 @@ export default function Register() {
                   }}
                   endAdornment={
                     <InputAdornment position="end">
-                      <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
                         {showPassword ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
                     </InputAdornment>
