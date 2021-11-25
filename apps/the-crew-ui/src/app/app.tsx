@@ -16,12 +16,38 @@ export function App() {
         <Header />
         {/* <Home /> */}
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-          <Route path="/" exact render={() => <Home />} />
-          <Route path="/login" exact render={() => <Login />} />
-          <Route path="/register" exact render={() => <Register />} />
+          <Route
+            path="/"
+            exact
+            render={() => (
+              <>
+                <Home />
+                <Footer />
+              </>
+            )}
+          />
+          <Route
+            path="/login"
+            exact
+            render={() => (
+              <>
+                <Login />
+                <Footer />
+              </>
+            )}
+          />
+          <Route
+            path="/register"
+            exact
+            render={() => (
+              <>
+                <Register />
+                <Footer />
+              </>
+            )}
+          />
           <Route path="/services" exact render={() => <ServiceOverviewComponent />} />
         </div>
-        <Footer />
       </Provider>
     </div>
   );

@@ -33,24 +33,22 @@ export default function ServiceCard(props) {
               <Grid container spacing={3}>
                 <Grid item xs={6}>
                   <Typography variant="h6">Waste Pipe Leakage</Typography>
-                  <Typography component="p">
-                    <Typography variant="body2" style={{ color: 'green', fontWeight: 600 }}>
-                      <StarRateIcon
-                        fontSize="medium"
-                        style={{
-                          display: 'inline-block',
-                          position: 'relative',
-                          marginRight: '1px',
-                          color: 'green',
-                        }}
-                      />
-                      4.73
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                      30.5k ratings
-                    </Typography>
-                    <Typography variant="subtitle1">₹ 119</Typography>
+                  <Typography variant="body2" style={{ color: 'green', fontWeight: 600 }}>
+                    <StarRateIcon
+                      fontSize="medium"
+                      style={{
+                        display: 'inline-block',
+                        position: 'relative',
+                        marginRight: '1px',
+                        color: 'green',
+                      }}
+                    />
+                    4.73
                   </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    30.5k ratings
+                  </Typography>
+                  <Typography variant="subtitle1">₹ 119</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <AddButton />
