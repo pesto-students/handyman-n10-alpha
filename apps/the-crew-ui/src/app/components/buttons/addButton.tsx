@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 export default function AddButton() {
   const [count, setCount] = useState(0);
   return (
-    <ButtonGroup disableElevation={true} variant="outlined" color="primary">
+    <ButtonGroup disableElevation variant="outlined" color="primary">
       {count !== 0 ? (
         <Button
           onClick={() => {
@@ -15,10 +15,7 @@ export default function AddButton() {
         >
           -
         </Button>
-      ) : (
-        // eslint-disable-next-line react/jsx-no-useless-fragment
-        <></>
-      )}
+      ) : null}
       <Button>{count === 0 ? 'Add' : count}</Button>
       <Button
         onClick={() => {

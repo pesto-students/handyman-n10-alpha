@@ -1,14 +1,14 @@
 import './homeStyles.scss';
 
-import { TextField } from '@material-ui/core';
+import { TextField, Slide } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import React, { Component } from 'react';
 
-import assured from '../../images/home/assured.png';
-import equipment from '../../images/home/equipment.png';
-import home from '../../images/home/home.jpeg';
-import person from '../../images/home/person.png';
-import price from '../../images/home/price.png';
+import assured from '../../../images/home/assured.png';
+import equipment from '../../../images/home/equipment.png';
+import home from '../../../images/home/home.jpeg';
+import person from '../../../images/home/person.png';
+import price from '../../../images/home/price.png';
 
 export default function Home() {
   const whyTheCrewContent = [
@@ -59,36 +59,39 @@ export default function Home() {
         </div>
         <div className="homeScreenTitleRoot">
           <div className="homeScreenTitleContainer">
-            <div className="titleRoot">
-              <span className="title">THE CREW</span>
-              <h1 className="typingEffect">Quality home services, on demand</h1>
-              <p className="titleDesc">
-                Experienced, hand-picked Professionals to serve you at your doorstep
-              </p>
-              <div className="homeScreenAutoSearchDiv">
-                <p>Where do you need a service?</p>
-                <Autocomplete
-                  id="combo-box-demo"
-                  options={[
-                    { city: 'Bangalore' },
-                    { city: 'Delhi' },
-                    { city: 'Chandigarh' },
-                    { city: 'Jaipur' },
-                    { city: 'Visakhapatnam' },
-                  ]}
-                  getOptionLabel={option => option.city}
-                  style={{ width: 300, overflow: 'hidden' }}
-                  renderInput={params => (
-                    <TextField
-                      style={{ overflow: 'hidden' }}
-                      {...params}
-                      placeholder="Select your city"
-                      variant="outlined"
-                    />
-                  )}
-                />
+            <Slide direction="up" in={true} timeout={1000}>
+              <div className="titleRoot">
+                <span className="title">THE CREW</span>
+
+                <h1 className="typingEffect">Quality home services, on demand</h1>
+                <p className="titleDesc">
+                  Experienced, hand-picked Professionals to serve you at your doorstep
+                </p>
+                <div className="homeScreenAutoSearchDiv">
+                  <p>Where do you need a service?</p>
+                  <Autocomplete
+                    id="combo-box-demo"
+                    options={[
+                      { city: 'Bangalore' },
+                      { city: 'Delhi' },
+                      { city: 'Chandigarh' },
+                      { city: 'Jaipur' },
+                      { city: 'Visakhapatnam' },
+                    ]}
+                    getOptionLabel={option => option.city}
+                    style={{ width: 300, overflow: 'hidden' }}
+                    renderInput={params => (
+                      <TextField
+                        style={{ overflow: 'hidden' }}
+                        {...params}
+                        placeholder="Select your city"
+                        variant="outlined"
+                      />
+                    )}
+                  />
+                </div>
               </div>
-            </div>
+            </Slide>
           </div>
         </div>
       </div>
