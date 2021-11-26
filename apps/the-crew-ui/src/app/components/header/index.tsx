@@ -58,6 +58,14 @@ export default function Header() {
           <Button
             color="inherit"
             onClick={() => {
+              history.push('/bookings');
+            }}
+          >
+            My Bookings
+          </Button>
+          <Button
+            color="inherit"
+            onClick={() => {
               history.push('/login');
             }}
           >

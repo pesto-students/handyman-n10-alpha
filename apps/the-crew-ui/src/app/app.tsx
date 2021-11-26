@@ -8,6 +8,7 @@ import Home from './components/home';
 import Login from './components/login';
 import Register from './components/register';
 import ServiceOverviewComponent from './components/servicesOverview';
+import MyBookings from './components/bookings';
 
 export function App() {
   return (
@@ -47,6 +48,16 @@ export function App() {
             )}
           />
           <Route path="/services" exact render={() => <ServiceOverviewComponent />} />
+          <Route
+            path="/bookings"
+            exact
+            render={() => (
+              <>
+                <MyBookings />
+                <Footer />
+              </>
+            )}
+          />
         </div>
       </Provider>
     </div>
