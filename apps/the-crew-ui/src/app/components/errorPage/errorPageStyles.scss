@@ -1,0 +1,12 @@
+.errorRoot {
+  display: flex;
+  width: 100%;
+}
+.errorImg {
+  width: 40%;
+}
+.errorText {
+  width: 60%;
+  display: grid;
+  place-content: center;
+}

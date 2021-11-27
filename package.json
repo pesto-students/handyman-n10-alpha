@@ -40,6 +40,7 @@
     "class-validator": "^0.13.1",
     "cookie-parser": "^1.4.5",
     "core-js": "^3.6.5",
+    "formik": "^2.2.9",
     "lodash-es": "^4.17.21",
     "passport": "^0.5.0",
     "passport-jwt": "^4.0.0",
@@ -57,7 +58,8 @@
     "swagger-ui-express": "^4.1.6",
     "tslib": "^2.0.0",
     "typeorm": "^0.2.40",
-    "typeorm-naming-strategies": "^2.0.0"
+    "typeorm-naming-strategies": "^2.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@nestjs/schematics": "^7.0.0",

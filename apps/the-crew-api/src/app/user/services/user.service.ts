@@ -14,4 +14,12 @@ export class UserService extends TypeOrmCrudService<User> {
   ) {
     super(userRepo);
   }
+
+  public async GetUsers() {
+    console.log('Users service');
+    const result = await this.userRepo.find();
+
+    console.log(result);
+    return result;
+  }
 }
