@@ -1,4 +1,4 @@
-import { IUser, Role, User, UserAddress, uuid } from '@the-crew/common';
+import { IUser, Role, ServiceRequest, User, UserAddress, uuid } from '@the-crew/common';
 import { hashSync } from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import {
@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 
 import { OwnerTimestampEntity } from '../../../core/models/entities';
+import { ServiceRequestEntity } from '../../../service-request/models/entities/';
 import { UserAddressEntity } from './user-address.entity';
 
 @Entity({
@@ -55,6 +56,12 @@ export class UserEntity extends OwnerTimestampEntity implements IUser {
 
   @RelationId((user: User) => user.addresses)
   addressIds: uuid[];
+
+  @OneToMany(() => ServiceRequestEntity, services => services.provider)
+  services: ServiceRequest[];
+
+  @RelationId((user: User) => user.services)
+  servicesIds: uuid[];
 
   @BeforeInsert()
   performPrerequisite() {

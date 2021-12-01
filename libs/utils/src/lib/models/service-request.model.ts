@@ -9,9 +9,10 @@ import {
   IsString,
   IsUUID,
   ValidateNested,
+  IsArray,
 } from 'class-validator';
 
-import { User } from '.';
+import { User, RatingRequest } from '.';
 import { ServiceRequestType } from '../enums';
 import { IServiceRequest, uuid } from '../types';
 
@@ -19,8 +20,12 @@ export class ServiceRequest implements IServiceRequest {
   @IsUUID()
   id: uuid;
 
-  @IsEnum(ServiceRequestType)
-  type: ServiceRequestType;
+  @IsEnum(ServiceRequestType, { each: true })
+  type: ServiceRequestType[];
+
+  @IsString()
+  @IsNotEmpty()
+  title: string;
 
   @IsString()
   @IsNotEmpty()
@@ -30,13 +35,26 @@ export class ServiceRequest implements IServiceRequest {
   @IsPositive()
   price: number;
 
+  @IsString({ each: true })
+  included: string[];
+
+  @IsString({ each: true })
+  excluded: string[];
+
   @ValidateNested()
   @Type(() => User)
-  @IsOptional()
-  user?: User;
+  provider: User;
 
   @IsUUID()
-  userId: uuid;
+  providerId: uuid;
+
+  @ValidateNested()
+  @Type(() => RatingRequest)
+  @IsOptional()
+  rating?: RatingRequest;
+
+  @IsUUID()
+  ratingId: uuid;
 
   @IsDate()
   createdOn: Date;

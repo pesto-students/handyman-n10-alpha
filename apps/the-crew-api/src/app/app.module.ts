@@ -9,6 +9,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { ServiceRequestModule } from './service-request/service-request.module';
+import { RatingModule } from './rating/rating.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { UserModule } from './user/user.module';
     }),
     AuthModule,
     UserModule,
+    ServiceRequestModule,
+    RatingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

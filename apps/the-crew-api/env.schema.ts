@@ -23,7 +23,7 @@ export class EnvironmentVariables {
   NX_JWT_ISSUER = 'nestjs';
 
   @IsString()
-  NX_ACCESS_TOKEN_EXPIRE = '15m';
+  NX_ACCESS_TOKEN_EXPIRE = '24h';
 
   @IsString()
   NX_REFRESH_TOKEN_EXPIRE = '7d';
