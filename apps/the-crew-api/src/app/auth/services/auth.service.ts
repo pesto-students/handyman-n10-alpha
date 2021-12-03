@@ -62,7 +62,7 @@ export class AuthService {
    */
   public async logout(user: User) {
     // delete token entity
-    await this.refreshRepo.softDelete(user.id);
+    await this.refreshRepo.softDelete({ userId: user.id });
   }
 
   /**

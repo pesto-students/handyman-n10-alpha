@@ -1,82 +1,92 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from '@the-crew/common';
+import { AnyObject, User } from '@the-crew/common';
 
-import { fetchTokens, refetchTokens } from '../thunks';
-
-type LoginResponse = {
-  accessToken: string;
-  refreshToken: string;
-  expiresAt: Date;
-};
+import { RootState } from '..';
+import { LoginResponse, RefreshTokenResponse } from '../../types';
+import { AuthThunks } from '../thunks';
 
 type AuthState = {
   user: User;
   accessToken: string;
   refreshToken: string;
-  expiresAt: Date;
   isLoading: boolean;
+  error: null | AnyObject;
 };
-
-type RefreshTokenResponse = LoginResponse;
 
 const initialState: AuthState = {
   user: null,
   accessToken: null,
   refreshToken: null,
-  expiresAt: null,
   isLoading: false,
+  error: null,
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    // login: (state, action: PayloadAction<LoginResponse>) => {
-    //   const { payload } = action;
-    //   state.accessToken = payload.accessToken;
-    //   state.refreshToken = payload.refreshToken;
-    //   state.expiresAt = payload.expiresAt;
-    // },
-    // logout: state => {
-    //   state.accessToken = null;
-    //   state.refreshToken = null;
-    //   state.expiresAt = null;
-    //   state.user = null;
-    // },
-    // refreshToken: (state, action: PayloadAction<RefreshTokenResponse>) => {
-    //   const { payload } = action;
-    //   state.refreshToken = payload.refreshToken;
-    //   state.accessToken = payload.accessToken;
-    //   state.expiresAt = payload.expiresAt;
-    // },
-    // me: (state, action: PayloadAction<{ user: User }>) => {
-    //   state.user = action.payload.user;
-    // },
+    // used to store tokens from local-storage on app startup
+    loadTokensAtStartup: (state, action: PayloadAction<LoginResponse>) => {
+      const { payload } = action;
+      state.accessToken = payload.accessToken;
+      state.refreshToken = payload.refreshToken;
+    },
   },
   extraReducers: builder =>
     builder
-      .addCase(fetchTokens.pending, state => {
+      .addCase(AuthThunks.loginAndFetchTokens.pending, state => {
         state.isLoading = true;
       })
-      .addCase(fetchTokens.fulfilled, (state, action: PayloadAction<LoginResponse>) => {
-        const { payload } = action;
-        state.accessToken = payload.accessToken;
-        state.refreshToken = payload.refreshToken;
-        state.expiresAt = payload.expiresAt;
-        state.isLoading = false;
+      .addCase(
+        AuthThunks.loginAndFetchTokens.fulfilled,
+        (state, action: PayloadAction<LoginResponse>) => {
+          const { payload } = action;
+          state.accessToken = payload.accessToken;
+          state.refreshToken = payload.refreshToken;
+          state.isLoading = false;
+          state.error = null;
+        },
+      )
+      .addCase(AuthThunks.loginAndFetchTokens.rejected, (state, action) => {
+        state.error = {
+          name: action.error.name,
+          message: action.error.message,
+        };
       })
-      .addCase(refetchTokens.pending, state => {
+      .addCase(AuthThunks.refetchTokens.pending, state => {
         state.isLoading = true;
       })
-      .addCase(refetchTokens.fulfilled, (state, action: PayloadAction<RefreshTokenResponse>) => {
-        const { payload } = action;
-        state.accessToken = payload.accessToken;
-        state.refreshToken = payload.refreshToken;
-        state.expiresAt = payload.expiresAt;
+      .addCase(
+        AuthThunks.refetchTokens.fulfilled,
+        (state, action: PayloadAction<RefreshTokenResponse>) => {
+          const { payload } = action;
+          state.accessToken = payload.accessToken;
+          state.refreshToken = payload.refreshToken;
+          state.isLoading = false;
+          state.error = null;
+        },
+      )
+      .addCase(AuthThunks.logout.fulfilled, state => {
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.user = null;
+        state.error = null;
         state.isLoading = false;
+      })
+      .addCase(AuthThunks.whoAmI.fulfilled, (state, action: PayloadAction<User>) => {
+        state.user = action.payload;
+      })
+      .addCase(AuthThunks.whoAmI.rejected, (state, action) => {
+        state.user = null;
+        state.error = {
+          name: action.error.name,
+          message: action.error.message,
+        };
       }),
 });
 
-export const authActions = authSlice.actions;
-
 export const authReducer = authSlice.reducer;
+
+export const authSelector = (state: RootState) => state.auth;
+
+export const { loadTokensAtStartup } = authSlice.actions;

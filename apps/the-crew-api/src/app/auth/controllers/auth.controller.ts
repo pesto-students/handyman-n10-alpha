@@ -48,9 +48,9 @@ export class AuthController {
   whoAmI(@CurrentUser() user: User, @Res() res: Response, @Req() req: Request) {
     const qb = RequestQueryBuilder.create(req.query).query();
     if (qb) {
-      return res.redirect(`/users/${user.id}?${qb}`);
+      return res.redirect(`/api/users/${user.id}?${qb}`);
     } else {
-      return res.redirect(`/users/${user.id}`);
+      return res.redirect(`/api/users/${user.id}`);
     }
   }
 

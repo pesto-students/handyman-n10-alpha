@@ -1,0 +1,17 @@
+@use '../../theme/mixins' as mixin;
+
+.root {
+  @include mixin.fxFlex();
+  @include mixin.fxLayout(column);
+  @include mixin.fxLayoutAlign(center, center);
+}
+
+.root-paper {
+  @include mixin.fxLayoutAlign(center, center);
+  @include mixin.fxLayout(column);
+  height: 400px;
+  width: 350px;
+  overflow: hidden;
+  margin: auto;
+  padding: 16px;
+}

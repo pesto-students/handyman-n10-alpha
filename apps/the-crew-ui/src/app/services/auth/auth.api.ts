@@ -1,12 +1,11 @@
 import { CreateQueryParams, RequestQueryBuilder } from '@nestjsx/crud-request';
-import axios from 'axios';
 
-import { axiosConfig } from '../../core/services';
+import { axiosInstance } from '../../core/services';
 import { RegisterDTO } from '../../types';
 
 const basePath = `/auth`;
 
-const instance = axios.create(axiosConfig);
+const instance = axiosInstance;
 
 function login(creds: { email: string; password: string }) {
   const url = `${basePath}/login`;
@@ -45,11 +44,17 @@ function refreshToken(refreshToken: string) {
   );
 }
 
-export const authService = {
+function logout(): Promise<void> {
+  const url = `${basePath}/logout`;
+  return instance.get(url);
+}
+
+export const AuthService = {
   login,
   register,
   whoAmI,
   refreshToken,
+  logout,
 };
 
-export { login, register, whoAmI, refreshToken };
+export { login, logout, register, whoAmI, refreshToken };

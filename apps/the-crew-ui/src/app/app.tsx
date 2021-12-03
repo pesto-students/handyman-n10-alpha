@@ -1,68 +1,29 @@
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import store from './store';
 
-import Footer from './components/footer';
-import Header from './components/header';
-import Home from './components/home';
-import Login from './components/login';
-import Register from './components/register';
-import ServiceOverviewComponent from './components/servicesOverview';
-import MyBookings from './components/bookings';
-import ErrorComponent from './components/errorPage';
+import style from './app.module.scss';
+import { Footer, Header, Main, Startup } from './components';
+import store from './store';
+import { Bookings, Home, Login, NotFound404, Register, ServiceList } from './views';
 
 export function App() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+    <div className={style.root}>
       <Provider store={store}>
-        <Header />
-        {/* <Home /> */}
-        <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-          <Switch>
-            <Route
-              path="/"
-              exact
-              render={() => (
-                <>
-                  <Home />
-                  <Footer />
-                </>
-              )}
-            />
-            <Route
-              path="/login"
-              exact
-              render={() => (
-                <>
-                  <Login />
-                  <Footer />
-                </>
-              )}
-            />
-            <Route
-              path="/register"
-              exact
-              render={() => (
-                <>
-                  <Register />
-                  <Footer />
-                </>
-              )}
-            />
-            <Route path="/services" exact render={() => <ServiceOverviewComponent />} />
-            <Route
-              path="/bookings"
-              exact
-              render={() => (
-                <>
-                  <MyBookings />
-                  <Footer />
-                </>
-              )}
-            />
-            <Route render={() => <ErrorComponent />} />
-          </Switch>
-        </div>
+        <Startup>
+          <Header />
+          <Main>
+            <Switch>
+              <Route path="/" exact render={() => <Home />} />
+              <Route path="/login" exact render={() => <Login />} />
+              <Route path="/register" exact render={() => <Register />} />
+              <Route path="/services" exact render={() => <ServiceList />} />
+              <Route path="/bookings" exact render={() => <Bookings />} />
+              <Route render={() => <NotFound404 />} />
+            </Switch>
+            <Footer />
+          </Main>
+        </Startup>
       </Provider>
     </div>
   );

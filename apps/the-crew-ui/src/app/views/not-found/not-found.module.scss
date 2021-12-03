@@ -1,0 +1,16 @@
+@use '../../theme/mixins' as mixin;
+
+.errorRoot {
+  width: 100%;
+  @include mixin.fxFlex();
+}
+
+.errorImg {
+  width: 40%;
+}
+
+.errorText {
+  width: 60%;
+  display: grid;
+  place-content: center;
+}

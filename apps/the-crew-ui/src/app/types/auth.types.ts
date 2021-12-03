@@ -9,7 +9,7 @@ export type RegisterDTO = {
 export type LoginResponse = {
   accessToken: string;
   refreshToken: string;
-  expiresAt: Date;
+  expiresAt?: Date;
 };
 
 export type RefreshTokenResponse = LoginResponse;

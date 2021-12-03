@@ -1,0 +1,28 @@
+.dialogTitle {
+  margin: 0;
+  padding: 16px;
+  background-color: #3f51b5;
+  color: white;
+}
+
+.closeIcon {
+  position: absolute;
+  right: 8px;
+}
+
+.dividerThick {
+  height: 16px;
+  background-color: lightgray;
+  margin: 16px;
+}
+
+.itemSummaryRoot {
+  display: flex;
+  flex-direction: column;
+  margin: 16px;
+}
+
+.itemSummary {
+  display: flex;
+  margin: 8px;
+}
