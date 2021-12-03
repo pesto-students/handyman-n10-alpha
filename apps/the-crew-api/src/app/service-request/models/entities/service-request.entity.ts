@@ -1,8 +1,9 @@
-import { IServiceRequest, ServiceRequestType, User, uuid } from '@the-crew/common';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IServiceRequest, ServiceRequestType, SubOrder, User, uuid } from '@the-crew/common';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { OwnerTimestampEntity } from '../../../core/models/entities';
-import { UserEntity } from '../../../user/models/entities/user.entity';
+import { SubOrderEntity } from '../../../orders/models/entities';
+import { UserEntity } from '../../../user/models/entities';
 
 @Entity({
   name: 'service_requests',
@@ -43,4 +44,7 @@ export class ServiceRequestEntity extends OwnerTimestampEntity implements IServi
 
   @Column({ type: 'uuid' })
   providerId: uuid;
+
+  @OneToMany(() => SubOrderEntity, subOrder => subOrder.serviceId)
+  subOrders: SubOrder[];
 }

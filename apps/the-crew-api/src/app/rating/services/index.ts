@@ -1,1 +1,1 @@
-export * from './rating.service';
+export * from './review.service';

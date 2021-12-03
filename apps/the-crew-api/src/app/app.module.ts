@@ -8,9 +8,10 @@ import DatabaseConfig from '../configs/db.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
+import { OrderModule } from './orders/order.module';
+import { ReviewModule } from './rating/review.module';
 import { ServiceRequestModule } from './service-request/service-request.module';
-import { RatingModule } from './rating/rating.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { RatingModule } from './rating/rating.module';
     AuthModule,
     UserModule,
     ServiceRequestModule,
-    RatingModule,
+    ReviewModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

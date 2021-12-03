@@ -1,4 +1,4 @@
-import { IRating, uuid } from '@the-crew/common';
+import { IReview, uuid } from '@the-crew/common';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 import { OwnerTimestampEntity } from '../../../core/models/entities';
@@ -6,7 +6,7 @@ import { OwnerTimestampEntity } from '../../../core/models/entities';
 @Entity({
   name: 'reviews',
 })
-export class RatingEntity extends OwnerTimestampEntity implements IRating {
+export class ReviewEntity extends OwnerTimestampEntity implements IReview {
   @PrimaryGeneratedColumn('uuid')
   id: uuid;
 
@@ -19,5 +19,5 @@ export class RatingEntity extends OwnerTimestampEntity implements IRating {
   rating: number;
 
   @Column({ type: 'uuid' })
-  reviwerId: uuid;
+  reviewerId: uuid;
 }

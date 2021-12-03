@@ -1,4 +1,4 @@
-import { IUserAddress, IRating, IServiceRequest } from '.';
+import { IServiceRequest, IUserAddress } from '.';
 import { Role } from '../enums';
 import { IOwnerTimestamp } from './ownership-timestamp.type';
 import { uuid } from './util.types';

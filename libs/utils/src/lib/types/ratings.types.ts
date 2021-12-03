@@ -1,11 +1,10 @@
-import { IOwnerTimestamp, IUser, IServiceRequest } from '.';
-// import { ServiceRequestType } from '../enums';
+import { IOwnerTimestamp, IUser } from '.';
 import { uuid } from './util.types';
 
-export interface IRating extends IOwnerTimestamp {
+export interface IReview extends IOwnerTimestamp {
   id: uuid;
   rating: number;
   comment: string;
-  reviwer?: IUser;
-  reviwerId: uuid;
+  reviewer?: IUser;
+  reviewerId: uuid;
 }

@@ -9,10 +9,9 @@ import {
   IsString,
   IsUUID,
   ValidateNested,
-  IsArray,
 } from 'class-validator';
 
-import { User, RatingRequest } from '.';
+import { Review, User } from '.';
 import { ServiceRequestType } from '../enums';
 import { IServiceRequest, uuid } from '../types';
 
@@ -49,9 +48,9 @@ export class ServiceRequest implements IServiceRequest {
   providerId: uuid;
 
   @ValidateNested()
-  @Type(() => RatingRequest)
+  @Type(() => Review)
   @IsOptional()
-  rating?: RatingRequest;
+  rating?: Review;
 
   @IsUUID()
   ratingId: uuid;

@@ -1,1 +1,1 @@
-export * from './rating.entity';
+export * from './review.entity';

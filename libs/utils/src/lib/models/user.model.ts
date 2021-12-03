@@ -13,7 +13,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { UserAddress, ServiceRequest, RatingRequest } from '.';
+import { UserAddress, ServiceRequest, Review } from '.';
 import { Role } from '../enums';
 import { IUser, uuid } from '../types';
 
@@ -69,6 +69,6 @@ export class User implements IUser {
 
   @IsArray()
   @ValidateNested()
-  @Type(() => RatingRequest)
-  ratings: RatingRequest[];
+  @Type(() => Review)
+  ratings: Review[];
 }

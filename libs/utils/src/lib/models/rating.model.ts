@@ -16,9 +16,9 @@ import { User } from '.';
 import { ServiceRequest } from '.';
 
 // import { ServiceRequestType } from '../enums';
-import { uuid, IRating } from '../types';
+import { uuid, IReview } from '../types';
 
-export class RatingRequest implements IRating {
+export class Review implements IReview {
   @IsUUID()
   id: uuid;
 
@@ -33,10 +33,10 @@ export class RatingRequest implements IRating {
   @ValidateNested()
   @Type(() => User)
   @IsOptional()
-  reviwer?: User;
+  reviewer?: User;
 
   @IsUUID()
-  reviwerId: uuid;
+  reviewerId: uuid;
 
   @ValidateNested()
   @Type(() => ServiceRequest)

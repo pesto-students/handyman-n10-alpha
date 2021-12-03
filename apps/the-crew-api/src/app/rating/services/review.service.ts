@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { RatingRequest } from '@the-crew/common';
+import { Review } from '@the-crew/common';
 import { Repository } from 'typeorm';
 
-import { RatingEntity } from '../models/entities';
+import { ReviewEntity } from '../models/entities';
 
 @Injectable()
-export class RatingService extends TypeOrmCrudService<RatingRequest> {
+export class ReviewService extends TypeOrmCrudService<Review> {
   constructor(
-    @InjectRepository(RatingEntity)
-    readonly RatingRepo: Repository<RatingRequest>,
+    @InjectRepository(ReviewEntity)
+    readonly RatingRepo: Repository<Review>,
   ) {
     super(RatingRepo);
   }
