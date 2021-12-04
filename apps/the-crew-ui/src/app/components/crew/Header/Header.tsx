@@ -1,30 +1,45 @@
 import './headerStyles.scss';
 
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import SettingsIcon from '@mui/icons-material/Settings';
+import UpcomingIcon from '@mui/icons-material/Upcoming';
 import {
   AppBar,
+  Avatar,
   Button,
+  Divider,
   IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  Menu,
+  MenuItem,
   SwipeableDrawer,
   Toolbar,
-} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import { ExitToApp, Menu, PersonAdd } from '@material-ui/icons';
+  Tooltip,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { Box } from '@mui/system';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { authSelector } from '../../../store/reducers';
+import { useAppDispatch } from '../../../store';
+import { authSelector } from '../../../store/slices';
 import { AuthThunks } from '../../../store/thunks';
 
 export default function Header() {
-  const history = useHistory();
-  const authState = useSelector(authSelector);
-  const dispatch = useDispatch();
   const [openSideMenu, setSideMenuStatus] = useState(false);
+  const authState = useSelector(authSelector);
+  const history = useHistory();
+  const theme = useTheme();
+  const xsView = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleMenuClick = () => {
     setSideMenuStatus(!openSideMenu);
@@ -38,13 +53,18 @@ export default function Header() {
     <div style={{ position: 'sticky', width: '100%', top: 0, zIndex: 100 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <Menu
+          {xsView && !authState.user && (
+            <IconButton
+              edge="start"
+              color="inherit"
               onClick={() => {
                 handleMenuClick();
               }}
-            />
-          </IconButton>
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
           <div className="headerTitle">
             <Typography
               variant="h5"
@@ -56,41 +76,44 @@ export default function Header() {
               The Crew
             </Typography>
           </div>
-          <Button
-            className="registerAsProfessionalBtn"
-            color="inherit"
-            style={{ textDecoration: 'underline' }}
-          >
-            Register As A Professional
-          </Button>
-          {!authState.user ? (
-            <>
-              <Button
-                color="inherit"
-                onClick={() => {
-                  history.push('/login');
-                }}
-              >
-                Login
-              </Button>
-              <Button
-                color="inherit"
-                onClick={() => {
-                  history.push('/register');
-                }}
-              >
-                Sign Up
-              </Button>
-            </>
-          ) : (
-            <Button color="inherit" onClick={() => dispatch(AuthThunks.logout())}>
-              Logout
+          {!xsView && (
+            <Button
+              className="registerAsProfessionalBtn"
+              color="inherit"
+              style={{ textDecoration: 'underline' }}
+            >
+              Register As A Professional
             </Button>
+          )}
+          {!authState.user ? (
+            !xsView && (
+              <>
+                <Button
+                  color="inherit"
+                  onClick={() => {
+                    history.push('/login');
+                  }}
+                >
+                  Login
+                </Button>
+                <Button
+                  color="inherit"
+                  onClick={() => {
+                    history.push('/register');
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </>
+            )
+          ) : (
+            <MyAvatar />
           )}
         </Toolbar>
       </AppBar>
       <SwipeableDrawer
         anchor="left"
+        role="presentation"
         open={openSideMenu}
         onClose={() => {
           handleMenuClick();
@@ -98,37 +121,122 @@ export default function Header() {
         onOpen={() => {
           handleMenuClick();
         }}
-        style={{ width: '16vw' }}
       >
-        <List>
-          <ListItem
-            button
-            key={'login'}
-            onClick={() => {
-              history.push('/login');
-              handleMenuClick();
-            }}
-          >
-            <ListItemIcon>
-              <ExitToApp />{' '}
-            </ListItemIcon>
-            <ListItemText primary="Login" />
-          </ListItem>
-          <ListItem
-            button
-            key={'register'}
-            onClick={() => {
-              handleMenuClick();
-              history.push('/register');
-            }}
-          >
-            <ListItemIcon>
-              <PersonAdd />{' '}
-            </ListItemIcon>
-            <ListItemText primary="Register" />
-          </ListItem>
-        </List>
+        <Box sx={{ width: 250 }}>
+          <List>
+            <ListItem
+              button
+              key="login"
+              onClick={() => {
+                history.push('/login');
+                handleMenuClick();
+              }}
+            >
+              <ListItemIcon>
+                <ExitToAppIcon />{' '}
+              </ListItemIcon>
+              <ListItemText primary="Login" />
+            </ListItem>
+            <ListItem
+              button
+              key="register"
+              onClick={() => {
+                handleMenuClick();
+                history.push('/register');
+              }}
+            >
+              <ListItemIcon>
+                <PersonAddIcon />{' '}
+              </ListItemIcon>
+              <ListItemText primary="Sign Up" />
+            </ListItem>
+          </List>
+        </Box>
       </SwipeableDrawer>
     </div>
   );
 }
+
+const MyAvatar: React.FC = props => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const dispatch = useAppDispatch();
+  const open = Boolean(anchorEl);
+  const history = useHistory();
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      <Tooltip title="Account settings">
+        <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+          <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+        </IconButton>
+      </Tooltip>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem onClick={() => history.push('/bookings')}>
+          <ListItemIcon>
+            <UpcomingIcon color="action" />
+          </ListItemIcon>
+          My Bookings
+        </MenuItem>
+        <Divider />
+        <MenuItem disabled>
+          <ListItemIcon>
+            <SettingsIcon fontSize="small" />
+          </ListItemIcon>
+          My Profile
+        </MenuItem>
+        <MenuItem
+          onClick={() =>
+            dispatch(AuthThunks.logout()).then(() => {
+              history.push('/login');
+            })
+          }
+        >
+          <ListItemIcon>
+            <LogoutIcon fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};

@@ -1,6 +1,12 @@
+@use '../../theme/mixins' as mixin;
+
 .bookingRoot {
-  height: 100%;
+  width: 100%;
   background-color: #fff;
+  @include mixin.fxFlex();
+  @include mixin.fxLayout(column);
+  @include mixin.fxLayoutAlign(start, center);
+  @include mixin.fxLayoutGap(16px);
 }
 
 .myBookingsHeader {

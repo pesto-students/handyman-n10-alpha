@@ -1,5 +1,5 @@
-import { Grid, Typography } from '@material-ui/core';
-import { AccountCircle, StarRate } from '@material-ui/icons';
+import { Grid, Typography } from '@mui/material';
+import { AccountCircle, StarRate } from '@mui/icons-material';
 
 export default function ReviewComponent() {
   return (
@@ -15,19 +15,24 @@ export default function ReviewComponent() {
           </Typography>
           <Typography variantMapping={{ subtitle1: 'h6' }}>Provided good service</Typography>
         </Grid>
-        <Grid item xs={2}>
-          <Typography variant="body2" style={{ color: 'green', fontWeight: 600 }}>
-            <StarRate
-              fontSize="medium"
-              style={{
-                display: 'inline-block',
-                position: 'relative',
-                marginRight: '1px',
-                color: 'green',
-              }}
-            />
-            4.73
-          </Typography>
+        <Grid
+          container
+          item
+          justifyContent="start"
+          alignItems="center"
+          xs={2}
+          spacing={0.5}
+          style={{
+            color: 'green',
+            fontWeight: 600,
+          }}
+        >
+          <Grid item>
+            <StarRate fontSize="medium" />
+          </Grid>
+          <Grid item>
+            <span>4.73</span>
+          </Grid>
         </Grid>
       </Grid>
     </div>

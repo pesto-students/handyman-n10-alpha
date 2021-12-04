@@ -1,9 +1,5 @@
 @use './theme/mixins' as mixin;
 
-body {
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-}
-
 .root {
   @include mixin.fxFill();
   @include mixin.fxLayout(column);

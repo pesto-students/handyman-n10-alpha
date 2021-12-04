@@ -7,13 +7,13 @@ import {
   OutlinedInput,
   Paper,
   Typography,
-} from '@material-ui/core';
-import { Email, Visibility, VisibilityOff } from '@material-ui/icons';
+} from '@mui/material';
+import { Email, Visibility, VisibilityOff } from '@mui/icons-material';
 import { SetStateAction, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import { authSelector } from '../../store/reducers';
+import { authSelector } from '../../store/slices';
 import style from '../login/login.module.scss';
 
 export default function Register() {

@@ -1,13 +1,13 @@
-import { Fragment, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { withRouter } from 'react-router';
 
 import { TokenService } from '../../../services';
-import { loadTokensAtStartup } from '../../../store/reducers';
+import { useAppDispatch } from '../../../store';
+import { loadTokensAtStartup } from '../../../store/slices';
 import { AuthThunks } from '../../../store/thunks';
 
 const Startup = withRouter(props => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // check for token
   useEffect(() => {
     const accessToken = TokenService.getAccessToken();
@@ -18,8 +18,9 @@ const Startup = withRouter(props => {
         dispatch(AuthThunks.whoAmI());
       }, 10);
     }
-  }, []);
-  return <Fragment>{props.children}</Fragment>;
+  }, [dispatch]);
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <>{props.children}</>;
 });
 
 export default Startup;

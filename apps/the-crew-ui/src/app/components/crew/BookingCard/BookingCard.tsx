@@ -1,5 +1,5 @@
-import { Avatar, Divider, Paper, Typography } from '@material-ui/core';
-import { StarRate } from '@material-ui/icons';
+import { Avatar, Divider, Paper, Typography } from '@mui/material';
+import { StarRate } from '@mui/icons-material';
 
 import { StatusColours } from '../../../enums';
 import style from './BookingCard.module.scss';
@@ -20,7 +20,7 @@ export default function BookingCard() {
       <div className={style.bookingDetails}>
         <div className={style.bookingAvatar}>
           <Avatar
-            variant="circle"
+            variant="circular"
             src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGhhbmR5bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
           />
         </div>

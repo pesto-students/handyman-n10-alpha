@@ -1,4 +1,4 @@
-import { Alert } from '@material-ui/lab';
+import { Alert } from '@mui/lab';
 
 export interface AlertSummary {
   severity: number;

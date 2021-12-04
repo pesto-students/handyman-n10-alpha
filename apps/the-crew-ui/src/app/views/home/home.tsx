@@ -1,7 +1,7 @@
 import './homeStyles.scss';
 
-import { TextField, Slide } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
+import { TextField, Slide } from '@mui/material';
+import { Autocomplete } from '@mui/lab';
 
 import assured from '../../../assets/images/home/assured.png';
 import equipment from '../../../assets/images/home/equipment.png';

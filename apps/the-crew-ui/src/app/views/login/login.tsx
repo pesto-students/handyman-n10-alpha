@@ -1,3 +1,5 @@
+import { Email, Login as LoginIcon, Visibility, VisibilityOff } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 import {
   Button,
   FormControl,
@@ -8,23 +10,25 @@ import {
   OutlinedInput,
   Paper,
   Typography,
-} from '@material-ui/core';
-import { Email, Visibility, VisibilityOff } from '@material-ui/icons';
+} from '@mui/material';
 import { Formik } from 'formik';
+import { useSnackbar } from 'notistack';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { object, string } from 'yup';
 
-import { authSelector } from '../../store/reducers';
+import { useAppDispatch } from '../../store';
+import { authSelector } from '../../store/slices';
 import { loginAndFetchTokens } from '../../store/thunks';
 import style from './login.module.scss';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const authState = useSelector(authSelector);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
 
   if (authState.user) {
     history.push('/services');
@@ -42,7 +46,15 @@ export default function Login() {
               initialValues={{ email: '', password: '' }}
               validationSchema={loginSchema}
               onSubmit={values => {
-                dispatch(loginAndFetchTokens(values));
+                dispatch(loginAndFetchTokens(values))
+                  .unwrap()
+                  .catch(err => {
+                    if (err.status === 401) {
+                      enqueueSnackbar('Invalid Credentials!', {
+                        variant: 'error',
+                      });
+                    }
+                  });
               }}
             >
               {({
@@ -120,16 +132,29 @@ export default function Login() {
                       </FormControl>
                     </Grid>
                     <Grid item>
-                      <Button
-                        fullWidth
-                        type="submit"
-                        variant="contained"
-                        color="secondary"
-                        disabled={!!(errors.email || errors.password)}
-                        style={{ marginTop: '16px' }}
-                      >
-                        Submit
-                      </Button>
+                      {authState.isLoading ? (
+                        <LoadingButton
+                          fullWidth
+                          loadingPosition="end"
+                          variant="contained"
+                          loading={authState.isLoading}
+                          endIcon={<LoginIcon />}
+                        >
+                          Logging..
+                        </LoadingButton>
+                      ) : (
+                        <Button
+                          fullWidth
+                          type="submit"
+                          variant="contained"
+                          color="secondary"
+                          disabled={!!(errors.email || errors.password)}
+                          endIcon={<LoginIcon />}
+                          style={{ marginTop: '16px' }}
+                        >
+                          Submit
+                        </Button>
+                      )}
                     </Grid>
                   </Grid>
                 </form>

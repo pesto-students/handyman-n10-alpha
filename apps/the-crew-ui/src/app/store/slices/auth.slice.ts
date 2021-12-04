@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AnyObject, User } from '@the-crew/common';
+import { User } from '@the-crew/common';
 
-import { RootState } from '..';
 import { LoginResponse, RefreshTokenResponse } from '../../types';
+import { RootState } from '../store';
 import { AuthThunks } from '../thunks';
 
 type AuthState = {
@@ -10,7 +10,6 @@ type AuthState = {
   accessToken: string;
   refreshToken: string;
   isLoading: boolean;
-  error: null | AnyObject;
 };
 
 const initialState: AuthState = {
@@ -18,7 +17,6 @@ const initialState: AuthState = {
   accessToken: null,
   refreshToken: null,
   isLoading: false,
-  error: null,
 };
 
 export const authSlice = createSlice({
@@ -44,17 +42,10 @@ export const authSlice = createSlice({
           state.accessToken = payload.accessToken;
           state.refreshToken = payload.refreshToken;
           state.isLoading = false;
-          state.error = null;
         },
       )
-      .addCase(AuthThunks.loginAndFetchTokens.rejected, (state, action) => {
-        state.error = {
-          name: action.error.name,
-          message: action.error.message,
-        };
-      })
-      .addCase(AuthThunks.refetchTokens.pending, state => {
-        state.isLoading = true;
+      .addCase(AuthThunks.loginAndFetchTokens.rejected, state => {
+        state.isLoading = false;
       })
       .addCase(
         AuthThunks.refetchTokens.fulfilled,
@@ -63,25 +54,16 @@ export const authSlice = createSlice({
           state.accessToken = payload.accessToken;
           state.refreshToken = payload.refreshToken;
           state.isLoading = false;
-          state.error = null;
         },
       )
       .addCase(AuthThunks.logout.fulfilled, state => {
         state.accessToken = null;
         state.refreshToken = null;
         state.user = null;
-        state.error = null;
         state.isLoading = false;
       })
       .addCase(AuthThunks.whoAmI.fulfilled, (state, action: PayloadAction<User>) => {
         state.user = action.payload;
-      })
-      .addCase(AuthThunks.whoAmI.rejected, (state, action) => {
-        state.user = null;
-        state.error = {
-          name: action.error.name,
-          message: action.error.message,
-        };
       }),
 });
 

@@ -1,3 +1,5 @@
+import { useMediaQuery, useTheme } from '@mui/material';
+import { SnackbarProvider } from 'notistack';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 
@@ -7,25 +9,35 @@ import store from './store';
 import { Bookings, Home, Login, NotFound404, Register, ServiceList } from './views';
 
 export function App() {
+  const theme = useTheme();
+  const xsView = useMediaQuery(theme.breakpoints.down('md'));
   return (
-    <div className={style.root}>
-      <Provider store={store}>
-        <Startup>
-          <Header />
-          <Main>
-            <Switch>
-              <Route path="/" exact render={() => <Home />} />
-              <Route path="/login" exact render={() => <Login />} />
-              <Route path="/register" exact render={() => <Register />} />
-              <Route path="/services" exact render={() => <ServiceList />} />
-              <Route path="/bookings" exact render={() => <Bookings />} />
-              <Route render={() => <NotFound404 />} />
-            </Switch>
-            <Footer />
-          </Main>
-        </Startup>
-      </Provider>
-    </div>
+    <SnackbarProvider
+      maxSnack={3}
+      anchorOrigin={{
+        horizontal: xsView ? 'center' : 'right',
+        vertical: xsView ? 'bottom' : 'top',
+      }}
+    >
+      <div className={style.root}>
+        <Provider store={store}>
+          <Startup>
+            <Header />
+            <Main>
+              <Switch>
+                <Route path="/" exact render={() => <Home />} />
+                <Route path="/login" exact render={() => <Login />} />
+                <Route path="/register" exact render={() => <Register />} />
+                <Route path="/services" exact render={() => <ServiceList />} />
+                <Route path="/bookings" exact render={() => <Bookings />} />
+                <Route render={() => <NotFound404 />} />
+              </Switch>
+              <Footer />
+            </Main>
+          </Startup>
+        </Provider>
+      </div>
+    </SnackbarProvider>
   );
 }
 

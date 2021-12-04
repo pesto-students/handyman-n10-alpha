@@ -1,5 +1,5 @@
-import { AppBar, Container, Toolbar } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
+import { AppBar, Container, Toolbar } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
 export default function Footer() {
   return (

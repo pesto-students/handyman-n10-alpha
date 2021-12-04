@@ -7,8 +7,8 @@ import {
   Divider,
   IconButton,
   Typography,
-} from '@material-ui/core';
-import { Close } from '@material-ui/icons';
+} from '@mui/material';
+import { Close } from '@mui/icons-material';
 import { useState } from 'react';
 
 import style from './checkout.module.scss';
@@ -24,7 +24,7 @@ const CheckOut: React.FC<ICheckOutProps> = props => {
 
   return (
     <Dialog open={openDialog} maxWidth="md" fullWidth={true}>
-      <DialogTitle disableTypography className={style.dialogTitle}>
+      <DialogTitle className={style.dialogTitle}>
         <div style={{ display: 'flex' }}>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
             Plumbers

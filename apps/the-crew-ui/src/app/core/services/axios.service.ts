@@ -1,5 +1,6 @@
+import { RequestQueryBuilder } from '@nestjsx/crud-request';
 import axios from 'axios';
-import { omit } from 'lodash-es';
+import { isEmpty, omit } from 'lodash-es';
 
 import { environment } from '../../../environments/environment';
 import { AuthService, TokenService } from '../../services';
@@ -9,6 +10,12 @@ import { AuthService, TokenService } from '../../services';
  */
 const instance = axios.create({
   baseURL: environment.apiUrl,
+  paramsSerializer: params => {
+    if (!isEmpty(params)) {
+      return RequestQueryBuilder.create(params).query();
+    }
+    return null;
+  },
 });
 
 instance.interceptors.request.use(

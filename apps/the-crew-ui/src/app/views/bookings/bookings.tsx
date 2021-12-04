@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Grid, Typography } from '@material-ui/core';
+import { Button, ButtonGroup, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
 
 import { BookingCard } from '../../components';
