@@ -13,10 +13,10 @@ export default function MyBookings() {
 
   return (
     <div className={style.bookingRoot}>
-      <Typography className="myBookingsHeader" variant="h5">
+      <Typography className={style.myBookingsHeader} variant="h5">
         My Bookings
       </Typography>
-      <div className="bookingsButtonGroup">
+      <div className={style.bookingsButtonGroup}>
         <ButtonGroup variant="outlined" color="primary">
           <Button
             variant={onGoing ? 'contained' : 'outlined'}
@@ -40,7 +40,7 @@ export default function MyBookings() {
           </Button>
         </ButtonGroup>
       </div>
-      <div className="bookingsGrid">
+      <div className={style.bookingsGrid}>
         <Grid container spacing={1}>
           <Grid item>
             <BookingCard />
