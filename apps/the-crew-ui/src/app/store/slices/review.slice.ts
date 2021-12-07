@@ -3,7 +3,7 @@ import { Review } from '@the-crew/common';
 
 const reviewAdapter = createEntityAdapter<Review>();
 
-export const reviewSlice = createSlice({
+const reviewSlice = createSlice({
   name: 'reviews',
   initialState: reviewAdapter.getInitialState(),
   reducers: {

@@ -1,25 +1,35 @@
-import { Container, Drawer, Grid, styled } from '@mui/material';
-import { useState } from 'react';
+import { Box, Container, Drawer, Grid, styled, Typography } from '@mui/material';
+import { ServiceRequest } from '@the-crew/common';
+import { useEffect, useState } from 'react';
 
 import { ServiceCard, ServiceDetail } from '../../components';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { cartSelectors, serviceSelectors } from '../../store/slices';
+import { serviceThunks } from '../../store/thunks';
 import style from './service-list.module.scss';
 
 const drawerWidth = 600;
 
 export default function ServiceDetailComponent() {
+  const dispatch = useAppDispatch();
   const [showDetail, setShowDetail] = useState(false);
+  const services = useAppSelector(state => serviceSelectors.selectAll(state.services));
+  const cartItems = useAppSelector(state => cartSelectors.selectAll(state.cart));
 
-  const dummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+  useEffect(() => {
+    dispatch(serviceThunks.getServices({ join: [{ field: 'provider' }, { field: 'reviews' }] }));
+  }, [dispatch]);
 
   return (
     <div className={style.service_list_container}>
       <Main open={showDetail}>
         <Grid container justifyContent="center" alignItems="center" spacing={2}>
-          {dummy.map(x => {
+          {services.map((x: ServiceRequest, index: number) => {
             return (
-              <Grid item key={x}>
+              <Grid item key={index}>
                 <ServiceCard
-                  viewDetails={() => {
+                  details={x}
+                  toggleViewDetails={() => {
                     setShowDetail(!showDetail);
                   }}
                 />
@@ -27,6 +37,53 @@ export default function ServiceDetailComponent() {
             );
           })}
         </Grid>
+        {!!cartItems.length && (
+          <Box className={style['checkout-container']}>
+            <Grid
+              container
+              justifyContent="space-between"
+              alignItems="center"
+              flexWrap="nowrap"
+              paddingX="16px"
+              className={style['checkout-bar']}
+            >
+              <Grid
+                item
+                container
+                display="inline-flex"
+                justifyContent="start"
+                alignItems="center"
+                spacing={2}
+              >
+                <Grid item>
+                  <Typography
+                    variant="h6"
+                    component="div"
+                    textAlign="center"
+                    style={{ width: '32px', border: '1px solid' }}
+                  >
+                    {cartItems.reduce((acc, item) => {
+                      acc = acc + (item.quantity ?? 1);
+                      return acc;
+                    }, 0)}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography variant="h6">
+                    {cartItems.reduce((acc, item) => {
+                      const total = (item.quantity ?? 1) * item.price;
+                      acc = acc + total;
+                      return acc;
+                    }, 0)}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Typography variant="h6">Continue</Typography>
+              </Grid>
+            </Grid>
+          </Box>
+        )}
       </Main>
       <Drawer
         sx={{
@@ -47,30 +104,6 @@ export default function ServiceDetailComponent() {
         </Container>
       </Drawer>
     </div>
-    // <div style={{ position: 'fixed', width: '100%', bottom: 0, zIndex: 100 }}>
-    //   <AppBar position="static" color="inherit">
-    //     <Toolbar>
-    //       <Button
-    //         variant="contained"
-    //         color="primary"
-    //         style={{ flexGrow: 2 }}
-    //         onClick={() => {
-    //           setShowCheckout(!showCheckout);
-    //         }}
-    //       >
-    //         Checkout
-    //       </Button>
-    //       {showCheckout ? (
-    //         <CheckOut
-    //           open={showCheckout}
-    //           onClose={() => {
-    //             setShowCheckout(!showCheckout);
-    //           }}
-    //         />
-    //       ) : null}
-    //     </Toolbar>
-    //   </AppBar>
-    // </div>
   );
 }
 

@@ -30,7 +30,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { useAppDispatch } from '../../../store';
+import { useAppDispatch, useAppSelector } from '../../../store';
 import { authSelector } from '../../../store/slices';
 import { AuthThunks } from '../../../store/thunks';
 
@@ -162,19 +162,23 @@ const MyAvatar: React.FC = props => {
   const dispatch = useAppDispatch();
   const open = Boolean(anchorEl);
   const history = useHistory();
+  const authState = useAppSelector(authSelector);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   return (
     <>
-      <Tooltip title="Account settings">
+      <Tooltip title={authState.user?.fullName}>
         <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-          <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+          <Avatar sx={{ width: 32, height: 32 }}>
+            {authState.user?.fullName?.[0].toUpperCase()}
+          </Avatar>
         </IconButton>
       </Tooltip>
       <Menu

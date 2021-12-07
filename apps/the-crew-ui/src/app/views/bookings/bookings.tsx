@@ -13,10 +13,10 @@ export default function MyBookings() {
 
   return (
     <div className={style.bookingRoot}>
-      <Typography className={style.myBookingsHeader} variant="h5">
+      <Typography variant="h5" textAlign="center">
         My Bookings
       </Typography>
-      <div className={style.bookingsButtonGroup}>
+      <div style={{textAlign: 'center'}}>
         <ButtonGroup variant="outlined" color="primary">
           <Button
             variant={onGoing ? 'contained' : 'outlined'}
@@ -40,19 +40,17 @@ export default function MyBookings() {
           </Button>
         </ButtonGroup>
       </div>
-      <div className={style.bookingsGrid}>
-        <Grid container spacing={1}>
-          <Grid item>
-            <BookingCard />
-          </Grid>
-          <Grid item>
-            <BookingCard />
-          </Grid>
-          <Grid item>
-            <BookingCard />
-          </Grid>
+      <Grid container spacing={1} justifyContent="center" alignItems="center">
+        <Grid item>
+          <BookingCard />
         </Grid>
-      </div>
+        <Grid item>
+          <BookingCard />
+        </Grid>
+        <Grid item>
+          <BookingCard />
+        </Grid>
+      </Grid>
     </div>
   );
 }

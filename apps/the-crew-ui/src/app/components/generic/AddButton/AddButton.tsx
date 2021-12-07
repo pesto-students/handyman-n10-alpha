@@ -1,15 +1,23 @@
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function AddButton() {
+interface IAddButton {
+  onAdd?: (count) => void;
+  onRemove?: (count) => void;
+}
+
+const AddButton: React.FC<IAddButton> = props => {
   const [count, setCount] = useState(0);
+
   return (
     <ButtonGroup disableElevation variant="outlined" color="primary">
       {count !== 0 ? (
         <Button
           onClick={() => {
-            setCount(count - 1);
+            const _count = count - 1;
+            setCount(_count);
+            props.onRemove(_count);
           }}
           variant="contained"
         >
@@ -19,7 +27,9 @@ export default function AddButton() {
       <Button>{count === 0 ? 'Add' : count}</Button>
       <Button
         onClick={() => {
-          setCount(count + 1);
+          const _count = count + 1;
+          setCount(_count);
+          props.onAdd(_count);
         }}
         variant={count !== 0 ? 'contained' : 'outlined'}
       >
@@ -27,4 +37,6 @@ export default function AddButton() {
       </Button>
     </ButtonGroup>
   );
-}
+};
+
+export default AddButton;

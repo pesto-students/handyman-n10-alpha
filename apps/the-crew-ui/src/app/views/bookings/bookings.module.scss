@@ -1,25 +1,11 @@
 @use '../../theme/mixins' as mixin;
 
 .bookingRoot {
+  padding: 16px;
   width: 100%;
   background-color: #fff;
   @include mixin.fxFlex();
   @include mixin.fxLayout(column);
   @include mixin.fxLayoutAlign(start, center);
   @include mixin.fxLayoutGap(16px);
-}
-
-.myBookingsHeader {
-  margin-top: 40px;
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.bookingsButtonGroup {
-  margin-top: 8px;
-  text-align: center;
-}
-
-.bookingsGrid {
-  margin: 64px 112px 0 112px;
 }

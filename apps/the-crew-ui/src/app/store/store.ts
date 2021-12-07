@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { authReducer, serviceReducer } from './slices';
+import { authReducer, cartReducer, serviceReducer } from './slices';
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     services: serviceReducer,
+    cart: cartReducer,
   },
   // middleware: getDefaultMiddleware => getDefaultMiddleware().concat(authApi.middleware), this one is only for RTK Query
 });

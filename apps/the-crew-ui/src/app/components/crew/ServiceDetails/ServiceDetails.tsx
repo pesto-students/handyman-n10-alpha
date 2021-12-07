@@ -9,12 +9,14 @@ import {
   Slide,
   Typography,
 } from '@mui/material';
+import { ServiceRequest } from '@the-crew/common';
 
 import FAQsComponent from '../Faqs/Faqs';
 import RatingChart from '../RatingChart/RatingChart';
 import ReviewComponent from '../Review/Review';
 
 interface IServiceDetails {
+  details?: ServiceRequest;
   toggleDrawer?: () => void;
 }
 
