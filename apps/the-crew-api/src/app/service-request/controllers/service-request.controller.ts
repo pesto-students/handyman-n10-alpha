@@ -20,17 +20,26 @@ import { ServiceRequestService } from '../services';
   },
   query: {
     alwaysPaginate: true,
+    join: {
+      provider: {
+        eager: false,
+      },
+      'provider.addresses': {
+        eager: false,
+      },
+      reviews: {
+        eager: false,
+      },
+    },
   },
   routes: {
-    exclude: [],
-    createManyBase: {
+    createOneBase: {
       decorators: [UseGuards(JwtAuthGuard)],
     },
   },
 })
 @UseInterceptors(ClassSerializerInterceptor)
-//@UseGuards(JwtAuthGuard)
-@ApiTags('services')
+@ApiTags('Service Requests')
 @Controller('services')
 export class ServiceRequestController implements CrudController<ServiceRequest> {
   constructor(public readonly service: ServiceRequestService) {}

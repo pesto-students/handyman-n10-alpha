@@ -14,18 +14,4 @@ export class ServiceRequestService extends TypeOrmCrudService<ServiceRequest> {
   ) {
     super(ServiceRequestRepo);
   }
-
-  /**
-   * @param serviceRequestDto ServiceRequestDTO
-   * @returns ServiceRequest
-   */
-  public async saveService(serviceRequestDto: Partial<ServiceRequest>) {
-    const serviceRequest = this.ServiceRequestRepo.create(serviceRequestDto);
-    return this.ServiceRequestRepo.save(serviceRequest);
-  }
-
-  public async GetAllServices() {
-    const result = this.ServiceRequestRepo.find();
-    return result;
-  }
 }

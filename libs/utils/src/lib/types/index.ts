@@ -4,6 +4,6 @@ export * from './user.types';
 export * from './user-address.type';
 export * from './util.types';
 export * from './service-request.type';
-export * from './ratings.types';
+export * from './review.types';
 export * from './orders.type';
 export * from './sub-order.type';

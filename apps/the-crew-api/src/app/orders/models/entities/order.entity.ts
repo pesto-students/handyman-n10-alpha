@@ -9,9 +9,9 @@ import {
   RelationId,
 } from 'typeorm';
 
-import { SubOrderEntity } from '.';
 import { OwnerTimestampEntity } from '../../../core/models/entities';
 import { UserEntity } from '../../../user/models/entities';
+import { SubOrderEntity } from './sub-order.entity';
 
 @Entity({
   name: 'orders',
@@ -21,15 +21,15 @@ export class OrderEntity extends OwnerTimestampEntity implements IOrder {
   id: uuid;
 
   @OneToMany(() => SubOrderEntity, subOrder => subOrder.orderId)
-  subOrders: SubOrder[];
+  subOrders?: SubOrder[];
 
   @RelationId((order: IOrder) => order.subOrders)
   subOrderIds: uuid[];
 
-  @Column({ type: 'uuid' })
-  consumerId: uuid;
-
   @ManyToOne(() => UserEntity, { nullable: false })
   @JoinColumn({ name: 'consumer_id', referencedColumnName: 'id' })
-  consumer: User;
+  consumer?: User;
+
+  @Column({ type: 'uuid' })
+  consumerId: uuid;
 }

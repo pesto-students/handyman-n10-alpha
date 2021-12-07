@@ -1,8 +1,8 @@
-import { IServiceRequest, ServiceRequestType, SubOrder, User, uuid } from '@the-crew/common';
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { IServiceRequest, Review, ServiceRequestType, User, uuid } from '@the-crew/common';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 
 import { OwnerTimestampEntity } from '../../../core/models/entities';
-import { SubOrderEntity } from '../../../orders/models/entities';
+import { ReviewEntity } from '../../../rating/models/entities';
 import { UserEntity } from '../../../user/models/entities';
 
 @Entity({
@@ -18,21 +18,23 @@ export class ServiceRequestEntity extends OwnerTimestampEntity implements IServi
   })
   type: ServiceRequestType[];
 
-  @Column({})
+  @Column()
   title: string;
 
-  @Column({})
+  @Column()
   description: string;
 
   @Column({
     type: 'text',
     array: true,
+    default: [],
   })
   included: string[];
 
   @Column({
     type: 'text',
     array: true,
+    default: [],
   })
   excluded: string[];
 
@@ -45,6 +47,9 @@ export class ServiceRequestEntity extends OwnerTimestampEntity implements IServi
   @Column({ type: 'uuid' })
   providerId: uuid;
 
-  @OneToMany(() => SubOrderEntity, subOrder => subOrder.serviceId)
-  subOrders: SubOrder[];
+  @OneToMany(() => ReviewEntity, review => review.service)
+  reviews: Review[];
+
+  @RelationId((service: ServiceRequestEntity) => service.reviews)
+  reviewIds: uuid[];
 }

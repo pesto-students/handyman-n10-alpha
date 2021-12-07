@@ -1,7 +1,6 @@
 import { Type } from 'class-transformer';
 import {
   IsDate,
-  // IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -9,14 +8,10 @@ import {
   IsString,
   IsUUID,
   ValidateNested,
-  //   IsArray
 } from 'class-validator';
 
-import { User } from '.';
-import { ServiceRequest } from '.';
-
-// import { ServiceRequestType } from '../enums';
-import { uuid, IReview } from '../types';
+import { ServiceRequest, User } from '.';
+import { IReview, uuid } from '../types';
 
 export class Review implements IReview {
   @IsUUID()
@@ -41,10 +36,10 @@ export class Review implements IReview {
   @ValidateNested()
   @Type(() => ServiceRequest)
   @IsOptional()
-  serviceRequest?: ServiceRequest;
+  service?: ServiceRequest;
 
   @IsUUID()
-  serviceRequestId: uuid;
+  serviceId: uuid;
 
   @IsDate()
   createdOn: Date;

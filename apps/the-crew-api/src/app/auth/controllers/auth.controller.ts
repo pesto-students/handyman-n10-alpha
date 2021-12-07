@@ -20,7 +20,7 @@ import { JwtAuthGuard, LocalAuthGuard } from '../guards';
 import { RefreshTokenDTO } from '../models/dto';
 import { AuthService } from '../services';
 
-@ApiTags('auth')
+@ApiTags('Authentication/Authorization')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

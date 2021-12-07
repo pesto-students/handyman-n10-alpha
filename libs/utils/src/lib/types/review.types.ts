@@ -1,4 +1,4 @@
-import { IOwnerTimestamp, IUser } from '.';
+import { IOwnerTimestamp, IServiceRequest, IUser } from '.';
 import { uuid } from './util.types';
 
 export interface IReview extends IOwnerTimestamp {
@@ -7,4 +7,6 @@ export interface IReview extends IOwnerTimestamp {
   comment: string;
   reviewer?: IUser;
   reviewerId: uuid;
+  service?: IServiceRequest;
+  serviceId: uuid;
 }

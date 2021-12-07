@@ -47,13 +47,13 @@ export class ServiceRequest implements IServiceRequest {
   @IsUUID()
   providerId: uuid;
 
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => Review)
   @IsOptional()
-  rating?: Review;
+  reviews?: Review[];
 
-  @IsUUID()
-  ratingId: uuid;
+  @IsUUID('all', { each: true })
+  reviewIds: uuid[];
 
   @IsDate()
   createdOn: Date;

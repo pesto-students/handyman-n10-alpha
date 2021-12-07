@@ -23,12 +23,16 @@ async function bootstrap() {
   });
   app.use(cookieParser(authConfig.cookieSecrets));
 
-  const config = new DocumentBuilder().setTitle('The Crew').setVersion('1.0.0').build();
+  const globalPrefix = 'api';
+  app.setGlobalPrefix(globalPrefix);
+
+  const config = new DocumentBuilder()
+    .setTitle('The Crew')
+    .setVersion('1.0.0')
+    .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('explorer', app, document);
 
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
   const port = process.env.NX_PORT || 3333;
 
   await app.listen(port, () => {

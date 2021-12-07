@@ -29,10 +29,12 @@ const config: ConnectionOptions[] = [
     username: process.env.NX_TYPEORM_USERNAME,
     password: process.env.NX_TYPEORM_PWD,
     database: process.env.NX_TYPEORM_DB,
+    entities: ['apps/the-crew-api/src/**/*.entity.ts'],
     migrations: ['apps/the-crew-api/src/migrations/seed/*.ts'],
     cli: {
       migrationsDir: 'apps/the-crew-api/src/migrations/seed',
     },
+    namingStrategy: new SnakeNamingStrategy(),
     ssl: {
       rejectUnauthorized: false,
     },

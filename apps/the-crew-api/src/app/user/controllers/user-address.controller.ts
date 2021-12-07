@@ -26,7 +26,7 @@ import { UserAddressService } from '../services';
   },
 })
 @UseGuards(JwtAuthGuard)
-@ApiTags('user-addresses')
+@ApiTags('User Addresses')
 @Controller('user-addresses')
 export class UserAddressController implements CrudController<UserAddress> {
   constructor(public readonly service: UserAddressService) {}

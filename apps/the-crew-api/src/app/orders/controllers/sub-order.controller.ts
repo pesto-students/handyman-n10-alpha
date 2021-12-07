@@ -24,8 +24,8 @@ import { SubOrderService } from '../services';
 })
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(JwtAuthGuard)
-@ApiTags('subOrders')
-@Controller('subOrders')
+@ApiTags('Sub Orders')
+@Controller('sub-orders')
 export class SubOrderController implements CrudController<SubOrder> {
   constructor(public readonly service: SubOrderService) {}
 }

@@ -1,10 +1,4 @@
-import {
-  ClassSerializerInterceptor,
-  Controller,
-  Get,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { ClassSerializerInterceptor, Controller, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { User } from '@the-crew/common';
@@ -33,14 +27,8 @@ import { UserService } from '../services';
 })
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(JwtAuthGuard)
-@ApiTags('users')
+@ApiTags('Users')
 @Controller('users')
 export class UserController implements CrudController<User> {
   constructor(public readonly service: UserService) {}
-
-  @Get('logout')
-  async logout() {
-    console.log('Users controller....');
-    return this.service.GetUsers();
-  }
 }
