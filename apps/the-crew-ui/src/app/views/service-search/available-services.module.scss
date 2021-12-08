@@ -1,0 +1,14 @@
+.availableServicesRoot {
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.availableServicesGridItem :hover {
+  //   display: flex;
+  //   flex-direction: column;
+  //   width: 152px;
+  //   margin: 4px;
+  background-color: lightgrey;
+  cursor: pointer;
+}
