@@ -3,12 +3,13 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import { useState, useEffect } from 'react';
 
 interface IAddButton {
+  count?: number;
   onAdd?: (count) => void;
   onRemove?: (count) => void;
 }
 
 const AddButton: React.FC<IAddButton> = props => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(props.count ?? 0);
 
   return (
     <ButtonGroup disableElevation variant="outlined" color="primary">

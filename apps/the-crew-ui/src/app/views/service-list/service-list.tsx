@@ -2,6 +2,7 @@ import { Box, Container, Drawer, Grid, styled, Typography } from '@mui/material'
 import { ServiceRequest } from '@the-crew/common';
 import { useEffect, useState } from 'react';
 
+import { CheckOut } from '..';
 import { ServiceCard, ServiceDetail } from '../../components';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { cartSelectors, serviceSelectors } from '../../store/slices';
@@ -12,7 +13,9 @@ const drawerWidth = 600;
 
 export default function ServiceDetailComponent() {
   const dispatch = useAppDispatch();
+  const [selectedService, setSelectedService] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
   const services = useAppSelector(state => serviceSelectors.selectAll(state.services));
   const cartItems = useAppSelector(state => cartSelectors.selectAll(state.cart));
 
@@ -24,13 +27,14 @@ export default function ServiceDetailComponent() {
     <div className={style.service_list_container}>
       <Main open={showDetail}>
         <Grid container justifyContent="center" alignItems="center" spacing={2}>
-          {services.map((x: ServiceRequest, index: number) => {
+          {services.map((service: ServiceRequest, index: number) => {
             return (
               <Grid item key={index}>
                 <ServiceCard
-                  details={x}
+                  data={service}
                   toggleViewDetails={() => {
                     setShowDetail(!showDetail);
+                    setSelectedService(service);
                   }}
                 />
               </Grid>
@@ -46,6 +50,9 @@ export default function ServiceDetailComponent() {
               flexWrap="nowrap"
               paddingX="16px"
               className={style['checkout-bar']}
+              onClick={() => {
+                setShowCheckout(true);
+              }}
             >
               <Grid
                 item
@@ -100,9 +107,16 @@ export default function ServiceDetailComponent() {
         open={showDetail}
       >
         <Container sx={{ padding: '16px', width: '100%', marginTop: '64px' }}>
-          <ServiceDetail toggleDrawer={() => setShowDetail(!showDetail)} />
+          <ServiceDetail
+            data={selectedService}
+            toggleDrawer={() => {
+              setShowDetail(!showDetail);
+              setSelectedService(null);
+            }}
+          />
         </Container>
       </Drawer>
+      {showCheckout && <CheckOut open={showCheckout} onClose={() => setShowCheckout(false)} />}
     </div>
   );
 }

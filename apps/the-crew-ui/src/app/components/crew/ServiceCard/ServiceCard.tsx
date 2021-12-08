@@ -13,13 +13,13 @@ import {
 import { ServiceRequest } from '@the-crew/common';
 import { useCallback } from 'react';
 
-import { useAppDispatch } from '../../../store';
-import { cartActions } from '../../../store/slices';
+import { useAppDispatch, useAppSelector } from '../../../store';
+import { cartActions, cartSelectors } from '../../../store/slices';
 import { AddButton } from '../../generic';
 import style from './serviceCard.module.scss';
 
 interface IServiceCard {
-  details: ServiceRequest;
+  data: ServiceRequest;
   /**
    * Callback to view service details
    */
@@ -28,36 +28,37 @@ interface IServiceCard {
 
 export const ServiceCard: React.FC<IServiceCard> = props => {
   const dispatch = useAppDispatch();
+  const cartItem = useAppSelector(state => cartSelectors.selectById(state.cart, props.data.id));
 
   const onServiceAdd = (count: number) => {
     if (count) {
       if (count === 1) {
-        dispatch(cartActions.addItem({ ...props.details, quantity: 1 }));
+        dispatch(cartActions.addItem({ ...props.data, quantity: 1 }));
       } else {
-        dispatch(cartActions.addQuantity({ id: props.details.id, changes: { quantity: count } }));
+        dispatch(cartActions.addQuantity({ id: props.data.id, changes: { quantity: count } }));
       }
     }
   };
 
   const onServiceRemove = (count: number) => {
     if (!count) {
-      dispatch(cartActions.removeItem(props.details.id));
+      dispatch(cartActions.removeItem(props.data.id));
     } else {
-      dispatch(cartActions.removeQuantity({ id: props.details.id, changes: { quantity: count } }));
+      dispatch(cartActions.removeQuantity({ id: props.data.id, changes: { quantity: count } }));
     }
   };
 
   const getRatings = useCallback(() => {
-    if (props.details.reviewIds.length) {
+    if (props.data.reviewIds.length) {
       return (
-        props.details?.reviews.reduce((acc, item) => {
+        props.data?.reviews.reduce((acc, item) => {
           acc += item.rating;
           return acc;
-        }, 0) / props.details.reviewIds.length
+        }, 0) / props.data.reviewIds.length
       );
     }
     return 0;
-  }, [props.details]);
+  }, [props.data]);
 
   return (
     <Slide direction="up" in={true} timeout={1000}>
@@ -67,13 +68,13 @@ export const ServiceCard: React.FC<IServiceCard> = props => {
             <CardMedia
               className={style.media}
               image="https://res.cloudinary.com/urbanclap/image/upload/t_medium_res_template,q_30/images/supply/customer-app-supply/1634118672958-fb2d33.png"
-              title={props.details.title}
+              title={props.data.title}
             />
           </Grid>
           <Grid item xs={8}>
             <Grid container spacing={3}>
               <Grid item xs={6}>
-                <Typography variant="h6">{props.details.title}</Typography>
+                <Typography variant="h6">{props.data.title}</Typography>
                 <Grid
                   container
                   item
@@ -93,9 +94,9 @@ export const ServiceCard: React.FC<IServiceCard> = props => {
                   </Grid>
                 </Grid>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  30.5k ratings
+                  30.5k ratings (//TODO)
                 </Typography>
-                <Typography variant="subtitle1">₹ {props.details.price}</Typography>
+                <Typography variant="subtitle1">₹ {props.data.price}</Typography>
               </Grid>
               <Grid
                 item
@@ -104,7 +105,11 @@ export const ServiceCard: React.FC<IServiceCard> = props => {
                 alignItems="flex-start"
                 style={{ display: 'flex' }}
               >
-                <AddButton onAdd={onServiceAdd} onRemove={onServiceRemove} />
+                <AddButton
+                  count={cartItem?.quantity ?? 0}
+                  onAdd={onServiceAdd}
+                  onRemove={onServiceRemove}
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -112,7 +117,7 @@ export const ServiceCard: React.FC<IServiceCard> = props => {
         <CardContent style={{ padding: 0 }}>
           <Divider />
           <ul>
-            {props.details.description.split(/[\r\n]+/g).map((point, index) => {
+            {props.data.description.split(/[\r\n]+/g).map((point, index) => {
               return (
                 <li key={index}>
                   <Typography variant="body2" color="textSecondary" component="p">

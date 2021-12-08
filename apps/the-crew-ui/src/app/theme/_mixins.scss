@@ -25,3 +25,10 @@
     margin-bottom: $gap;
   }
 }
+
+@mixin ellipsis($max-width) {
+  max-width: $max-width;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

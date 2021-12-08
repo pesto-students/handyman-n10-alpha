@@ -1,10 +1,10 @@
+import { Star } from '@mui/icons-material';
 import Rating from '@mui/lab/Rating';
 import { Box } from '@mui/material';
-import style from './ratingBar.module.scss';
-import { Star } from '@mui/icons-material';
-
 import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
+
+import style from './RatingBar.module.scss';
 
 const labels: { [index: string]: string } = {
   0.5: 'Useless',
@@ -19,11 +19,6 @@ const labels: { [index: string]: string } = {
   5: 'Excellent+',
 };
 const useStyles = makeStyles({
-  root: {
-    width: 200,
-    display: 'flex',
-    alignItems: 'center',
-  },
   'icon-1': { color: 'red' },
   'icon-2': { color: 'coral' },
   'icon-3': { color: 'orange' },
@@ -58,7 +53,9 @@ export default function HoverRating(props: RatingProps) {
           setHover(newHover);
         }}
         icon={<Star fontSize="inherit" />}
-        size="large"
+        sx={{
+          fontSize: '48px',
+        }}
       />
       {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
     </div>

@@ -1,3 +1,16 @@
+@use '../../theme/mixins' as mixin;
+
+.dialog-header {
+  @include mixin.fxLayout();
+  @include mixin.fxLayoutAlign(space-between, center);
+}
+
+.dialog-content {
+  padding: 16px;
+  @include mixin.fxLayout(column);
+  @include mixin.fxLayoutGap(16px);
+}
+
 .dialogTitle {
   margin: 0;
   padding: 16px;
@@ -5,15 +18,9 @@
   color: white;
 }
 
-.closeIcon {
-  position: absolute;
-  right: 8px;
-}
-
 .dividerThick {
-  height: 16px;
+  height: 2px;
   background-color: lightgray;
-  margin: 16px;
 }
 
 .itemSummaryRoot {

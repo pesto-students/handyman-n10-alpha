@@ -1,11 +1,13 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ServiceRequest } from '@the-crew/common';
 
 const serviceAdapter = createEntityAdapter<ServiceRequest>();
 
 const serviceSlice = createSlice({
   name: 'services',
-  initialState: serviceAdapter.getInitialState(),
+  initialState: serviceAdapter.getInitialState({
+    loading: false,
+  }),
   reducers: {
     addServices: serviceAdapter.addMany,
     clearServices: serviceAdapter.removeAll,
@@ -13,6 +15,9 @@ const serviceSlice = createSlice({
     updateService: serviceAdapter.updateOne,
     replaceService: serviceAdapter.setOne,
     removeService: serviceAdapter.removeOne,
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
   },
 });
 

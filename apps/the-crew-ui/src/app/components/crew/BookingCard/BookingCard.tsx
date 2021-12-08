@@ -1,12 +1,12 @@
-import { Comment, StarRate } from '@mui/icons-material';
+import { Close, StarRate } from '@mui/icons-material';
 import {
   Avatar,
   Button,
   Divider,
+  Grid,
   IconButton,
-  InputAdornment,
   OutlinedInput,
-  Paper,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { Formik } from 'formik';
@@ -14,11 +14,11 @@ import { useState } from 'react';
 import Flippy, { BackSide, FrontSide } from 'react-flippy';
 
 import { StatusColours } from '../../../enums';
-import HoverRating from '../RatingBar';
+import HoverRating from '../RatingBar/RatingBar';
 import style from './BookingCard.module.scss';
 
 export default function BookingCard() {
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isFlipped, setFlipped] = useState(false);
   return (
     <Flippy flipOnClick={false} isFlipped={isFlipped} className={style.bookingServiceCard}>
       <FrontSide>
@@ -81,7 +81,7 @@ export default function BookingCard() {
             variant="contained"
             color="primary"
             onClick={() => {
-              setIsFlipped(!isFlipped);
+              setFlipped(!isFlipped);
             }}
           >
             Rate Now
@@ -90,66 +90,66 @@ export default function BookingCard() {
         {/* </Paper> */}
       </FrontSide>
       <BackSide className={style.bookingServiceCard}>
-        {/* <Paper variant="outlined" className={style.bookingServiceCard}> */}
-        <div style={{ height: '100%' }}>
-          <Formik
-            initialValues={{ rating: 1, comment: '' }}
-            onSubmit={values => {
-              console.log('rating saved ' + values.rating);
-              setIsFlipped(!isFlipped);
-            }}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => (
-              <form
-                className={style.rating}
-                noValidate
-                onSubmit={evt => {
-                  evt.preventDefault();
-                  handleSubmit();
-                }}
-              >
-                <HoverRating
-                  name="rating"
-                  onChange={(val: number) => {
-                    values.rating = val;
+        <Grid container flexDirection="column" style={{ height: '100%' }}>
+          <Grid item alignSelf="flex-end">
+            <Tooltip title="Close">
+              <IconButton onClick={() => setFlipped(!isFlipped)}>
+                <Close fontSize="medium" />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+          <Grid item flex={1}>
+            <Formik
+              initialValues={{ rating: 1, comment: '' }}
+              onSubmit={values => {
+                console.log('rating saved ' + values.rating);
+                setFlipped(!isFlipped);
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+              }) => (
+                <form
+                  className={style.rating}
+                  noValidate
+                  onSubmit={evt => {
+                    evt.preventDefault();
+                    handleSubmit();
                   }}
-                />
-
-                <OutlinedInput
-                  fullWidth
-                  multiline
-                  maxRows={5}
-                  name="comment"
-                  placeholder="Add a comment"
-                  autoFocus={true}
-                  type="text"
-                  value={values.comment}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton edge="end">
-                        <Comment />
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-                <Button variant="contained" type="submit" color="primary">
-                  Save
-                </Button>
-              </form>
-            )}
-          </Formik>
-        </div>
-        {/* </Paper> */}
+                >
+                  <HoverRating
+                    name="rating"
+                    onChange={(val: number) => {
+                      values.rating = val;
+                    }}
+                  />
+                  <OutlinedInput
+                    fullWidth
+                    multiline
+                    rows={5}
+                    maxRows={5}
+                    name="comment"
+                    placeholder="Add a comment"
+                    autoFocus={true}
+                    type="text"
+                    value={values.comment}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <Button variant="contained" type="submit" color="primary">
+                    Save
+                  </Button>
+                </form>
+              )}
+            </Formik>
+          </Grid>
+        </Grid>
       </BackSide>
     </Flippy>
   );
