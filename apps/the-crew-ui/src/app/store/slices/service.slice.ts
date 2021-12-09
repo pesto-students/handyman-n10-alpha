@@ -9,7 +9,7 @@ const serviceSlice = createSlice({
     loading: false,
   }),
   reducers: {
-    addServices: serviceAdapter.addMany,
+    addServices: serviceAdapter.setMany,
     clearServices: serviceAdapter.removeAll,
     addService: serviceAdapter.addOne,
     updateService: serviceAdapter.updateOne,

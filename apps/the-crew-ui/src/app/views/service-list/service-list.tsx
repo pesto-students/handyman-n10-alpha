@@ -1,17 +1,23 @@
 import { Box, Container, Drawer, Grid, styled, Typography } from '@mui/material';
 import { ServiceRequest } from '@the-crew/common';
+import { ServiceLocation, ServiceRequestType } from '@the-crew/common/enums';
 import { useEffect, useState } from 'react';
 
-import { CheckOut } from '..';
 import { ServiceCard, ServiceDetail } from '../../components';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { cartSelectors, serviceSelectors } from '../../store/slices';
 import { serviceThunks } from '../../store/thunks';
+import { CheckOut } from '../checkout';
 import style from './service-list.module.scss';
 
 const drawerWidth = 600;
 
-export default function ServiceDetailComponent() {
+interface IServiceList {
+  location: ServiceLocation | string;
+  professionType: ServiceRequestType;
+}
+
+const ServiceList: React.FC<IServiceList> = props => {
   const dispatch = useAppDispatch();
   const [selectedService, setSelectedService] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
@@ -20,8 +26,19 @@ export default function ServiceDetailComponent() {
   const cartItems = useAppSelector(state => cartSelectors.selectAll(state.cart));
 
   useEffect(() => {
-    dispatch(serviceThunks.getServices({ join: [{ field: 'provider' }, { field: 'reviews' }] }));
-  }, [dispatch]);
+    dispatch(
+      serviceThunks.getServices({
+        join: [{ field: 'provider' }, { field: 'reviews' }],
+        filter: [
+          {
+            field: 'type',
+            operator: '$in',
+            value: `{${props.professionType}}`,
+          },
+        ],
+      }),
+    );
+  }, [dispatch, props.location, props.professionType]);
 
   return (
     <div className={style.service_list_container}>
@@ -119,7 +136,7 @@ export default function ServiceDetailComponent() {
       {showCheckout && <CheckOut open={showCheckout} onClose={() => setShowCheckout(false)} />}
     </div>
   );
-}
+};
 
 const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })<{
   open?: boolean;
@@ -140,3 +157,5 @@ const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })<{
     marginRight: 0,
   }),
 }));
+
+export default ServiceList;

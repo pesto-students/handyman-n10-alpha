@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@the-crew/common": ["libs/utils/src/index.ts"]
+      "@the-crew/common": ["libs/utils/src/index.ts"],
+      "@the-crew/common/*": ["libs/utils/src/lib/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

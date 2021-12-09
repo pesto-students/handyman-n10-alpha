@@ -174,7 +174,7 @@ const MyAvatar: React.FC = props => {
 
   return (
     <>
-      <Tooltip title={authState.user?.fullName}>
+      <Tooltip title={authState.user?.fullName ?? ''}>
         <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
           <Avatar sx={{ width: 32, height: 32 }}>
             {authState.user?.fullName?.[0].toUpperCase()}

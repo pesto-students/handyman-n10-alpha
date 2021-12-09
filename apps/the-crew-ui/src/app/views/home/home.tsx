@@ -1,32 +1,32 @@
 import './homeStyles.scss';
 
-import { TextField, Slide } from '@mui/material';
 import { Autocomplete } from '@mui/lab';
+import { Slide, TextField } from '@mui/material';
+import { ServiceLocation } from '@the-crew/common/enums';
+import { useHistory } from 'react-router';
 
-import assured from '../../../assets/images/home/assured.png';
-import equipment from '../../../assets/images/home/equipment.png';
-import home from '../../../assets/images/home/home.jpeg';
-import person from '../../../assets/images/home/person.png';
-import price from '../../../assets/images/home/price.png';
+import { assured, equipment, home, person, price } from '../../../assets/images/home';
+
+const whyTheCrewContent = [
+  {
+    img: price,
+    heading: 'Transparent pricing',
+    desc: 'See fixed prices before you book. No hidden charges.',
+  },
+  {
+    img: person,
+    heading: 'Experts only',
+    desc: 'Our professionals are well trained and have on-job expertise.',
+  },
+  {
+    img: equipment,
+    heading: 'Fully equipped',
+    desc: 'We bring everything needed to get the job done well.',
+  },
+];
 
 export default function Home() {
-  const whyTheCrewContent = [
-    {
-      img: price,
-      heading: 'Transparent pricing',
-      desc: 'See fixed prices before you book. No hidden charges.',
-    },
-    {
-      img: person,
-      heading: 'Experts only',
-      desc: 'Our professionals are well trained and have on-job expertise.',
-    },
-    {
-      img: equipment,
-      heading: 'Fully equipped',
-      desc: 'We bring everything needed to get the job done well.',
-    },
-  ];
+  const history = useHistory();
 
   const renderWhyTheCrewHtml = () => {
     return (
@@ -69,14 +69,7 @@ export default function Home() {
                 <div className="homeScreenAutoSearchDiv">
                   <p>Where do you need a service?</p>
                   <Autocomplete
-                    id="combo-box-demo"
-                    options={[
-                      { city: 'Bangalore' },
-                      { city: 'Delhi' },
-                      { city: 'Chandigarh' },
-                      { city: 'Jaipur' },
-                      { city: 'Visakhapatnam' },
-                    ]}
+                    options={Object.values(ServiceLocation).map(city => ({ city }))}
                     getOptionLabel={option => option.city}
                     style={{ width: 300, overflow: 'hidden' }}
                     renderInput={params => (
@@ -87,6 +80,12 @@ export default function Home() {
                         variant="outlined"
                       />
                     )}
+                    onChange={(evt, value: { city: ServiceLocation }) => {
+                      history.push({
+                        pathname: 'search',
+                        search: `city=${value.city}`,
+                      });
+                    }}
                   />
                 </div>
               </div>

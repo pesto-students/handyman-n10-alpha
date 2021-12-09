@@ -1,4 +1,3 @@
-import { OrderStatus } from '@the-crew/common';
 import { Type } from 'class-transformer';
 import {
   IsDate,
@@ -11,6 +10,7 @@ import {
 } from 'class-validator';
 
 import { Order, Review, ServiceRequest } from '.';
+import { OrderStatus } from '../enums';
 import { ISubOrder, uuid } from '../types';
 
 export class SubOrder implements ISubOrder {

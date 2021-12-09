@@ -1,5 +1,5 @@
-import { ISubOrder, IUser } from '@the-crew/common';
 import { IOwnerTimestamp } from '.';
+import { ISubOrder, IUser } from '../types';
 import { uuid } from './util.types';
 
 export interface IOrder extends IOwnerTimestamp {

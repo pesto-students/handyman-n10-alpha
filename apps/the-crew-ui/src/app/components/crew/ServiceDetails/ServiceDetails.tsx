@@ -46,7 +46,7 @@ const ServiceDetail: React.FC<IServiceDetails> = props => {
     <Slide direction="right" in={true} timeout={1000}>
       <Grid container flexDirection="column" style={{ width: '100%' }} spacing={2}>
         <Grid item container flexDirection="row" justifyContent="space-between" alignItems="center">
-          <Tooltip title={service.title}>
+          <Tooltip title={service.title ?? ''}>
             <Typography variant="h6" className={style['service-title']}>
               {service.title}
             </Typography>
@@ -80,7 +80,7 @@ const ServiceDetail: React.FC<IServiceDetails> = props => {
           </Grid>
           <Grid item>
             <Typography variant="body2" color="textSecondary" component="p">
-              30.5k ratings (//TODO)
+              {props.data?.reviewIds.length} ratings
             </Typography>
           </Grid>
           <Grid item>

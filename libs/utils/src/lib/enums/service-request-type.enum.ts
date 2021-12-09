@@ -1,5 +1,9 @@
 export enum ServiceRequestType {
   PLUMBING = 'plumbing',
-  CARPENTING = 'carpenting',
+  CARPENTERING = 'carpentering',
   ELECTRICIAN = 'electrician',
+  SALON_FEMALE = 'salon_female',
+  SALON_MALE = 'salon_male',
+  PAINT = 'paint',
+  CLEANING = 'cleaning',
 }

@@ -7,7 +7,6 @@
 
 .searchPageHome {
   height: 552px;
-  background-color: #fff;
   text-align: center;
   position: relative;
   display: flex;
@@ -17,25 +16,26 @@
   color: #fff;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
   background-image: url('https://media.istockphoto.com/photos/young-carpenter-using-sander-while-working-on-a-piece-of-wood-picture-id1061173208?b=1&k=20&m=1061173208&s=170667a&w=0&h=4KjH0oFm9JPji5SYfHctQ_CmXTyzB5HGsRjJtHbWmFc=');
+  background-blend-mode: darken;
+  background-color: #00000070;
 }
 
 .locationDropDown {
   display: flex;
-  width: 100%;
-  height: 100%;
+  height: 56px;
   background-color: #fff;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   color: #212121;
-  border-radius: 10px;
+  border-radius: 4px;
   cursor: pointer;
+  padding: 0 8px;
 }
 
 .servicesAutoComplete {
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 
 .locationPopOver {
@@ -53,8 +53,31 @@
   display: flex;
   margin: 4px;
   width: 100%;
+  align-items: center;
 }
 
 .popOverMenuItemRoot :hover {
   background: lightgrey;
+}
+
+.availableServicesGridItem :hover {
+  background-color: lightgrey;
+  cursor: pointer;
+}
+
+.availableServices {
+  width: 50%;
+  margin: auto;
+  padding: 16px;
+  margin-top: -125px;
+  margin-bottom: 50px;
+}
+
+.serviceItem {
+  padding: 16px;
+  width: 160px !important;
+  cursor: pointer;
+  &:hover {
+    background-color: lightgrey;
+  }
 }

@@ -94,7 +94,7 @@ export const ServiceCard: React.FC<IServiceCard> = props => {
                   </Grid>
                 </Grid>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  30.5k ratings (//TODO)
+                  {props.data.reviewIds.length} ratings
                 </Typography>
                 <Typography variant="subtitle1">₹ {props.data.price}</Typography>
               </Grid>

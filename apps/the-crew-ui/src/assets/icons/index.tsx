@@ -8,6 +8,7 @@ import homePainting from './homePainting.png';
 import pestControl from './pestControl.png';
 import electricians from './electricians.jpeg';
 import plumbing from './plumbing.png';
+import carpentering from './hammer.png';
 
 export {
   salonForWomen,
@@ -20,4 +21,5 @@ export {
   pestControl,
   electricians,
   plumbing,
+  carpentering,
 };

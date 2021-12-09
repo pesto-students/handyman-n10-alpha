@@ -6,8 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import style from './app.module.scss';
 import { Footer, Header, Main, Startup } from './components';
 import store from './store';
-import { Bookings, Home, Login, NotFound404, Register, ServiceList } from './views';
-import ServiceSearch from './views/service-search/search-service';
+import { Bookings, Home, Login, NotFound404, Register, SearchService, ServiceList } from './views';
 
 export function App() {
   const theme = useTheme();
@@ -29,8 +28,7 @@ export function App() {
                 <Route path="/" exact render={() => <Home />} />
                 <Route path="/login" exact render={() => <Login />} />
                 <Route path="/register" exact render={() => <Register />} />
-                <Route path="/search" exact render={() => <ServiceSearch />} />
-                <Route path="/services" exact render={() => <ServiceList />} />
+                <Route path="/search" exact render={() => <SearchService />} />
                 <Route path="/bookings" exact render={() => <Bookings />} />
                 <Route render={() => <NotFound404 />} />
               </Switch>

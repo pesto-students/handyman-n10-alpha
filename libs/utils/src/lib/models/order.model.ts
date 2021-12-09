@@ -1,9 +1,9 @@
-import { SubOrder } from '@the-crew/common';
 import { Type } from 'class-transformer';
 import { IsDate, IsOptional, IsUUID, ValidateNested } from 'class-validator';
 
 import { User } from '.';
 import { IOrder, uuid } from '../types';
+import { SubOrder } from './sub-order.model';
 
 export class Order implements IOrder {
   @IsUUID()

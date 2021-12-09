@@ -8,6 +8,7 @@ import { serviceActions } from '../slices';
 const getServices = createAsyncThunk(
   'services/GetMany',
   async (query: CreateQueryParams = {}, { dispatch }) => {
+    dispatch(serviceActions.clearServices());
     const response = await serviceApi.getMany(query);
     dispatch(serviceActions.addServices(response.data.data));
   },

@@ -93,7 +93,7 @@ export class AddServices1638736884742 implements MigrationInterface {
       },
       {
         title: 'Clothes Ceiling Hanger Installation',
-        type: [ServiceRequestType.CARPENTING],
+        type: [ServiceRequestType.CARPENTERING],
         providerId: provider.id,
         description:
           'Includes roof drilling\nPlease provide a ladder for the technician\nPrice does not include spare part costs',
@@ -101,7 +101,7 @@ export class AddServices1638736884742 implements MigrationInterface {
       },
       {
         title: 'Bed Support Repair',
-        type: [ServiceRequestType.CARPENTING],
+        type: [ServiceRequestType.CARPENTERING],
         providerId: provider.id,
         description:
           'Includes mattress support repair\nMajor repairs or repairs requiring dismantling bed as per quotation\nPrice does not include spare part costs',
@@ -109,7 +109,7 @@ export class AddServices1638736884742 implements MigrationInterface {
       },
       {
         title: 'Wooden Door Installation',
-        type: [ServiceRequestType.CARPENTING],
+        type: [ServiceRequestType.CARPENTERING],
         providerId: provider.id,
         description:
           'Includes installation and alignment of hinges\nMain Door Installation ₹1099\nPrice does not include spare part costs',
@@ -117,7 +117,7 @@ export class AddServices1638736884742 implements MigrationInterface {
       },
       {
         title: 'Door Repair',
-        type: [ServiceRequestType.CARPENTING],
+        type: [ServiceRequestType.CARPENTERING],
         providerId: provider.id,
         description:
           'Includes wood scraping, door alignment & minor fixing\nExcludes hinge replacement, dismantling of door or door lock repairs\nMain door & damaged doors as per quotation\nExcludes hinge replacement, door dismantling or any other lock repairs.',
