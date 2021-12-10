@@ -33,6 +33,8 @@ import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { authSelector } from '../../../store/slices';
 import { AuthThunks } from '../../../store/thunks';
+import { Handyman } from '@mui/icons-material';
+import { Role } from '@the-crew/common/enums';
 
 export default function Header() {
   const [openSideMenu, setSideMenuStatus] = useState(false);
@@ -228,6 +230,14 @@ const MyAvatar: React.FC = props => {
           </ListItemIcon>
           My Profile
         </MenuItem>
+        {authState.user.role[0] === Role.HANDYMAN && (
+          <MenuItem onClick={() => history.push('/services')}>
+            <ListItemIcon>
+              <Handyman fontSize="small" />
+            </ListItemIcon>
+            My Services
+          </MenuItem>
+        )}
         <MenuItem
           onClick={() =>
             dispatch(AuthThunks.logout()).then(() => {

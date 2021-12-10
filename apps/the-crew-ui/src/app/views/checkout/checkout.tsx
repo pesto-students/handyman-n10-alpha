@@ -12,8 +12,9 @@ import {
 import { useState } from 'react';
 import { useHistory } from 'react-router';
 
-import { useAppSelector } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../store';
 import { authSelector, cartSelectors } from '../../store/slices';
+import { createCheckoutSession } from '../../store/thunks';
 import style from './checkout.module.scss';
 import SelectedItem from './selected-item';
 
@@ -29,6 +30,12 @@ const CheckOut: React.FC<ICheckOutProps> = props => {
   const [openDialog, setOpenDialog] = useState(props.open);
   const cartItems = useAppSelector(state => cartSelectors.selectAll(state.cart));
   const authState = useAppSelector(authSelector);
+  const dispatch = useAppDispatch();
+  const handlePayment = () => {
+    dispatch(createCheckoutSession(cartItems)).then(res => {
+      window.location = res.payload.url;
+    });
+  };
 
   return (
     <Dialog open={openDialog} maxWidth="md" fullWidth={true}>
@@ -98,6 +105,8 @@ const CheckOut: React.FC<ICheckOutProps> = props => {
           onClick={() => {
             if (!authState.user) {
               history.push('/login');
+            } else {
+              handlePayment();
             }
           }}
         >

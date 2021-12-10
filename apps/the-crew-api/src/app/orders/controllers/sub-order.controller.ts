@@ -1,7 +1,14 @@
-import { ClassSerializerInterceptor, Controller, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
-import { SubOrder } from '@the-crew/common';
+import { SubOrder, uuid } from '@the-crew/common';
 
 import { JwtAuthGuard } from '../../auth/guards';
 import { SubOrderEntity } from '../models/entities';
@@ -28,4 +35,9 @@ import { SubOrderService } from '../services';
 @Controller('sub-orders')
 export class SubOrderController implements CrudController<SubOrder> {
   constructor(public readonly service: SubOrderService) {}
+
+  @Get('fetchAllSubOrdersByUserId')
+  public async GetSubOrdersByUserId(@Param() userId: uuid) {
+    return await this.service.GetSubOrdersByUserId(userId);
+  }
 }

@@ -31,7 +31,7 @@ export default function Login() {
   const { enqueueSnackbar } = useSnackbar();
 
   if (authState.user) {
-    history.push('/services');
+    history.push('/');
   }
 
   return (

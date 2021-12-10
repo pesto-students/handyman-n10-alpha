@@ -10,9 +10,11 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { useTheme } from '@mui/system';
-import { ServiceRequestType, ServiceLocation } from '@the-crew/common/enums';
-import { MouseEvent, useMemo, useState } from 'react';
-import { useHistory, useLocation } from 'react-router';
+import { Role, ServiceLocation, ServiceRequestType } from '@the-crew/common/enums';
+import { MouseEvent, useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 import { ServiceList } from '..';
 import {
@@ -24,6 +26,8 @@ import {
   salonForMen,
   salonForWomen,
 } from '../../../assets/icons';
+import { useAppDispatch } from '../../store';
+import { authSelector } from '../../store/slices';
 import style from './search-service.module.scss';
 
 export default function ServiceSearch() {
@@ -35,6 +39,13 @@ export default function ServiceSearch() {
   const [professionType, setProfession] = useState<ServiceRequestType>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const open = Boolean(anchorEl);
+
+  const history = useHistory();
+  const user = useSelector(authSelector)?.user;
+
+  useEffect(() => {
+    user?.role[0] === Role.HANDYMAN && history.push('/bookings');
+  }, [history, user]);
 
   const handleOpen = (event: MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
@@ -143,7 +154,12 @@ export default function ServiceSearch() {
         </Popover>
       </div>
       <AvailableServices setProfession={setProfession} />
-      <ServiceList location={location} professionType={professionType} />
+
+      {location ? (
+        <ServiceList location={location} professionType={professionType} />
+      ) : (
+        history.push('/')
+      )}
     </div>
   );
 }

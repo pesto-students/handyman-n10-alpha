@@ -2,10 +2,13 @@ import './homeStyles.scss';
 
 import { Autocomplete } from '@mui/lab';
 import { Slide, TextField } from '@mui/material';
-import { ServiceLocation } from '@the-crew/common/enums';
+import { Role, ServiceLocation } from '@the-crew/common/enums';
 import { useHistory } from 'react-router';
 
 import { assured, equipment, home, person, price } from '../../../assets/images/home';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { authSelector } from '../../store/slices';
 
 const whyTheCrewContent = [
   {
@@ -27,6 +30,11 @@ const whyTheCrewContent = [
 
 export default function Home() {
   const history = useHistory();
+  const user = useSelector(authSelector).user;
+
+  useEffect(() => {
+    user && user.role[0] === Role.HANDYMAN && history.push('/bookings');
+  }, [history, user]);
 
   const renderWhyTheCrewHtml = () => {
     return (

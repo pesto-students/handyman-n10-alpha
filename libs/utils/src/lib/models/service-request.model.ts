@@ -55,6 +55,9 @@ export class ServiceRequest implements IServiceRequest {
   @IsUUID('all', { each: true })
   reviewIds: uuid[];
 
+  @IsNumber()
+  quantity?: number;
+
   @IsDate()
   createdOn: Date;
 

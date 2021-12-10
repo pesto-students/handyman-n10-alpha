@@ -9,6 +9,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { OrderModule } from './orders/order.module';
+import { PaymentModule } from './payment/payment.module';
 import { ReviewModule } from './rating/review.module';
 import { ServiceRequestModule } from './service-request/service-request.module';
 import { UserModule } from './user/user.module';
@@ -30,6 +31,7 @@ import { UserModule } from './user/user.module';
     ServiceRequestModule,
     ReviewModule,
     OrderModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
