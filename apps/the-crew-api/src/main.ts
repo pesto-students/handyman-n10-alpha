@@ -26,17 +26,14 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
-  const config = new DocumentBuilder()
-    .setTitle('The Crew')
-    .setVersion('1.0.0')
-    .build();
+  const config = new DocumentBuilder().setTitle('The Crew').setVersion('1.0.0').build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('explorer', app, document);
 
-  const port = process.env.NX_PORT || 3333;
+  const port = process.env.PORT || 3000;
 
   await app.listen(port, () => {
-    Logger.log('Listening at http://localhost:' + port + '/' + globalPrefix);
+    Logger.log('Listening at ' + port + '/' + globalPrefix);
   });
 }
 
