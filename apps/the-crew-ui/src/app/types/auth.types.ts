@@ -1,11 +1,3 @@
-export type RegisterDTO = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  phone?: string;
-};
-
 export type LoginResponse = {
   accessToken: string;
   refreshToken: string;

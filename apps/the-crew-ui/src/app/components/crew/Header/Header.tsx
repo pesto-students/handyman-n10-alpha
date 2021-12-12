@@ -83,6 +83,9 @@ export default function Header() {
               className="registerAsProfessionalBtn"
               color="inherit"
               style={{ textDecoration: 'underline' }}
+              onClick={() => {
+                history.push('/register-as-professional');
+              }}
             >
               Register As A Professional
             </Button>

@@ -20,10 +20,10 @@ export class OrderEntity extends OwnerTimestampEntity implements IOrder {
   @PrimaryGeneratedColumn('uuid')
   id: uuid;
 
-  @OneToMany(() => SubOrderEntity, subOrder => subOrder.orderId)
+  @OneToMany(() => SubOrderEntity, subOrder => subOrder.order)
   subOrders?: SubOrder[];
 
-  @RelationId((order: IOrder) => order.subOrders)
+  @RelationId((order: OrderEntity) => order.subOrders)
   subOrderIds: uuid[];
 
   @ManyToOne(() => UserEntity, { nullable: false })

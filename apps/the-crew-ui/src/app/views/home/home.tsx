@@ -1,8 +1,7 @@
 import './homeStyles.scss';
 
-import { Autocomplete } from '@mui/lab';
-import { Slide, TextField } from '@mui/material';
-import { Role, ServiceLocation } from '@the-crew/common/enums';
+import { Autocomplete, Slide, TextField } from '@mui/material';
+import { ServiceLocation, Role } from '@the-crew/common/enums';
 import { useHistory } from 'react-router';
 
 import { assured, equipment, home, person, price } from '../../../assets/images/home';

@@ -28,6 +28,9 @@ import { SubOrderService } from '../services';
   query: {
     alwaysPaginate: true,
   },
+  routes: {
+    exclude: ['createManyBase'],
+  },
 })
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(JwtAuthGuard)

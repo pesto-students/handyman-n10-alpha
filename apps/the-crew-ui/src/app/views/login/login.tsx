@@ -88,7 +88,7 @@ export default function Login() {
                           onBlur={handleBlur}
                           endAdornment={
                             <InputAdornment position="end">
-                              <IconButton edge="end">
+                              <IconButton edge="end" tabIndex={-1}>
                                 <Email />
                               </IconButton>
                             </InputAdornment>
