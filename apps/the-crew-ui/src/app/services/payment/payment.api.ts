@@ -10,7 +10,7 @@ function createCheckoutSession(data) {
 
 function retrievePaymentSession(data) {
   const url = `${basePath}/retrieve-payment-session`;
-  return instance.get(url, data);
+  return instance.post(url, data);
 }
 
 export const PaymentService = {

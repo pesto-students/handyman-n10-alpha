@@ -9,16 +9,51 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { SubOrder, User } from '@the-crew/common';
+import { Role, OrderStatus, OrderStatusColour } from '@the-crew/common/enums';
 import { Formik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Flippy, { BackSide, FrontSide } from 'react-flippy';
+import { useDispatch } from 'react-redux';
 
 import { StatusColours } from '../../../enums';
+import { useAppSelector } from '../../../store';
+import { authSelector, userSelectors } from '../../../store/slices';
+import {
+  OrderThunks,
+  reviewThunks,
+  serviceThunks,
+  subOrderThunks,
+  userThunks,
+} from '../../../store/thunks';
 import HoverRating from '../RatingBar/RatingBar';
 import style from './BookingCard.module.scss';
 
-export default function BookingCard() {
+interface IBookingCardProps {
+  subOrderDetails?: SubOrder;
+  serviceProviderDetails?: User;
+}
+
+export const BookingCard: React.FC<IBookingCardProps> = props => {
   const [isFlipped, setFlipped] = useState(false);
+  const dispatch = useDispatch();
+  const user = useAppSelector(state => userSelectors.selectAll(state.user))[0];
+  const authState = useAppSelector(authSelector);
+  const [shouldReRender, setShouldReRender] = useState(false);
+
+  useEffect(() => {
+    if (authState.user?.role[0] === Role.HANDYMAN) {
+      dispatch(userThunks.getUser({ id: props.subOrderDetails.order.consumerId }));
+    } else {
+      dispatch(userThunks.getUser({ id: props.subOrderDetails.service.providerId }));
+    }
+  }, [
+    authState.user?.role,
+    dispatch,
+    props.subOrderDetails.order.consumerId,
+    props.subOrderDetails.service.providerId,
+  ]);
+
   return (
     <Flippy flipOnClick={false} isFlipped={isFlipped} className={style.bookingServiceCard}>
       <FrontSide>
@@ -26,11 +61,16 @@ export default function BookingCard() {
         <div className={style.bookingSummary}>
           <div className={style.serviceNameAndStatus}>
             <Typography variant="subtitle1" className={style.serviceName}>
-              Air Conditioner
+              {props.subOrderDetails.service?.title}
             </Typography>
-            <BookingStatus status={'Completed'} message={'Request Completed'} />
+            <BookingStatus
+              status={props.subOrderDetails.status}
+              message={'Request ' + props.subOrderDetails.status}
+            />
           </div>
-          <Typography>October 3,2021</Typography>
+          <Typography>
+            {new Date(props.subOrderDetails.createdOn).toJSON().slice(0, 10).replace(/-/g, '/')}
+          </Typography>
         </div>
         <Divider />
         <div className={style.bookingDetails}>
@@ -47,37 +87,72 @@ export default function BookingCard() {
               Name:{' '}
             </Typography>
             <Typography variant="subtitle1" color="textSecondary">
-              Krishna
+              {user?.fullName}
             </Typography>
           </div>
-          <div className={style.bookingReviewDetails}>
-            <Typography variant="subtitle1" color="textPrimary">
-              You rated:{' '}
-            </Typography>
-            <Typography variant="body2" style={{ color: 'green', fontWeight: 600 }}>
-              <StarRate
-                fontSize="medium"
-                style={{
-                  display: 'inline-block',
-                  position: 'relative',
-                  marginRight: '1px',
-                  color: 'green',
-                }}
-              />
-              4.73
-            </Typography>
-          </div>
-          <div className={style.bookingReviewDetails}>
-            <Typography variant="subtitle1" color="textPrimary">
-              Comments:
-            </Typography>
-            <Typography variant="subtitle1" color="textSecondary">
-              Excellent work received
-            </Typography>
-          </div>
+          {authState.user?.role[0] !== Role.HANDYMAN && (
+            <>
+              {' '}
+              <div className={style.bookingReviewDetails}>
+                <Typography variant="subtitle1" color="textPrimary">
+                  You rated:{' '}
+                </Typography>
+                <Typography variant="body2" style={{ color: 'green', fontWeight: 600 }}>
+                  <StarRate
+                    fontSize="medium"
+                    style={{
+                      display: 'inline-block',
+                      position: 'relative',
+                      marginRight: '1px',
+                      color: 'green',
+                    }}
+                  />
+                  {props.subOrderDetails.rating?.rating}
+                </Typography>
+              </div>
+              <div className={style.bookingReviewDetails}>
+                <Typography variant="subtitle1" color="textPrimary">
+                  Comments:
+                </Typography>
+                <Typography variant="subtitle1" color="textSecondary">
+                  {props.subOrderDetails.rating?.comment}
+                </Typography>
+              </div>
+            </>
+          )}
         </div>
         <div className={style.rateNow}>
-          <Button
+          {authState.user.role[0] === Role.HANDYMAN ? (
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={props.subOrderDetails.status === OrderStatus.COMPLETED}
+              onClick={() => {
+                //let temp = new SubOrder();
+                const temp = { ...props.subOrderDetails };
+                temp.status = OrderStatus.COMPLETED;
+                dispatch(
+                  subOrderThunks.saveSubOrders({
+                    payload: { bulk: [temp] },
+                  }),
+                );
+              }}
+            >
+              Changes status to completed
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={props.subOrderDetails.status !== OrderStatus.COMPLETED}
+              onClick={() => {
+                setFlipped(!isFlipped);
+              }}
+            >
+              Rate Now
+            </Button>
+          )}
+          {/* <Button
             variant="contained"
             color="primary"
             onClick={() => {
@@ -85,7 +160,7 @@ export default function BookingCard() {
             }}
           >
             Rate Now
-          </Button>
+          </Button> */}
         </div>
         {/* </Paper> */}
       </FrontSide>
@@ -100,9 +175,21 @@ export default function BookingCard() {
           </Grid>
           <Grid item flex={1}>
             <Formik
-              initialValues={{ rating: 1, comment: '' }}
+              initialValues={{
+                rating: props.subOrderDetails?.rating?.rating,
+                comment: props.subOrderDetails?.rating?.comment,
+              }}
               onSubmit={values => {
-                console.log('rating saved ' + values.rating);
+                dispatch(
+                  reviewThunks.createReview({
+                    payload: {
+                      comment: values.comment,
+                      rating: values.rating,
+                      reviewerId: authState.user?.id,
+                      serviceId: props.subOrderDetails.serviceId,
+                    },
+                  }),
+                );
                 setFlipped(!isFlipped);
               }}
             >
@@ -153,7 +240,7 @@ export default function BookingCard() {
       </BackSide>
     </Flippy>
   );
-}
+};
 
 interface StatusSummary {
   status: string;
@@ -165,7 +252,7 @@ export function BookingStatus(props: StatusSummary) {
     <div>
       <Typography
         className={style.statusMessage}
-        style={{ backgroundColor: StatusColours[props.status] }}
+        style={{ backgroundColor: OrderStatusColour[props.status] }}
         variant="subtitle2"
       >
         {props.message}
@@ -173,3 +260,5 @@ export function BookingStatus(props: StatusSummary) {
     </div>
   );
 }
+
+export default BookingCard;

@@ -14,5 +14,4 @@ class SubOrderHttpAPI extends BaseHttpAPI<SubOrder> {
     });
   }
 }
-
 export const subOrderApi = new SubOrderHttpAPI();

@@ -23,9 +23,19 @@ const getSubOrder = createAsyncThunk(
   },
 );
 
-export { getSubOrders, getSubOrder };
+const saveSubOrders = createAsyncThunk(
+  'sub-orders/CreateMany',
+  async (args: { payload; query?: CreateQueryParams }, { dispatch }) => {
+    const { payload, query } = args;
+    const response = await subOrderApi.createMany(payload, query);
+    dispatch(subOrderActions.addSubOrders(response.data.data));
+  },
+);
+
+export { getSubOrders, getSubOrder, saveSubOrders };
 
 export const subOrderThunks = {
   getSubOrders,
   getSubOrder,
+  saveSubOrders,
 };

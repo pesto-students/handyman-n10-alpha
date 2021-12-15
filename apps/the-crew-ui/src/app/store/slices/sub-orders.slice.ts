@@ -12,6 +12,9 @@ const subOrderSlice = createSlice({
     addSubOrder: subOrderAdapter.addOne,
     addSubOrders: subOrderAdapter.addMany,
     clearSubOrders: subOrderAdapter.removeAll,
+    updateSubOrder: subOrderAdapter.updateOne,
+    replaceSubOrder: subOrderAdapter.setOne,
+    removeSubOrder: subOrderAdapter.removeOne,
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },

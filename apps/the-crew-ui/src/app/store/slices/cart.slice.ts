@@ -11,6 +11,7 @@ const cartSlice = createSlice({
     removeItem: adapter.removeOne,
     addQuantity: adapter.updateOne,
     removeQuantity: adapter.updateOne,
+    removeAll: adapter.removeAll,
   },
 });
 

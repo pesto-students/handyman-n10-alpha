@@ -6,6 +6,9 @@ import {
   serviceReducer,
   subOrderReducer,
   paymentReducer,
+  userAddressReducer,
+  orderReducer,
+  userReducer,
 } from './slices';
 
 const store = configureStore({
@@ -14,7 +17,10 @@ const store = configureStore({
     services: serviceReducer,
     cart: cartReducer,
     subOrders: subOrderReducer,
+    order: orderReducer,
     payment: paymentReducer,
+    userAddresses: userAddressReducer,
+    user: userReducer,
   },
   // middleware: getDefaultMiddleware => getDefaultMiddleware().concat(authApi.middleware), this one is only for RTK Query
 });

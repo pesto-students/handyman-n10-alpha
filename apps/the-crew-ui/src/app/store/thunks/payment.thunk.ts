@@ -26,6 +26,7 @@ const createCheckoutSession = createAsyncThunk(
 const getPaymentSession = createAsyncThunk(
   'payment/retrieve-payment-session',
   async (session: PaymentSession) => {
+    console.log(session.sessionId);
     const response = await PaymentService.retrievePaymentSession(session);
     return response.data;
   },

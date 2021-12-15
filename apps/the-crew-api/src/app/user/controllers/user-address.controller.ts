@@ -2,8 +2,8 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { UserAddress } from '@the-crew/common';
-
 import { JwtAuthGuard } from '../../auth/guards';
+
 import { UserAddressEntity } from '../models/entities';
 import { UserAddressService } from '../services';
 
@@ -20,6 +20,7 @@ import { UserAddressService } from '../services';
   },
   query: {
     alwaysPaginate: true,
+    join: { user: { eager: false } },
   },
   routes: {
     exclude: ['createManyBase'],

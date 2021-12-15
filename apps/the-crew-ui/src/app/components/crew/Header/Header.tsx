@@ -31,7 +31,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../store';
-import { authSelector } from '../../../store/slices';
+import { authSelector, cartActions, cartSelectors } from '../../../store/slices';
 import { AuthThunks } from '../../../store/thunks';
 import { Handyman } from '@mui/icons-material';
 import { Role } from '@the-crew/common/enums';
@@ -242,11 +242,12 @@ const MyAvatar: React.FC = props => {
           </MenuItem>
         )}
         <MenuItem
-          onClick={() =>
+          onClick={() => {
+            history.push('/login');
             dispatch(AuthThunks.logout()).then(() => {
-              history.push('/login');
-            })
-          }
+              dispatch(cartActions.removeAll());
+            });
+          }}
         >
           <ListItemIcon>
             <LogoutIcon fontSize="small" />

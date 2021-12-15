@@ -36,6 +36,16 @@ export class BaseHttpAPI<T> {
     });
   }
 
+  createMany<R = GetManyDefaultResponse<T>>(
+    payload: Partial<T> & AnyObject,
+    params: CreateQueryParams = {},
+  ) {
+    const url = `${this.basePath}/bulk`;
+    return this.instance.post<R>(url, payload, {
+      params,
+    });
+  }
+
   updateOne<R = T>(id: uuid, payload: Partial<Omit<T, 'id'>>, params: CreateQueryParams = {}) {
     const url = `${this.basePath}/${id}`;
     return this.instance.patch<R>(url, payload, {

@@ -4,7 +4,7 @@ import { Autocomplete, Slide, TextField } from '@mui/material';
 import { ServiceLocation, Role } from '@the-crew/common/enums';
 import { useHistory } from 'react-router';
 
-import { assured, equipment, home, person, price } from '../../../assets/images/home';
+import { assured, equipment, homeBanner, person, price } from '../../../assets/images/home';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { authSelector } from '../../store/slices';
@@ -61,7 +61,7 @@ export default function Home() {
     <div className="homeRoot">
       <div className="homePageImgContainer">
         <div className="homePageImgTemplate">
-          <img className="homePageImg" src={home} alt="" />
+          <img className="homePageImg" src={homeBanner} alt="" />
         </div>
         <div className="homeScreenTitleRoot">
           <div className="homeScreenTitleContainer">

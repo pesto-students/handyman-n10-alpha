@@ -2,9 +2,9 @@ import { CreateQueryParams, RequestQueryBuilder } from '@nestjsx/crud-request';
 import { uuid } from '@the-crew/common';
 import axios from 'axios';
 
-import { axiosConfig } from '../../core/services';
+import { axiosConfig, axiosInstance } from '../../core/services';
 
-const instance = axios.create(axiosConfig);
+const instance = axiosInstance;
 const basePath = '/users';
 
 function getUsers(query: CreateQueryParams = {}) {
@@ -25,3 +25,9 @@ function updateUser(id: uuid, query: CreateQueryParams = {}) {
 }
 
 export { getUsers, getUserById, updateUser };
+
+export const UserService = {
+  getUsers,
+  getUserById,
+  updateUser,
+};

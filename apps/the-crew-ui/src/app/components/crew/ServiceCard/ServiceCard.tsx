@@ -11,10 +11,11 @@ import {
   Typography,
 } from '@mui/material';
 import { ServiceRequest } from '@the-crew/common';
+import { Role } from '@the-crew/common/enums';
 import { useCallback } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../../store';
-import { cartActions, cartSelectors } from '../../../store/slices';
+import { authSelector, cartActions, cartSelectors } from '../../../store/slices';
 import { AddButton } from '../../generic';
 import style from './serviceCard.module.scss';
 
@@ -29,6 +30,7 @@ interface IServiceCard {
 export const ServiceCard: React.FC<IServiceCard> = props => {
   const dispatch = useAppDispatch();
   const cartItem = useAppSelector(state => cartSelectors.selectById(state.cart, props.data.id));
+  const authState = useAppSelector(authSelector);
 
   const onServiceAdd = (count: number) => {
     if (count) {
@@ -98,19 +100,37 @@ export const ServiceCard: React.FC<IServiceCard> = props => {
                 </Typography>
                 <Typography variant="subtitle1">₹ {props.data.price}</Typography>
               </Grid>
-              <Grid
-                item
-                xs={6}
-                justifyContent="center"
-                alignItems="flex-start"
-                style={{ display: 'flex' }}
-              >
-                <AddButton
-                  count={cartItem?.quantity ?? 0}
-                  onAdd={onServiceAdd}
-                  onRemove={onServiceRemove}
-                />
-              </Grid>
+              {authState.user ? (
+                authState.user.role[0] === Role.HANDYMAN ? null : (
+                  <Grid
+                    item
+                    xs={6}
+                    justifyContent="center"
+                    alignItems="flex-start"
+                    style={{ display: 'flex' }}
+                  >
+                    <AddButton
+                      count={cartItem?.quantity ?? 0}
+                      onAdd={onServiceAdd}
+                      onRemove={onServiceRemove}
+                    />
+                  </Grid>
+                )
+              ) : (
+                <Grid
+                  item
+                  xs={6}
+                  justifyContent="center"
+                  alignItems="flex-start"
+                  style={{ display: 'flex' }}
+                >
+                  <AddButton
+                    count={cartItem?.quantity ?? 0}
+                    onAdd={onServiceAdd}
+                    onRemove={onServiceRemove}
+                  />
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>

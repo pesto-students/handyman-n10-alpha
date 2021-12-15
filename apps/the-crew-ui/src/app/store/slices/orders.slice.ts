@@ -9,7 +9,12 @@ const orderSlice = createSlice({
     loading: false,
   }),
   reducers: {
-    cerateOrder: orderAdapter.addOne,
+    createOrder: orderAdapter.addOne,
+    createOrders: orderAdapter.addMany,
+    clearOrders: orderAdapter.removeAll,
+    updateOrder: orderAdapter.updateOne,
+    replaceOrder: orderAdapter.setOne,
+    removeOrder: orderAdapter.removeOne,
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },

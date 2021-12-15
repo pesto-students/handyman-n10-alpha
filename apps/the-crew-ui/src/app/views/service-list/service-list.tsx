@@ -1,11 +1,12 @@
 import { Box, Container, Drawer, Grid, styled, Typography } from '@mui/material';
 import { ServiceRequest } from '@the-crew/common';
-import { ServiceLocation, ServiceRequestType } from '@the-crew/common/enums';
+import { Role, ServiceLocation, ServiceRequestType } from '@the-crew/common/enums';
 import { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { ServiceCard, ServiceDetail } from '../../components';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { cartSelectors, serviceSelectors } from '../../store/slices';
+import { authSelector, cartSelectors, serviceSelectors } from '../../store/slices';
 import { serviceThunks } from '../../store/thunks';
 import { CheckOut } from '../checkout';
 import style from './service-list.module.scss';
@@ -13,32 +14,55 @@ import style from './service-list.module.scss';
 const drawerWidth = 600;
 
 interface IServiceList {
-  location: ServiceLocation | string;
-  professionType: ServiceRequestType;
+  location?: ServiceLocation | string;
+  professionType?: ServiceRequestType;
 }
 
 const ServiceList: React.FC<IServiceList> = props => {
+  const history = useHistory();
   const dispatch = useAppDispatch();
   const [selectedService, setSelectedService] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const services = useAppSelector(state => serviceSelectors.selectAll(state.services));
   const cartItems = useAppSelector(state => cartSelectors.selectAll(state.cart));
+  const authState = useAppSelector(authSelector);
+  const location = useLocation();
 
   useEffect(() => {
-    dispatch(
-      serviceThunks.getServices({
-        join: [{ field: 'provider' }, { field: 'reviews' }],
-        filter: [
-          {
-            field: 'type',
-            operator: '$in',
-            value: `{${props.professionType}}`,
-          },
-        ],
-      }),
-    );
-  }, [dispatch, props.location, props.professionType]);
+    if (location.pathname === '/services' && authState.user?.role[0] === Role.HANDYMAN) {
+      if (!authState.user) {
+        history.push('/login');
+      } else {
+        dispatch(
+          serviceThunks.getServices({
+            join: [{ field: 'provider' }, { field: 'reviews' }],
+          }),
+        );
+      }
+    } else
+      dispatch(
+        serviceThunks.getServices({
+          join: [{ field: 'provider' }, { field: 'reviews' }],
+          filter: [
+            {
+              field: 'type',
+              operator: '$in',
+              value: `{${props.professionType}}`,
+            },
+          ],
+        }),
+      );
+  }, [
+    authState.user,
+    authState.user?.id,
+    authState.user?.role,
+    dispatch,
+    history,
+    location.pathname,
+    props.location,
+    props.professionType,
+  ]);
 
   return (
     <div className={style.service_list_container}>
@@ -133,7 +157,13 @@ const ServiceList: React.FC<IServiceList> = props => {
           />
         </Container>
       </Drawer>
-      {showCheckout && <CheckOut open={showCheckout} onClose={() => setShowCheckout(false)} />}
+      {showCheckout && (
+        <CheckOut
+          professionType={props.professionType}
+          open={showCheckout}
+          onClose={() => setShowCheckout(false)}
+        />
+      )}
     </div>
   );
 };

@@ -12,7 +12,6 @@ import {
 import { useTheme } from '@mui/system';
 import { Role, ServiceLocation, ServiceRequestType } from '@the-crew/common/enums';
 import { MouseEvent, useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
 
@@ -26,7 +25,7 @@ import {
   salonForMen,
   salonForWomen,
 } from '../../../assets/icons';
-import { useAppDispatch } from '../../store';
+import { useAppSelector } from '../../store';
 import { authSelector } from '../../store/slices';
 import style from './search-service.module.scss';
 
@@ -41,7 +40,7 @@ export default function ServiceSearch() {
   const open = Boolean(anchorEl);
 
   const history = useHistory();
-  const user = useSelector(authSelector)?.user;
+  const user = useAppSelector(authSelector).user;
 
   useEffect(() => {
     user?.role[0] === Role.HANDYMAN && history.push('/bookings');

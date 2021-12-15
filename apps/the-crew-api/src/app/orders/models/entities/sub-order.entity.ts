@@ -20,11 +20,11 @@ export class SubOrderEntity extends OwnerTimestampEntity implements ISubOrder {
   @Column({ type: 'uuid' })
   serviceId: uuid;
 
-  @OneToOne(() => ReviewEntity)
+  @OneToOne(() => ReviewEntity, { nullable: true })
   @JoinColumn()
   rating?: Review;
 
-  @Column({ type: 'uuid' })
+  @Column({ type: 'uuid', nullable: true })
   ratingId: uuid;
 
   @ManyToOne(() => OrderEntity, order => order.subOrders)

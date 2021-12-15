@@ -16,6 +16,7 @@
 .serviceName {
   flex-grow: 1;
   font-weight: 700;
+  @include mixin.ellipsis(260px);
 }
 
 .statusMessage {

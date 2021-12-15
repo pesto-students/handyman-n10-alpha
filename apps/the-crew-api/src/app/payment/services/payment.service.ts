@@ -7,10 +7,10 @@ import { ServiceRequestService } from '../../service-request/services';
 @Injectable()
 export class PaymentService {
   constructor(private readonly serviceRequestService: ServiceRequestService) {}
-  stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY, {
+  stripe = new Stripe(process.env.NX_STRIPE_PRIVATE_KEY, {
     apiVersion: '2020-08-27',
   });
-  public async RetrieveSessionBySessionId(id: string) {
+  public async RetrieveSessionBySessionId(id: string | '') {
     return await this.stripe.checkout.sessions.retrieve(id);
   }
 
@@ -27,7 +27,7 @@ export class PaymentService {
             product_data: {
               name: serv.title,
             },
-            unit_amount: serv.price,
+            unit_amount: serv.price * 100,
           },
           quantity: item.quantity,
         };

@@ -1,40 +1,62 @@
 import { Button, ButtonGroup, Grid, Typography } from '@mui/material';
+import { OrderStatus } from '@the-crew/common/enums';
 import { PaymentSession } from '@the-crew/common/models/session.model';
 import { useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { BookingCard } from '../../components';
-import { PaymentSessionService } from '../../services';
+import {
+  CartSessionService,
+  generateSubOrdersToBeSaved,
+  PaymentSessionService,
+} from '../../services';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { subOrderSelector } from '../../store/slices';
-import { PaymentThunks, subOrderThunks } from '../../store/thunks';
+import { authSelector, orderActions, orderSelectors, subOrderSelector } from '../../store/slices';
+import { OrderThunks, PaymentThunks, subOrderThunks } from '../../store/thunks';
+import { Cart } from '../../types';
 import style from './bookings.module.scss';
 
 export default function MyBookings() {
   const [onGoing, setOnGoing] = useState(true);
   const dispatch = useAppDispatch();
-  const sessionId = PaymentSessionService.getPaymentSession();
   const paymentSession = useMemo(() => new PaymentSession(), []);
-  paymentSession.sessionId = sessionId;
-  const orders = useAppSelector(state => subOrderSelector.selectAll(state.subOrders));
-
+  const subOrders = useAppSelector(state => subOrderSelector.selectAll(state.subOrders));
+  const orders = useAppSelector(state => orderSelectors.selectAll(state.order));
+  const authState = useAppSelector(authSelector);
   const handleOnClicks = () => {
     setOnGoing(!onGoing);
   };
+
   useEffect(() => {
-    if (sessionId) {
-      dispatch(PaymentThunks.getPaymentSession(paymentSession)).then(res => {
-        if (res.payload.payment_status === 'paid') {
-          console.log('place orders');
-        }
-      });
+    if (authState.user) {
+      const sessionId = PaymentSessionService.getPaymentSession();
+      if (sessionId !== null) {
+        paymentSession.sessionId = sessionId;
+        dispatch(PaymentThunks.getPaymentSession(paymentSession)).then(res => {
+          if (res.payload.payment_status === 'paid') {
+            dispatch(OrderThunks.createOrder({ payload: { consumerId: authState.user.id } }))
+              .unwrap()
+              .then(currentOrder => {
+                const cartItems = JSON.parse(CartSessionService.getCartItems());
+                dispatch(
+                  subOrderThunks.saveSubOrders({
+                    payload: generateSubOrdersToBeSaved(cartItems, currentOrder),
+                  }),
+                ).then(() => {
+                  orderActions.clearOrders();
+                  CartSessionService.removeCartItems();
+                });
+              });
+          }
+          PaymentSessionService.removePaymentSession();
+        });
+      }
+      dispatch(
+        subOrderThunks.getSubOrders({
+          join: [{ field: 'service' }, { field: 'order' }, { field: 'rating' }],
+        }),
+      );
     }
-    dispatch(
-      subOrderThunks.getSubOrders({
-        join: [{ field: 'provider' }, { field: 'reviews' }],
-      }),
-    );
-  }, [dispatch, paymentSession, sessionId]);
+  }, [authState.user, dispatch, orders, paymentSession]);
   return (
     <div className={style.bookingRoot}>
       <Typography variant="h5" textAlign="center">
@@ -65,15 +87,26 @@ export default function MyBookings() {
         </ButtonGroup>
       </div>
       <Grid container spacing={1} justifyContent="center" alignItems="center">
-        <Grid item>
-          <BookingCard />
-        </Grid>
-        <Grid item>
-          <BookingCard />
-        </Grid>
-        <Grid item>
-          <BookingCard />
-        </Grid>
+        {onGoing &&
+          subOrders
+            .filter(x => x.status === OrderStatus.SCHEDULED)
+            .map((_subOrder, index) => {
+              return (
+                <Grid item key={index}>
+                  <BookingCard subOrderDetails={_subOrder} />
+                </Grid>
+              );
+            })}
+        {!onGoing &&
+          subOrders
+            .filter(x => x.status !== OrderStatus.SCHEDULED)
+            .map((_subOrder, index) => {
+              return (
+                <Grid item key={index}>
+                  <BookingCard subOrderDetails={_subOrder} />
+                </Grid>
+              );
+            })}
       </Grid>
     </div>
   );

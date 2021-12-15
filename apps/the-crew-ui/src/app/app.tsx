@@ -14,6 +14,7 @@ import {
   Register,
   RegisterAsProfessional,
   SearchService,
+  ServiceList,
 } from './views';
 
 export function App() {
@@ -42,6 +43,7 @@ export function App() {
                   render={() => <RegisterAsProfessional />}
                 />
                 <Route path="/search" exact render={() => <SearchService />} />
+                <Route path="/services" exact render={() => <ServiceList />} />
                 <Route path="/bookings" exact render={() => <Bookings />} />
                 <Route render={() => <NotFound404 />} />
               </Switch>
