@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { AuthService, TokenService } from '../../services';
+import { authApi, TokenService } from '../../services';
 import { AuthCreds } from '../../types';
 
 /**
@@ -10,7 +10,7 @@ const loginAndFetchTokens = createAsyncThunk(
   'auth/fetchTokens',
   async (creds: AuthCreds, { dispatch, rejectWithValue }) => {
     try {
-      const response = await AuthService.login(creds);
+      const response = await authApi.login(creds);
       TokenService.setAccessToken(response.data.accessToken);
       TokenService.setRefreshToken(response.data.refreshToken);
       TokenService.setExpireTimestamp(response.data.expiresAt);
@@ -34,7 +34,7 @@ const refetchTokens = createAsyncThunk(
   'auth/refetchTokens',
   async (refreshToken: string, { rejectWithValue }) => {
     try {
-      const response = await AuthService.refreshToken(refreshToken);
+      const response = await authApi.refreshToken(refreshToken);
       TokenService.setAccessToken(response.data.accessToken);
       TokenService.setRefreshToken(response.data.refreshToken);
       TokenService.setExpireTimestamp(response.data.expiresAt);
@@ -53,7 +53,7 @@ const refetchTokens = createAsyncThunk(
  */
 const logout = createAsyncThunk('auth/logout', async (_, { fulfillWithValue }) => {
   try {
-    await AuthService.logout();
+    await authApi.logout();
     localStorage.clear();
     return fulfillWithValue({});
   } catch (error) {
@@ -63,7 +63,7 @@ const logout = createAsyncThunk('auth/logout', async (_, { fulfillWithValue }) =
 
 const whoAmI = createAsyncThunk('auth/whoAmI', async (_, { rejectWithValue }) => {
   try {
-    const response = await AuthService.whoAmI();
+    const response = await authApi.whoAmI();
     return response.data;
   } catch (error) {
     if (error.isAxiosError) {

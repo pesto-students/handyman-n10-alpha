@@ -30,7 +30,7 @@ const ServiceList: React.FC<IServiceList> = props => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === '/services' && authState.user?.role[0] === Role.HANDYMAN) {
+    if (location.pathname === '/services' && authState.user?.role[0] === Role.PROFESSIONAL) {
       if (!authState.user) {
         history.push('/login');
       } else {

@@ -1,18 +1,38 @@
-import { Box, Button, Grid, Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { UsbOff } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
+import {
+  Box,
+  Button,
+  Grid,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import { useSnackbar } from 'notistack';
 import { useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { registerBanner } from '../../../assets/images/register';
+import { authApi, serviceApi, userAddressApi } from '../../services';
 import { RegisterForm } from '../register/register';
 import { getInitialState } from '../register/register.helper';
 import { CreateServiceForm } from '../service-create/service-create';
 import { AddAddressForm } from '../user-address/user-address';
 import style from './register-as-professional.module.scss';
 
-import type { RegisterAsProfessionalDTO } from '../../types';
+import type { RegisterAsProfessionalDTO, ServiceDTO } from '../../types';
 
-const steps = ['Register', 'Enter Address', 'Create a Service'];
+const steps = ['Professional Details', 'Address Details', 'Service Details'];
 
 export default function RegisterAsProfessional() {
+  const theme = useTheme();
+  const smView = useMediaQuery(theme.breakpoints.down('md'));
+  const { enqueueSnackbar } = useSnackbar();
+  const history = useHistory();
+  const [isLoading, setLoading] = useState(false);
   const [registerDetails, setRegisterDetails] = useState<RegisterAsProfessionalDTO>(
     getInitialState(),
   );
@@ -50,12 +70,40 @@ export default function RegisterAsProfessional() {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
-  const handleComplete = () => {
-    if (ref.current.isValidated()) {
-      const newCompleted = completed;
-      newCompleted[activeStep] = true;
-      setCompleted(newCompleted);
-      handleNext();
+  const handleComplete = async () => {
+    if (activeStep === totalSteps() - 1) {
+      // call backend api's
+      try {
+        setLoading(true);
+        const { user, address } = registerDetails;
+        const service = ref.current.getValue() as ServiceDTO;
+        const { data: userPayload } = await authApi.register({
+          ...user,
+          phone: `+91-${user.phone}`,
+        });
+        const addressDTO = { ...address, userId: userPayload.id };
+        const serviceDTO = {
+          ...service,
+          providerId: userPayload.id,
+          type: [service.type],
+          included: service.included.filter(value => !!value),
+          excluded: service.excluded.filter(value => !!value),
+        };
+        await Promise.all([userAddressApi.createOne(addressDTO), serviceApi.createOne(serviceDTO)]);
+        setLoading(false);
+        history.push('/login');
+      } catch (error) {
+        if (error.message) {
+          enqueueSnackbar(error.message, { variant: 'error' });
+        }
+      }
+    } else {
+      if (ref.current.isValidated()) {
+        const newCompleted = completed;
+        newCompleted[activeStep] = true;
+        setCompleted(newCompleted);
+        handleNext();
+      }
     }
   };
 
@@ -66,9 +114,10 @@ export default function RegisterAsProfessional() {
           <RegisterForm
             ref={ref}
             isEmbedded={true}
-            initialValues={registerDetails.register}
+            initialValues={registerDetails.user}
             onClose={payload => {
-              setRegisterDetails({ ...registerDetails, register: payload });
+              registerDetails.user = payload;
+              setRegisterDetails(registerDetails);
             }}
           />
         );
@@ -79,62 +128,72 @@ export default function RegisterAsProfessional() {
             isEmbedded={true}
             initialValues={registerDetails.address}
             onClose={payload => {
-              setRegisterDetails({ ...registerDetails, address: payload });
+              registerDetails.address = payload;
+              setRegisterDetails(registerDetails);
             }}
           />
         );
-      case 2:
+      default:
         return (
           <CreateServiceForm
             ref={ref}
             isEmbedded={true}
             initialValues={registerDetails.service}
             onClose={payload => {
-              setRegisterDetails({ ...registerDetails, service: payload });
+              registerDetails.service = payload;
+              setRegisterDetails(registerDetails);
             }}
           />
         );
-      default:
-        return <Typography>Hello</Typography>;
     }
   };
 
   return (
-    <Grid container flex={1}>
+    <Grid container flex={1} flexDirection={smView ? 'column' : 'row'}>
       <Grid
         item
         container
-        xs={6}
-        className={style['login-banner']}
-        style={{ backgroundImage: `url(${registerBanner})` }}
+        xs
         justifyContent="center"
         alignItems="center"
+        padding={2}
+        className={style['login-banner']}
+        style={{ backgroundImage: `url(${registerBanner})` }}
       >
-        <Typography variant="h2" color="white">
+        <Typography variant={!smView ? 'h2' : 'h4'} color="white">
           Register as Professional
         </Typography>
       </Grid>
-      <Grid item container flexDirection="column" rowSpacing={3} xs={6} padding={2}>
-        <Grid item>
-          <Stepper alternativeLabel activeStep={activeStep} style={{ width: '100%' }}>
-            {steps.map(label => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        </Grid>
+      <Grid item container xs flexDirection="column" rowSpacing={3} padding={2} margin={0}>
+        <Stepper alternativeLabel activeStep={activeStep} style={{ width: '100%' }}>
+          {steps.map(label => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
         <Grid item container flexDirection="column" flex={1}>
           {renderActiveComponent()}
           <Box
             sx={{ display: 'flex', flexDirection: 'row', pt: 2, justifyContent: 'space-between' }}
           >
-            <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+            <Button
+              color="inherit"
+              disabled={isLoading || activeStep === 0}
+              onClick={handleBack}
+              sx={{ mr: 1 }}
+            >
               Back
             </Button>
-            <Button color="secondary" onClick={handleComplete}>
-              {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Next'}
-            </Button>
+            {!isLoading ? (
+              <Button color="secondary" onClick={handleComplete}>
+                {activeStep === totalSteps() - 1 ? 'Submit' : 'Next'}
+              </Button>
+            ) : (
+              <LoadingButton loading={true} loadingPosition="end" endIcon={<UsbOff />}>
+                Submit
+              </LoadingButton>
+            )}
           </Box>
         </Grid>
       </Grid>

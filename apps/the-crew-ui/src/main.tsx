@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { StylesProvider } from '@mui/styles';
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';

@@ -95,7 +95,7 @@ export default function Login() {
                           }
                         />
                         <FormHelperText style={{ paddingLeft: '8px' }}>
-                          {errors.email}
+                          {errors.email && touched.email ? errors.email : ' '}
                         </FormHelperText>
                       </FormControl>
                     </Grid>
@@ -127,7 +127,7 @@ export default function Login() {
                           }
                         />
                         <FormHelperText style={{ paddingLeft: '8px' }}>
-                          {errors.password}
+                          {errors.password && touched.password ? errors.password : ' '}
                         </FormHelperText>
                       </FormControl>
                     </Grid>

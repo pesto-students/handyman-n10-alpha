@@ -8,28 +8,24 @@ import {
   InputAdornment,
   OutlinedInput,
   Paper,
+  TextField,
   Typography,
 } from '@mui/material';
-import { Formik, FormikProps } from 'formik';
-import {
-  forwardRef,
-  SetStateAction,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
+import { useFormik } from 'formik';
+import { AnyObject } from 'immer/dist/internal';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { object, ref, string } from 'yup';
+import { NumberInput } from '../../components';
 
 import { authSelector } from '../../store/slices';
-import { RegisterAsProfessionalDTO, RegisterDTO } from '../../types';
+import { RegisterAsProfessionalDTO, RegisterProDTO } from '../../types';
 import style from '../login/login.module.scss';
 
 interface IRegisterForm {
-  initialValues: RegisterAsProfessionalDTO['register'];
-  onClose?: (initialValues: RegisterAsProfessionalDTO['register']) => void;
+  initialValues: RegisterAsProfessionalDTO['user'];
+  onClose?: (initialValues: RegisterAsProfessionalDTO['user']) => void;
   /**
    * Either use this element as standalone view component, or embedded component.
    */
@@ -39,7 +35,7 @@ interface IRegisterForm {
 export default function Register() {
   const authState = useSelector(authSelector);
   const history = useHistory();
-  const [userDto] = useState(new RegisterDTO());
+  const [userDto] = useState(new RegisterProDTO());
 
   if (authState.user) {
     history.push('/services');
@@ -62,25 +58,36 @@ export default function Register() {
 }
 
 export const RegisterForm = forwardRef((props: IRegisterForm, ref) => {
-  let details: RegisterDTO;
   const [showPassword, setShowPassword] = useState(false);
-  const formikRef = useRef<FormikProps<RegisterDTO>>(null);
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
+    initialValues: props.initialValues ?? ({} as RegisterProDTO),
+    validationSchema,
+    onSubmit: evt => {
+      if (!props.isEmbedded) {
+        // TODO: logic need to be added
+        console.log(evt);
+      }
+    },
+  });
+  const stateRef = useRef<RegisterProDTO>(null);
+  stateRef.current = values;
 
   useImperativeHandle(ref, () => {
     return {
       isValidated: () => {
-        const isValid = validationSchema.isValidSync(formikRef.current.values);
-        if (isValid) {
-          details = formikRef.current.values;
-        }
+        handleSubmit();
+        const isValid = validationSchema.isValidSync(values);
         return isValid;
+      },
+      getValue: () => {
+        return stateRef.current;
       },
     };
   });
 
   useEffect(() => {
     return () => {
-      props.onClose?.(details);
+      props.onClose?.(stateRef.current);
     };
   }, []);
 
@@ -89,187 +96,194 @@ export const RegisterForm = forwardRef((props: IRegisterForm, ref) => {
   };
 
   return (
-    <Formik
-      innerRef={formikRef}
-      initialValues={{ ...props.initialValues }}
-      validationSchema={validationSchema}
-      onSubmit={values => {
-        console.log(values);
+    <form
+      style={{ flex: 1 }}
+      noValidate
+      onSubmit={evt => {
+        evt.preventDefault();
+        handleSubmit();
       }}
     >
-      {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isValid }) => (
-        <form
-          style={{ flex: 1 }}
-          noValidate
-          onSubmit={evt => {
-            evt.preventDefault();
-            handleSubmit();
-          }}
-        >
-          <Grid container direction="column" rowSpacing={4}>
-            {!props.isEmbedded && (
-              <Grid item xs={1}>
-                <Typography align="center" variant="h6">
-                  Register
-                </Typography>
-              </Grid>
-            )}
-            <Grid item container spacing={2} xs={11}>
-              <Grid item xs={6}>
-                <FormControl
-                  fullWidth
-                  focused={false}
-                  error={errors.firstName && touched.firstName}
-                >
-                  <OutlinedInput
-                    name="firstName"
-                    placeholder="First Name"
-                    autoFocus={true}
-                    type="text"
-                    value={values.firstName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton edge="end" tabIndex={-1}>
-                          <Abc />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                  <FormHelperText style={{ paddingLeft: '8px' }}>{errors.firstName}</FormHelperText>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth focused={false} error={errors.lastName && touched.lastName}>
-                  <OutlinedInput
-                    name="lastName"
-                    placeholder="Last Name"
-                    autoFocus={true}
-                    type="text"
-                    value={values.lastName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton edge="end" tabIndex={-1}>
-                          <Abc />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                  <FormHelperText style={{ paddingLeft: '8px' }}>{errors.lastName}</FormHelperText>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth focused={false} error={errors.email && touched.email}>
-                  <OutlinedInput
-                    name="email"
-                    placeholder="Email"
-                    autoFocus={true}
-                    type="email"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton edge="end" tabIndex={-1}>
-                          <Email />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                  <FormHelperText style={{ paddingLeft: '8px' }}>{errors.email}</FormHelperText>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth focused={false} error={errors.phone && touched.phone}>
-                  <OutlinedInput
-                    name="phone"
-                    required
-                    placeholder="Mobile"
-                    autoFocus={true}
-                    value={values.phone}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton edge="end" tabIndex={-1}>
-                          <Phone />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                  <FormHelperText style={{ paddingLeft: '8px' }}>{errors.phone}</FormHelperText>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth focused={false} error={errors.password && touched.password}>
-                  <OutlinedInput
-                    name="password"
-                    placeholder="Password"
-                    id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                  <FormHelperText style={{ paddingLeft: '8px' }}>{errors.password}</FormHelperText>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl
-                  fullWidth
-                  focused={false}
-                  error={errors.confirmPassword && touched.confirmPassword}
-                >
-                  <OutlinedInput
-                    name="confirmPassword"
-                    placeholder="Confirm Password"
-                    type={showPassword ? 'text' : 'password'}
-                    value={values.confirmPassword}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                  <FormHelperText style={{ paddingLeft: '8px' }}>
-                    {errors.confirmPassword}
-                  </FormHelperText>
-                </FormControl>
-              </Grid>
-            </Grid>
-            {!props.isEmbedded && (
-              <Grid item>
-                <Button variant="contained" color="secondary" fullWidth={true}>
-                  Submit
-                </Button>
-              </Grid>
-            )}
+      <Grid container direction="column" rowSpacing={4}>
+        {!props.isEmbedded && (
+          <Grid item xs={1}>
+            <Typography align="center" variant="h6">
+              Register
+            </Typography>
           </Grid>
-        </form>
-      )}
-    </Formik>
+        )}
+        <Grid item container spacing={2} xs={11}>
+          <Grid item xs={6}>
+            <FormControl fullWidth focused={false} error={errors.firstName && touched.firstName}>
+              <OutlinedInput
+                name="firstName"
+                placeholder="First Name"
+                type="text"
+                value={values.firstName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton edge="end" tabIndex={-1}>
+                      <Abc />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              <FormHelperText style={{ paddingLeft: '8px' }}>
+                {errors.firstName && touched.firstName ? errors.firstName : ' '}
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth focused={false} error={errors.lastName && touched.lastName}>
+              <OutlinedInput
+                name="lastName"
+                placeholder="Last Name"
+                type="text"
+                value={values.lastName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton edge="end" tabIndex={-1}>
+                      <Abc />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              <FormHelperText style={{ paddingLeft: '8px' }}>
+                {errors.lastName && touched.lastName ? errors.lastName : ' '}
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth focused={false} error={errors.email && touched.email}>
+              <OutlinedInput
+                name="email"
+                placeholder="Email"
+                type="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton edge="end" tabIndex={-1}>
+                      <Email />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              <FormHelperText style={{ paddingLeft: '8px' }}>
+                {errors.email && touched.email ? errors.email : ' '}
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth focused={false} error={errors.phone && touched.phone}>
+              <TextField
+                label="Mobile"
+                name="phone"
+                value={values.phone}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton edge="end" tabIndex={-1}>
+                        <Phone />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                  inputComponent: PhoneTextField,
+                  inputProps: {
+                    prefix: '+91',
+                  },
+                }}
+              />
+              <FormHelperText style={{ paddingLeft: '8px' }}>
+                {errors.phone && touched.phone ? errors.phone : ' '}
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth focused={false} error={errors.password && touched.password}>
+              <OutlinedInput
+                name="password"
+                placeholder="Password"
+                id="outlined-adornment-password"
+                type={showPassword ? 'text' : 'password'}
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              <FormHelperText style={{ paddingLeft: '8px' }}>
+                {errors.password && touched.password ? errors.password : ' '}
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl
+              fullWidth
+              focused={false}
+              error={errors.confirmPassword && touched.confirmPassword}
+            >
+              <OutlinedInput
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                type={showPassword ? 'text' : 'password'}
+                value={values.confirmPassword}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              <FormHelperText style={{ paddingLeft: '8px' }}>
+                {errors.confirmPassword && touched.confirmPassword ? errors.confirmPassword : ' '}
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+        </Grid>
+        {!props.isEmbedded && (
+          <Grid item>
+            <Button variant="contained" color="secondary" fullWidth={true}>
+              Submit
+            </Button>
+          </Grid>
+        )}
+      </Grid>
+    </form>
+  );
+});
+
+const PhoneTextField = forwardRef<unknown, AnyObject>((props, ref) => {
+  return (
+    <NumberInput
+      {...props}
+      getInputRef={ref}
+      format={`${props.prefix}-#####-#####`}
+      mask="_"
+    ></NumberInput>
   );
 });
 
@@ -280,7 +294,10 @@ const validationSchema = object().shape({
   phone: string()
     .label('Mobile')
     .required()
-    .matches(/^[789]\d{9}$/, { message: 'Enter Valid mobile number' }),
+    .matches(
+      /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/,
+      { message: 'Enter a valid mobile number' },
+    ),
   password: string().label('Password').required(),
   confirmPassword: string()
     .label('Confirm Password')

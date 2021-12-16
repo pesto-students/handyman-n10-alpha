@@ -101,7 +101,7 @@ export const ServiceCard: React.FC<IServiceCard> = props => {
                 <Typography variant="subtitle1">₹ {props.data.price}</Typography>
               </Grid>
               {authState.user ? (
-                authState.user.role[0] === Role.HANDYMAN ? null : (
+                authState.user.role[0] === Role.PROFESSIONAL ? null : (
                   <Grid
                     item
                     xs={6}

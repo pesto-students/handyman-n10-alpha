@@ -2,8 +2,8 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { UserAddress } from '@the-crew/common';
-import { JwtAuthGuard } from '../../auth/guards';
 
+import { AnonymousGuard, JwtAuthGuard } from '../../auth/guards';
 import { UserAddressEntity } from '../models/entities';
 import { UserAddressService } from '../services';
 
@@ -24,9 +24,26 @@ import { UserAddressService } from '../services';
   },
   routes: {
     exclude: ['createManyBase'],
+    createOneBase: {
+      decorators: [UseGuards(AnonymousGuard)],
+    },
+    getManyBase: {
+      decorators: [UseGuards(JwtAuthGuard)],
+    },
+    getOneBase: {
+      decorators: [UseGuards(JwtAuthGuard)],
+    },
+    updateOneBase: {
+      decorators: [UseGuards(JwtAuthGuard)],
+    },
+    replaceOneBase: {
+      decorators: [UseGuards(JwtAuthGuard)],
+    },
+    deleteOneBase: {
+      decorators: [UseGuards(JwtAuthGuard)],
+    },
   },
 })
-@UseGuards(JwtAuthGuard)
 @ApiTags('User Addresses')
 @Controller('user-addresses')
 export class UserAddressController implements CrudController<UserAddress> {

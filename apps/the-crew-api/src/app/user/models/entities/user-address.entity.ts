@@ -1,5 +1,6 @@
 import { IUserAddress, User, uuid } from '@the-crew/common';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { isString } from 'class-validator';
+import { BeforeInsert, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { OwnerTimestampEntity } from '../../../core/models/entities';
 import { UserEntity } from './user.entity';
@@ -24,6 +25,7 @@ export class UserAddressEntity extends OwnerTimestampEntity implements IUserAddr
 
   @Column({
     type: 'boolean',
+    default: false,
   })
   isDefault: boolean;
 
@@ -32,4 +34,11 @@ export class UserAddressEntity extends OwnerTimestampEntity implements IUserAddr
 
   @Column({ type: 'uuid' })
   userId: uuid;
+
+  @BeforeInsert()
+  performPrerequisite() {
+    if (isString(this.pinCode)) {
+      this.pinCode = parseInt(this.pinCode);
+    }
+  }
 }

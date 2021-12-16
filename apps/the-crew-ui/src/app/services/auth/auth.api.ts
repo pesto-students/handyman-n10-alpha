@@ -1,7 +1,7 @@
 import { CreateQueryParams, RequestQueryBuilder } from '@nestjsx/crud-request';
 
 import { axiosInstance } from '../../core/services';
-import { RegisterDTO } from '../../types';
+import { RegisterProDTO } from '../../types';
 
 const basePath = `/auth`;
 
@@ -16,7 +16,7 @@ function login(creds: { email: string; password: string }) {
   });
 }
 
-function register(data: RegisterDTO) {
+function register(data: RegisterProDTO) {
   const url = `${basePath}/register`;
   return instance.post(url, data, {
     headers: {
@@ -49,7 +49,7 @@ function logout(): Promise<void> {
   return instance.get(url);
 }
 
-export const AuthService = {
+export const authApi = {
   login,
   register,
   whoAmI,

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { isEmpty, omit } from 'lodash-es';
 
 import { environment } from '../../../environments/environment';
-import { AuthService, TokenService } from '../../services';
+import { authApi, TokenService } from '../../services';
 
 /**
  * Axios Global Instance
@@ -44,7 +44,7 @@ instance.interceptors.response.use(
 
         try {
           const oldRefreshToken = TokenService.getRefreshToken();
-          const response = await AuthService.refreshToken(oldRefreshToken);
+          const response = await authApi.refreshToken(oldRefreshToken);
           const { accessToken, refreshToken } = response.data;
           TokenService.setAccessToken(accessToken);
           TokenService.setRefreshToken(refreshToken);

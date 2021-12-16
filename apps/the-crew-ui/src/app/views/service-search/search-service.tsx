@@ -43,7 +43,7 @@ export default function ServiceSearch() {
   const user = useAppSelector(authSelector).user;
 
   useEffect(() => {
-    user?.role[0] === Role.HANDYMAN && history.push('/bookings');
+    user?.role[0] === Role.PROFESSIONAL && history.push('/bookings');
   }, [history, user]);
 
   const handleOpen = (event: MouseEvent<HTMLDivElement>) => {

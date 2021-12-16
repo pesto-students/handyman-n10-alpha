@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SettingsIcon from '@mui/icons-material/Settings';
 import UpcomingIcon from '@mui/icons-material/Upcoming';
+import HandymanIcon from '@mui/icons-material/Handyman';
 import {
   AppBar,
   Avatar,
@@ -78,7 +79,7 @@ export default function Header() {
               The Crew
             </Typography>
           </div>
-          {!xsView && (
+          {(!authState.user || !authState.user?.role.includes(Role.PROFESSIONAL)) && !xsView && (
             <Button
               className="registerAsProfessionalBtn"
               color="inherit"
@@ -155,6 +156,21 @@ export default function Header() {
               </ListItemIcon>
               <ListItemText primary="Sign Up" />
             </ListItem>
+            {(!authState.user || !authState.user?.role.includes(Role.PROFESSIONAL)) && (
+              <ListItem
+                button
+                key="register_as_professional"
+                onClick={() => {
+                  handleMenuClick();
+                  history.push('/register-as-professional');
+                }}
+              >
+                <ListItemIcon>
+                  <HandymanIcon />{' '}
+                </ListItemIcon>
+                <ListItemText primary="Register as Professional" />
+              </ListItem>
+            )}
           </List>
         </Box>
       </SwipeableDrawer>
@@ -233,7 +249,7 @@ const MyAvatar: React.FC = props => {
           </ListItemIcon>
           My Profile
         </MenuItem>
-        {authState.user.role[0] === Role.HANDYMAN && (
+        {authState.user.role[0] === Role.PROFESSIONAL && (
           <MenuItem onClick={() => history.push('/services')}>
             <ListItemIcon>
               <Handyman fontSize="small" />

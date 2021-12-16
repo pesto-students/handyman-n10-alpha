@@ -32,7 +32,7 @@ export default function Home() {
   const user = useSelector(authSelector).user;
 
   useEffect(() => {
-    user && user.role[0] === Role.HANDYMAN && history.push('/bookings');
+    user && user.role[0] === Role.PROFESSIONAL && history.push('/bookings');
   }, [history, user]);
 
   const renderWhyTheCrewHtml = () => {

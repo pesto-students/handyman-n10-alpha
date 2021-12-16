@@ -32,12 +32,8 @@ import { ServiceRequestService } from '../services';
       },
     },
   },
-  routes: {
-    createOneBase: {
-      decorators: [UseGuards(JwtAuthGuard)],
-    },
-  },
 })
+// TODO: Ownership guard to be implemented
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiTags('Service Requests')
 @Controller('services')

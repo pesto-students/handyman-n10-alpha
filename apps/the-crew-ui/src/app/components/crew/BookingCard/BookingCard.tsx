@@ -42,7 +42,7 @@ export const BookingCard: React.FC<IBookingCardProps> = props => {
   const [shouldReRender, setShouldReRender] = useState(false);
 
   useEffect(() => {
-    if (authState.user?.role[0] === Role.HANDYMAN) {
+    if (authState.user?.role[0] === Role.PROFESSIONAL) {
       dispatch(userThunks.getUser({ id: props.subOrderDetails.order.consumerId }));
     } else {
       dispatch(userThunks.getUser({ id: props.subOrderDetails.service.providerId }));
@@ -90,7 +90,7 @@ export const BookingCard: React.FC<IBookingCardProps> = props => {
               {user?.fullName}
             </Typography>
           </div>
-          {authState.user?.role[0] !== Role.HANDYMAN && (
+          {authState.user?.role[0] !== Role.PROFESSIONAL && (
             <>
               {' '}
               <div className={style.bookingReviewDetails}>
@@ -122,7 +122,7 @@ export const BookingCard: React.FC<IBookingCardProps> = props => {
           )}
         </div>
         <div className={style.rateNow}>
-          {authState.user.role[0] === Role.HANDYMAN ? (
+          {authState.user.role[0] === Role.PROFESSIONAL ? (
             <Button
               variant="contained"
               color="primary"

@@ -20,7 +20,7 @@ export class AddUsers1638707438702 implements MigrationInterface {
         email: 'handyman@thecrew.com',
         password: 'Password@123',
         phone: '+91-9595959595',
-        role: [Role.HANDYMAN],
+        role: [Role.PROFESSIONAL],
       },
       {
         firstName: 'Customer',
