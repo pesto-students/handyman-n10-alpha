@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://alpha-the-crew.herokuapp.com/api',
+  apiUrl: process.env.NX_API_URL_PROD,
 };
