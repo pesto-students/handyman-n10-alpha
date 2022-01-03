@@ -47,7 +47,17 @@ const Main: React.FC = () => {
         {/* <Route path="/register" exact render={() => <Register />} /> */}
         <Route path="/register-as-professional" exact render={() => <RegisterAsProfessional />} />
         <Route path="/search" exact render={() => <SearchService />} />
-        <Route path="/services" exact render={() => <ServiceList />} />
+        <Guard
+          canActivate={() => {
+            return currentUser?.role.includes(Role.PROFESSIONAL);
+          }}
+          fallbackRoute={() => {
+            return '/';
+          }}
+          exact
+          path="/services"
+          component={ServiceList}
+        />
         <Guard
           canActivate={() => {
             return !!currentUser;
