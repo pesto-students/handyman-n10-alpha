@@ -48,7 +48,7 @@ Once the dependencies are finished installing, use the `yarn start the-crew-ui` 
 - Rest APIs used [nestjsx/crud](https://www.npmjs.com/package/@nestjsx/crud)
 - Frontend is hosted on Netlify
 - Backend is hosted on Heroku
-- DB hosted on AWS S3
+- DB hosted on AWS RDS
 
 ## Technologies used to build this project
 
