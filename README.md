@@ -1,94 +1,80 @@
-
-
 # TheCrew
 
-This project was generated using [Nx](https://nx.dev).
+## Table of Content
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+[Introduction](##Introduction)  
+[Installation](##Installation)  
+[Features](##Features)  
+[Technology Stack](##Technologies-used-to-build-this-project)  
+[Resources](##Resources)  
+[Authors](##Contributors-✨)
 
-🔎 **Smart, Extensible Build Framework**
+## Introduction
 
-## Adding capabilities to your workspace
+The Crew is a platform that helps in finding the basic necessity services available in one’s localities such as plumbing, electrical works, beautician,salon or carpentary work. A dedicated platform designed for a service provider makes it handy to market the services and also can manage his work online, as well as for customer to book and avail any service at any given point of time. The Crew is a responsive platform, hence users can access it across all devices. Our goal is to make the best user experience UI design and easy to use.
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+Live demo [here](https://alpha-the-crew.netlify.app)
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+## Installation
 
-Below are our core plugins:
+clone this repository to your local machine  
+Use the `yarn` command to install dependencies  
+Once the dependencies are finished installing, use the `yarn start the-crew-ui` command inside the root directory to open the app in your local browser of choice, use the `yarn start the-crew-api` command to start the backend.
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+## Features
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+- List of locations where The Crew is operated currently.
+- Types of services provided such as Carpentary, plumbing, salon etc and options to search.
+- List of services with details available, FAQs and most recent reviews.
+- Services can be added to cart for later booking.
+- Review and rate for obtained service.
+- Bookings (ongoing and history)
+- Select existing address or create new address while booking a service.
+- Onboarding the user as a professional or service provider.
 
-## Generate an application
+## Code Features
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+- Material-UI styled components
+- React functional components used with hooks
+- Login using email & password and Google SSO
+- Payment gateway integration (stripe)
+- Rest APIs used [nestjsx/crud](https://www.npmjs.com/package/@nestjsx/crud)
+- Frontend is hosted on Netlify
+- Backend is hosted on Heroku
+- DB hosted on AWS S3
 
-> You can use any of the plugins above to generate applications as well.
+## Technologies used to build this project
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)  
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)  
+![React JS](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)  
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)  
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)  
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)  
+![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
 
-## Generate a library
+## Other Libraries/Platforms Used
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+![Material UI](https://camo.githubusercontent.com/2c2e3cab0541596a12e216df86e68fa554256f25826b55a068993a3edfbcd0e8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4d6174657269616c2d2d55492d3030383143423f7374796c653d666f722d7468652d6261646765266c6f676f3d6d6174657269616c2d7569266c6f676f436f6c6f723d7768697465)  
+![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)  
+![Netlify](https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7)
 
-> You can also use any of the plugins above to generate libraries as well.
+## Setup
 
-Libraries are shareable across libraries and applications. They can be imported from `@the-crew/mylib`.
+Project frontend is built in React and bootstrapped using [Create React App](https://github.com/facebook/create-react-app).  
+Project backend is built in NodeJS (Nest JS) + PostgreSQL.
 
-## Development server
+Project uses commitizen for commit rules and guidelines Commitizen friendly
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+## Resources
 
-## Code scaffolding
+[High Level Design](https://drive.google.com/drive/folders/1rjDF1m93_DroplX5iuGLHEpBdFnI7pke)  
+[PRD](https://drive.google.com/drive/folders/1rjDF1m93_DroplX5iuGLHEpBdFnI7pke)  
+[Schema](https://drive.google.com/drive/folders/1rjDF1m93_DroplX5iuGLHEpBdFnI7pke)
 
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
+## Contributors ✨
 
-## Build
+[Akshay Mahajan](https://github.com/androizer)  
+[Sri Vithal Sai Krishna](https://github.com/krishnavithal)
 
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
