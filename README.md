@@ -15,6 +15,13 @@ The Crew is a platform that helps in finding the basic necessity services availa
 
 Live demo [here](https://alpha-the-crew.netlify.app)
 
+### Sample creds
+
+<!-- Customer -->
+
+Id : customer@thecrew.com  
+password: Password@123
+
 ## Installation
 
 clone this repository to your local machine  
