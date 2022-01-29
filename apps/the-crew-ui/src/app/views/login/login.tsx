@@ -1,4 +1,5 @@
 import { Email, Login as LoginIcon, Visibility, VisibilityOff } from '@mui/icons-material';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import { LoadingButton } from '@mui/lab';
 import {
   Button,
@@ -32,6 +33,7 @@ import type { LoginGoogleUserDTO } from '@the-crew/common';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [guestLogging, setGuestLogging] = useState(false);
   const authState = useSelector(authSelector);
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useAppDispatch();
@@ -64,6 +66,16 @@ export default function Login() {
 
   const onGoogleLoginFailure = error => {
     enqueueSnackbar(error.message ?? 'Something went wrong!', { variant: 'error' });
+  };
+
+  const loginAsGuest = () => {
+    setGuestLogging(true);
+    dispatch(login({ email: environment.guestUsername, password: environment.guestPassword }))
+      .unwrap()
+      .catch(() => {
+        enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      })
+      .finally(() => setGuestLogging(false));
   };
 
   return (
@@ -166,12 +178,12 @@ export default function Login() {
                       </FormControl>
                     </Grid>
                     <Grid item>
-                      {authState.isLoading ? (
+                      {authState.isLoading && !guestLogging ? (
                         <LoadingButton
                           fullWidth
                           loadingPosition="end"
                           variant="contained"
-                          loading={authState.isLoading}
+                          loading={true}
                           endIcon={<LoginIcon />}
                         >
                           Logging..
@@ -184,7 +196,6 @@ export default function Login() {
                           color="secondary"
                           disabled={!!(errors.email || errors.password)}
                           endIcon={<LoginIcon />}
-                          style={{ marginTop: '16px' }}
                         >
                           Submit
                         </Button>
@@ -195,6 +206,30 @@ export default function Login() {
               )}
             </Formik>
           </Grid>
+          {environment.guestUsername && environment.guestPassword ? (
+            <>
+              <Grid item>
+                <Typography variant="body2" textAlign="center">
+                  or
+                </Typography>
+              </Grid>
+              <Grid item>
+                <LoadingButton
+                  fullWidth
+                  disabled={authState.isLoading}
+                  type="button"
+                  variant="contained"
+                  color="info"
+                  endIcon={<SupervisedUserCircleIcon />}
+                  loading={guestLogging}
+                  loadingPosition="end"
+                  onClick={loginAsGuest}
+                >
+                  Login as Guest
+                </LoadingButton>
+              </Grid>
+            </>
+          ) : null}
           <Grid item>
             <Divider />
           </Grid>
