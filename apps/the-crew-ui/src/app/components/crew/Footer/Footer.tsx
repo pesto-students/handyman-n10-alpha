@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 
 export default function Footer() {
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{ backgroundColor: '#212121' }}>
       <Container maxWidth="md">
         <Toolbar>
           <Typography

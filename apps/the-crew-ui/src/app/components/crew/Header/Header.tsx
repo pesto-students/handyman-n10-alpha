@@ -59,8 +59,8 @@ export default function Header() {
 
   return (
     <div style={{ position: 'sticky', width: '100%', top: 0, zIndex: 100 }}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" style={{ backgroundColor: '#212121' }}>
+        <Toolbar className="headerToolbar">
           {xsView && !currentUser && (
             <IconButton
               edge="start"
@@ -82,42 +82,42 @@ export default function Header() {
               }}
             />
           </div>
-          <Button
-            className="registerAsProfessionalBtn"
-            color="inherit"
-            onClick={() => {
-              history.push('/about-us');
-            }}
-          >
-            About Us
-          </Button>
-          {(!currentUser || !currentUser?.role.includes(Role.PROFESSIONAL)) && !xsView && (
-            <>
-              <VerticalDivider />
-              <Button
-                className="registerAsProfessionalBtn"
-                color="inherit"
-                onClick={() => {
-                  history.push('/register-as-professional');
-                }}
-              >
-                Register As A Professional
-              </Button>
-            </>
-          )}
-          {!currentUser ? (
-            !xsView && (
+          <div className="headerLinks">
+            <Button
+              color="inherit"
+              onClick={() => {
+                history.push('/about-us');
+              }}
+            >
+              About Us
+            </Button>
+            {(!currentUser || !currentUser?.role.includes(Role.PROFESSIONAL)) && !xsView && (
               <>
                 <VerticalDivider />
                 <Button
+                  className="registerAsProfessionalBtn"
                   color="inherit"
                   onClick={() => {
-                    history.push('/login');
+                    history.push('/register-as-professional');
                   }}
                 >
-                  Login
+                  Register As A Professional
                 </Button>
-                {/* <VerticalDivider />
+              </>
+            )}
+            {!currentUser ? (
+              !xsView && (
+                <>
+                  <VerticalDivider />
+                  <Button
+                    color="inherit"
+                    onClick={() => {
+                      history.push('/login');
+                    }}
+                  >
+                    Login
+                  </Button>
+                  {/* <VerticalDivider />
                 <Button
                   color="inherit"
                   onClick={() => {
@@ -126,11 +126,12 @@ export default function Header() {
                 >
                   Sign Up
                 </Button> */}
-              </>
-            )
-          ) : (
-            <MyAvatar currentUser={currentUser} />
-          )}
+                </>
+              )
+            ) : (
+              <MyAvatar currentUser={currentUser} />
+            )}
+          </div>
         </Toolbar>
       </AppBar>
       <SwipeableDrawer

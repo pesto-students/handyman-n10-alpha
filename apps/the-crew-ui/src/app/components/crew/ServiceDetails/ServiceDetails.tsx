@@ -130,7 +130,7 @@ const ServiceDetail: React.FC<IServiceDetails> = props => {
           </Grid>
         )}
         <Grid item>
-          <Typography variant="h5">Frequently asked questions (//TODO)</Typography>
+          <Typography variant="h5">Frequently asked questions</Typography>
           <div style={{ marginTop: '10px', marginBottom: '30px' }}>
             <FAQsComponent />
             <FAQsComponent />
@@ -138,11 +138,11 @@ const ServiceDetail: React.FC<IServiceDetails> = props => {
           </div>
         </Grid>
         <Grid item>
-          <Typography variant="h5">Reviews in the past month (//TODO)</Typography>
+          <Typography variant="h5">Reviews in the past month</Typography>
           <RatingChart />
         </Grid>
         <Grid item>
-          <Typography variant="h5">Most helpful reviews (//TODO)</Typography>
+          <Typography variant="h5">Most helpful reviews</Typography>
           <div style={{ marginTop: '10px', marginBottom: '30px' }}>
             <ReviewComponent />
             <ReviewComponent />

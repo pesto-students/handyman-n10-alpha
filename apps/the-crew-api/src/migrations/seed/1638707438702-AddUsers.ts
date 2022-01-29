@@ -17,7 +17,7 @@ export class AddUsers1638707438702 implements MigrationInterface {
       {
         firstName: 'Handyman',
         lastName: 'Dummy',
-        email: 'handyman@thecrew.com',
+        email: 'professional@thecrew.com',
         password: 'Password@123',
         phone: '+91-9595959595',
         role: [Role.PROFESSIONAL],
@@ -36,7 +36,7 @@ export class AddUsers1638707438702 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.connection.getRepository(UserEntity).delete({
-      email: In(['admin@thecrew.com', 'handyman@thecrew.com', 'customer@thecrew.com']),
+      email: In(['admin@thecrew.com', 'professional@thecrew.com', 'customer@thecrew.com']),
     });
   }
 }

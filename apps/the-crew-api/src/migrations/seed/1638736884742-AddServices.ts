@@ -8,7 +8,7 @@ export class AddServices1638736884742 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const provider = await queryRunner.connection
       .getRepository(UserEntity)
-      .findOne({ email: 'handyman@thecrew.com' });
+      .findOne({ email: 'professional@thecrew.com' });
     const repo = queryRunner.connection.getRepository(ServiceRequestEntity);
     const services = repo.create([
       {

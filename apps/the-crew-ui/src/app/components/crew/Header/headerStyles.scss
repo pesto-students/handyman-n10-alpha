@@ -1,3 +1,5 @@
+@use '../../../theme/mixins' as mixin;
+
 .headerTitle {
   flex: 1;
   img {
@@ -9,4 +11,18 @@
 
 .registerAsProfessionalBtn {
   text-decoration: underline;
+}
+
+.headerToolbar {
+  max-width: 100%;
+  margin: 0 auto;
+  width: 1200px;
+}
+
+.headerLinks {
+  @include mixin.fxLayout();
+  @include mixin.fxLayoutAlign(start, center);
+  &:last-child {
+    margin-right: 48px;
+  }
 }

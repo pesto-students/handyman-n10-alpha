@@ -60,7 +60,7 @@ export default function Home() {
               <span className="title">THE CREW</span>
               <h1 className="typingEffect">Quality home services, on demand</h1>
               <p className="titleDesc">
-                Experienced, hand-picked Professionals to serve you at your doorstep
+                Experienced & hand-picked professionals to serve you at your doorstep
               </p>
               <div className="homeScreenAutoSearchDiv">
                 <p>Where do you need a service?</p>

@@ -11,7 +11,7 @@ export class AddSubOrders1639143023164 implements MigrationInterface {
       .findOne({ email: 'krishna@thecrew.com' });
     const provider = await queryRunner.connection
       .getRepository(UserEntity)
-      .findOne({ email: 'handyman@thecrew.com' });
+      .findOne({ email: 'professional@thecrew.com' });
     const order = await queryRunner.connection
       .getRepository(OrderEntity)
       .findOne({ consumerId: consumer.id });
