@@ -1,17 +1,20 @@
-# TheCrew
+# The Crew
 
-## Table of Content
+![The Crew](/apps/the-crew-ui/src/assets/icons/the-crew.svg)
 
-[Introduction](##Introduction)  
-[Installation](##Installation)  
-[Features](##Features)  
-[Technology Stack](##Technologies-used-to-build-this-project)  
-[Resources](##Resources)  
-[Authors](##Contributors-✨)
+## Table of Contents
+
+[Introduction](##Introduction)\
+[Installation](##Installation)\
+[Features](##Features)\
+[Technology Stack](##Technologies-used-to-build-this-project)\
+[Authors](##Contributors-✨)\
+[Contributing](##Contributing)\
+[License](##License)
 
 ## Introduction
 
-The Crew is a platform that helps in finding the basic necessity services available in one’s localities such as plumbing, electrical works, beautician,salon or carpentary work. A dedicated platform designed for a service provider makes it handy to market the services and also can manage his work online, as well as for customer to book and avail any service at any given point of time. The Crew is a responsive platform, hence users can access it across all devices. Our goal is to make the best user experience UI design and easy to use.
+The Crew is a platform that helps in finding the basic necessity services available in one’s localities such as plumbing, electrical works, beautician,salon or carpentry work. A dedicated platform designed for a service provider makes it handy to market the services and also can manage his work online, as well as for customer to book and avail any service at any given point of time. The Crew is a responsive platform, hence users can access it across all devices. Our goal is to make the best user experience UI design and easy to use.
 
 Live demo [here](https://alpha-the-crew.netlify.app)
 
@@ -19,33 +22,67 @@ Live demo [here](https://alpha-the-crew.netlify.app)
 
 <!-- Customer -->
 
-Id : customer@thecrew.com  
+username : customer@thecrew.com  
 password: Password@123
 
 ## Installation
 
-clone this repository to your local machine  
-Use the `yarn` command to install dependencies  
-Once the dependencies are finished installing, use the `yarn start the-crew-ui` command inside the root directory to open the app in your local browser of choice, use the `yarn start the-crew-api` command to start the backend.
+- Clone this repository to your local machine
+- Use the `yarn` command to install dependencies
+- Inside the root directory:
+  - Run command `yarn start the-crew-ui` to open the app in your browser of choice
+  - Run command `yarn start the-crew-api` to start the backend service.
+- Several environment variables are needed to run the app. Below are listed:
+
+```plaintext
+// port number where backend will host
+NX_PORT= // optional (defaults to 3000)
+
+// frontend url
+NX_CORS_ORIGINS=http://localhost:4200,http://localhost:4000 // must be comma separated
+
+NX_JWT_SECRET= // required
+NX_COOKIE_SECRETS= // optional (must be comma separated)
+NX_JWT_ISSUER= // optional (defaults to nestjs)
+NX_ACCESS_TOKEN_EXPIRE= // optional (defaults to 24h)
+NX_REFRESH_TOKEN_EXPIRE= // optional (defaults to 7d)
+NX_COOKIE_EXPIRE= // optional (defaults to 7d)
+
+NX_TYPEORM_DB_TYPE= // optional (defaults to postgres)
+NX_TYPEORM_PORT= // optional (defaults to 5432)
+NX_TYPEORM_HOST= // required
+NX_TYPEORM_USERNAME= // required
+NX_TYPEORM_PWD= // required
+NX_TYPEORM_DB= // required
+
+// backend url with which the frontend will interact
+NX_API_URL=http://localhost:3000/api // required
+NX_CONVENIENCE_FEE=39 // required (must be number)
+
+NX_GOOGLE_AUTH_CLIENT_ID= // required
+NX_STRIPE_PRIVATE_KEY = // required
+```
 
 ## Features
 
 - List of locations where The Crew is operated currently.
-- Types of services provided such as Carpentary, plumbing, salon etc and options to search.
+- Types of services provided such as Carpentry, plumbing, salon etc and options to search.
 - List of services with details available, FAQs and most recent reviews.
 - Services can be added to cart for later booking.
 - Review and rate for obtained service.
 - Bookings (ongoing and history)
 - Select existing address or create new address while booking a service.
-- Onboarding the user as a professional or service provider.
+- Onboarding the user as a customer or service provider (professional).
 
 ## Code Features
 
-- Material-UI styled components
+- [Nx](https://nx.dev) Monorepo workspace
+- NestJS backend framework
 - React functional components used with hooks
+- Material-UI styled components
+- Global state management using Redux (Redux Toolkit)
 - Login using email & password and Google SSO
-- Payment gateway integration (stripe)
-- Rest APIs used [nestjsx/crud](https://www.npmjs.com/package/@nestjsx/crud)
+- Payment gateway integration (Stripe)
 - Frontend is hosted on Netlify
 - Backend is hosted on Heroku
 - DB hosted on AWS RDS
@@ -66,22 +103,31 @@ Once the dependencies are finished installing, use the `yarn start the-crew-ui` 
 ![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)  
 ![Netlify](https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7)
 
-## Setup
-
-Project frontend is built in React and bootstrapped using [Create React App](https://github.com/facebook/create-react-app).  
-Project backend is built in NodeJS (Nest JS) + PostgreSQL.
-
-Project uses commitizen for commit rules and guidelines Commitizen friendly
-
-## Resources
-
-[High Level Design](https://drive.google.com/drive/folders/1rjDF1m93_DroplX5iuGLHEpBdFnI7pke)  
-[PRD](https://drive.google.com/drive/folders/1rjDF1m93_DroplX5iuGLHEpBdFnI7pke)  
-[Schema](https://drive.google.com/drive/folders/1rjDF1m93_DroplX5iuGLHEpBdFnI7pke)
-
 ## Contributors ✨
 
 [Akshay Mahajan](https://github.com/androizer)  
 [Sri Vithal Sai Krishna](https://github.com/krishnavithal)
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.\
+
+Our commit messages are formatted according to [Conventional Commits](https://conventionalcommits.org/), hence this repository has [commitizen](https://github.com/commitizen/cz-cli) support enabled. Commitizen can help you generate your commit messages automatically.
+
+And to use it, simply call git commit. The tool will help you generate a commit message that follows the below guidelines.
+
+### Commit Message Format
+
+Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, an optional scope and a subject:
+
+```plaintext
+<type>(<scope>): <subject>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
+```
+
+## License
+
+[MIT](/LICENSE)

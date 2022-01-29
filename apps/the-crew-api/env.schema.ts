@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class EnvironmentVariables {
   @IsNotEmpty()
@@ -10,7 +10,7 @@ export class EnvironmentVariables {
   NX_PORT = '3000';
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   // comma separated values
   NX_COOKIE_SECRETS: string;
 
