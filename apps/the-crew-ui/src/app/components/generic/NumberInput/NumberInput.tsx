@@ -8,9 +8,11 @@ const NumberInput = forwardRef((props: NumberFormatProps, ref) => {
       getInputRef={ref}
       {...other}
       onValueChange={({ value }, info) => {
-        info.event.target.name = props.name;
-        info.event.target.value = value;
-        onChange(info.event);
+        if (info.event) {
+          info.event.target.name = props.name;
+          info.event.target.value = value;
+          onChange(info.event);
+        }
       }}
     ></NumberFormat>
   );

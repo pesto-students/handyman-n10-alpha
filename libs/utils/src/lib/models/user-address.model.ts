@@ -42,6 +42,7 @@ export class UserAddress implements IUserAddress {
 
   @IsNumber()
   @IsPositive()
+  @Type(() => Number)
   pinCode: number;
 
   @IsBoolean()
