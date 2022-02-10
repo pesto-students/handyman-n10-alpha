@@ -1,6 +1,6 @@
 # The Crew
 
-![The Crew](/apps/the-crew-ui/src/assets/icons/the-crew.svg)
+![The Crew](/apps/the-crew-ui/src/assets/icons/the-crew-git.svg)
 
 ## Table of Contents
 
@@ -107,26 +107,6 @@ NX_STRIPE_PRIVATE_KEY = // required
 
 [Akshay Mahajan](https://github.com/androizer)  
 [Sri Vithal Sai Krishna](https://github.com/krishnavithal)
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.\
-
-Our commit messages are formatted according to [Conventional Commits](https://conventionalcommits.org/), hence this repository has [commitizen](https://github.com/commitizen/cz-cli) support enabled. Commitizen can help you generate your commit messages automatically.
-
-And to use it, simply call git commit. The tool will help you generate a commit message that follows the below guidelines.
-
-### Commit Message Format
-
-Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, an optional scope and a subject:
-
-```plaintext
-<type>(<scope>): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
-```
 
 ## License
 
