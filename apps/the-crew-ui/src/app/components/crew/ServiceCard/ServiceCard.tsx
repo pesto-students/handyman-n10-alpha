@@ -11,15 +11,23 @@ import {
   Typography,
 } from '@mui/material';
 import { ServiceRequest } from '@the-crew/common';
+import { ServiceRequestType } from '@the-crew/common/enums';
 import { useCallback } from 'react';
 
 import { AddButton } from '../..';
+import { serviceAvatar } from '../../../../assets/images/generic';
+import {
+  carpenter,
+  electrician,
+  painter,
+  pestControl,
+  plumbing,
+  salonMen,
+  salonWomen,
+} from '../../../../assets/images/search-services';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { cartActions, cartSelectors } from '../../../store/slices';
 import style from './serviceCard.module.scss';
-
-const avatarUrl =
-  'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGhhbmR5bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60';
 
 interface IServiceCard {
   service: ServiceRequest;
@@ -29,6 +37,16 @@ interface IServiceCard {
   toggleViewDetails?: () => void;
   disableAddButton?: boolean;
 }
+
+const ServiceTypeToImgMap: Record<ServiceRequestType, string> = {
+  [ServiceRequestType.CARPENTERING]: carpenter,
+  [ServiceRequestType.CLEANING]: pestControl,
+  [ServiceRequestType.ELECTRICIAN]: electrician,
+  [ServiceRequestType.PAINT]: painter,
+  [ServiceRequestType.PLUMBING]: plumbing,
+  [ServiceRequestType.SALON_FEMALE]: salonWomen,
+  [ServiceRequestType.SALON_MALE]: salonMen,
+};
 
 export const ServiceCard: React.FC<IServiceCard> = props => {
   const dispatch = useAppDispatch();
@@ -68,11 +86,16 @@ export const ServiceCard: React.FC<IServiceCard> = props => {
     <Slide direction="up" in={true} timeout={1000}>
       <Card className={style.cardRoot} elevation={6}>
         <Grid container flexDirection="column" flexWrap="nowrap" height="100%" width="100%">
-          <Box height="250px" width="100%" className={style['img-container']}>
+          <Box
+            height="250px"
+            width="100%"
+            className={style['img-container']}
+            style={{ backgroundImage: `url(${ServiceTypeToImgMap[props.service.type[0]]})` }}
+          >
             <Avatar
               variant="circular"
               alt="user-avatar"
-              src={avatarUrl}
+              src={serviceAvatar}
               className={style['avatar-wrapper']}
             />
           </Box>
