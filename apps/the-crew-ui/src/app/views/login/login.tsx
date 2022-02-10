@@ -119,7 +119,11 @@ export default function Login() {
                 >
                   <Grid container direction="column" spacing={2}>
                     <Grid item>
-                      <FormControl fullWidth focused={true} error={errors.email && touched.email}>
+                      <FormControl
+                        fullWidth
+                        focused={true}
+                        error={errors.email && touched.email && !guestLogging}
+                      >
                         <OutlinedInput
                           fullWidth
                           required
@@ -140,7 +144,7 @@ export default function Login() {
                           }
                         />
                         <FormHelperText style={{ paddingLeft: '8px' }}>
-                          {errors.email && touched.email ? errors.email : ' '}
+                          {errors.email && touched.email && !guestLogging ? errors.email : ' '}
                         </FormHelperText>
                       </FormControl>
                     </Grid>
@@ -148,7 +152,7 @@ export default function Login() {
                       <FormControl
                         fullWidth
                         focused={false}
-                        error={errors.password && touched.password}
+                        error={errors.password && touched.password && !guestLogging}
                       >
                         <OutlinedInput
                           fullWidth
@@ -173,7 +177,9 @@ export default function Login() {
                           }
                         />
                         <FormHelperText style={{ paddingLeft: '8px' }}>
-                          {errors.password && touched.password ? errors.password : ' '}
+                          {errors.password && touched.password && !guestLogging
+                            ? errors.password
+                            : ' '}
                         </FormHelperText>
                       </FormControl>
                     </Grid>

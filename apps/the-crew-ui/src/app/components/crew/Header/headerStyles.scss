@@ -21,7 +21,7 @@
 
 .headerLinks {
   @include mixin.fxLayout();
-  @include mixin.fxLayoutAlign(start, center);
+  @include mixin.fxLayoutAlign(flex-start, center);
   &:last-child {
     margin-right: 48px;
   }

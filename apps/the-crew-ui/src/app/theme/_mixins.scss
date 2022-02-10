@@ -15,7 +15,7 @@
   flex-direction: $direction;
 }
 
-@mixin fxLayoutAlign($y-axis: start, $x-axis: start) {
+@mixin fxLayoutAlign($y-axis: flex-start, $x-axis: flex-start) {
   justify-content: $y-axis;
   align-items: $x-axis;
 }
