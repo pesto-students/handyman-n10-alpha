@@ -1,16 +1,17 @@
-# The Crew
+# The Crew <!-- omit in toc -->
 
 ![The Crew](/apps/the-crew-ui/src/assets/icons/the-crew-git.svg)
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
-[Introduction](##Introduction)\
-[Installation](##Installation)\
-[Features](##Features)\
-[Technology Stack](##Technologies-used-to-build-this-project)\
-[Authors](##Contributors-✨)\
-[Contributing](##Contributing)\
-[License](##License)
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Features](#features)
+- [Code Features](#code-features)
+- [Technologies used to build this project](#technologies-used-to-build-this-project)
+- [Other Libraries/Platforms Used](#other-librariesplatforms-used)
+- [Contributors ✨](#contributors-)
+- [License](#license)
 
 ## Introduction
 
@@ -18,7 +19,7 @@ The Crew is a platform that helps in finding the basic necessity services availa
 
 Live demo [here](https://alpha-the-crew.netlify.app)
 
-### Sample creds
+### Sample creds <!-- omit in toc -->
 
 <!-- Customer -->
 

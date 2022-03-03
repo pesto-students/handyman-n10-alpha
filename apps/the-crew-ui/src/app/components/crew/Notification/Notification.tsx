@@ -46,8 +46,10 @@ const Notification: React.FC = () => {
   useEffect(() => {
     const eventSource = new EventSource(`${environment.apiUrl}/notifications/sse`);
     eventSource.addEventListener(EventType.SUB_ORDER_CREATED, (evt: MessageEvent) => {
-      const newNotif = JSON.parse(evt.data);
-      dispatch(notificationActions.addNotification(newNotif));
+      const newNotif = JSON.parse(evt.data) as INotification;
+      if (newNotif.receivers.includes(currentUser.id)) {
+        dispatch(notificationActions.addNotification(newNotif));
+      }
     });
     window.addEventListener('beforeunload', () => {
       console.log('beforeunload');
